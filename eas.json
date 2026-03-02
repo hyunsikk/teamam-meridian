@@ -15,19 +15,10 @@
       "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true,
-      "ios": {
-        "buildNumber": "1"
-      }
+      "autoIncrement": true
     }
   },
   "submit": {
-    "production": {
-      "ios": {
-        "appleId": "",
-        "ascAppId": "",
-        "appleTeamId": ""
-      }
-    }
+    "production": {}
   }
 }
