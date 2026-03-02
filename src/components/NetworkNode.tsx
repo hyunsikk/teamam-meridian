@@ -14,13 +14,15 @@ interface Props {
   connectionCount: number;
   hasData: boolean;
   onPress: () => void;
+  isFocus?: boolean;
 }
 
 const NODE_SIZE = 48;
 
-export function NetworkNode({ x, y, emoji, label, color, value, isSelected, connectionCount, hasData, onPress }: Props) {
+export function NetworkNode({ x, y, emoji, label, color, value, isSelected, connectionCount, hasData, onPress, isFocus }: Props) {
   const breathAnim = useRef(new Animated.Value(1)).current;
   const glowAnim = useRef(new Animated.Value(0.15)).current;
+  const selectedScale = useRef(Animated.multiply(breathAnim, new Animated.Value(1.1))).current;
 
   useEffect(() => {
     // Breathing animation — staggered per node
@@ -69,13 +71,26 @@ export function NetworkNode({ x, y, emoji, label, color, value, isSelected, conn
       accessibilityLabel={`${label}: ${displayValue || 'no data'}`}
       accessibilityRole="button"
     >
+      {/* Focus ring (Improvement #8) */}
+      {isFocus && (
+        <Animated.View
+          style={[
+            styles.focusRing,
+            {
+              borderColor: color,
+              transform: [{ scale: breathAnim }],
+            },
+          ]}
+        />
+      )}
+
       {/* Glow */}
       <Animated.View
         style={[
           styles.glow,
           {
             backgroundColor: color,
-            opacity: glowAnim,
+            opacity: isFocus ? 0.35 : glowAnim,
             transform: [{ scale: breathAnim }],
           },
         ]}
@@ -89,7 +104,7 @@ export function NetworkNode({ x, y, emoji, label, color, value, isSelected, conn
             backgroundColor: hasData ? color + 'CC' : color + '40',
             borderColor: isSelected ? Colors.starlight : 'transparent',
             borderWidth: isSelected ? 2 : 0,
-            transform: [{ scale: isSelected ? Animated.multiply(breathAnim, new Animated.Value(1.1)) : breathAnim }],
+            transform: [{ scale: isSelected ? selectedScale : breathAnim }],
           },
         ]}
       >
@@ -124,6 +139,16 @@ const styles = StyleSheet.create({
     width: NODE_SIZE + 32,
     alignItems: 'center',
     zIndex: 10,
+  },
+  focusRing: {
+    position: 'absolute',
+    width: NODE_SIZE + 32,
+    height: NODE_SIZE + 32,
+    borderRadius: (NODE_SIZE + 32) / 2,
+    top: -16,
+    left: (NODE_SIZE + 32 - (NODE_SIZE + 32)) / 2,
+    borderWidth: 2,
+    borderStyle: 'dashed',
   },
   glow: {
     position: 'absolute',

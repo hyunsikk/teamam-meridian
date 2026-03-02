@@ -1,21 +1,31 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Colors, Typography, Spacing } from '../styles/theme';
+import { Colors, Typography } from '../styles/theme';
 import { NetworkScreen } from '../screens/NetworkScreen';
 import { InsightsScreen } from '../screens/InsightsScreen';
 import { HistoryScreen } from '../screens/HistoryScreen';
+import { SettingsScreen } from '../screens/SettingsScreen';
+import { useData } from '../context/DataContext';
+import { OnboardingScreen } from '../screens/OnboardingScreen';
 
-type Tab = 'network' | 'insights' | 'history';
+type Tab = 'network' | 'insights' | 'history' | 'settings';
 
 const tabs: { key: Tab; label: string; icon: string; activeIcon: string }[] = [
   { key: 'network', label: 'network', icon: 'git-network-outline', activeIcon: 'git-network' },
   { key: 'insights', label: 'insights', icon: 'bulb-outline', activeIcon: 'bulb' },
   { key: 'history', label: 'history', icon: 'calendar-outline', activeIcon: 'calendar' },
+  { key: 'settings', label: 'signals', icon: 'options-outline', activeIcon: 'options' },
 ];
 
 export function NavigationContainer() {
   const [activeTab, setActiveTab] = useState<Tab>('network');
+  const { settings } = useData();
+
+  // Show onboarding if not complete
+  if (!settings.onboardingComplete) {
+    return <OnboardingScreen />;
+  }
 
   return (
     <View style={styles.container}>
@@ -23,26 +33,20 @@ export function NavigationContainer() {
         {activeTab === 'network' && <NetworkScreen />}
         {activeTab === 'insights' && <InsightsScreen />}
         {activeTab === 'history' && <HistoryScreen />}
+        {activeTab === 'settings' && <SettingsScreen />}
       </View>
       <View style={styles.tabBar}>
         {tabs.map(tab => {
           const active = activeTab === tab.key;
           return (
             <TouchableOpacity
-              key={tab.key}
-              style={styles.tab}
+              key={tab.key} style={styles.tab}
               onPress={() => setActiveTab(tab.key)}
-              accessibilityLabel={tab.label}
-              accessibilityRole="tab"
+              accessibilityLabel={tab.label} accessibilityRole="tab"
             >
-              <Ionicons
-                name={active ? tab.activeIcon as any : tab.icon as any}
-                size={24}
-                color={active ? Colors.nebulaPurple : Colors.starlightFaint}
-              />
-              <Text style={[styles.tabLabel, active && styles.tabLabelActive]}>
-                {tab.label}
-              </Text>
+              <Ionicons name={active ? tab.activeIcon as any : tab.icon as any} size={24}
+                color={active ? Colors.nebulaPurple : Colors.starlightFaint} />
+              <Text style={[styles.tabLabel, active && styles.tabLabelActive]}>{tab.label}</Text>
             </TouchableOpacity>
           );
         })}
@@ -52,33 +56,13 @@ export function NavigationContainer() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.deepSpace,
-  },
-  content: {
-    flex: 1,
-  },
+  container: { flex: 1, backgroundColor: Colors.deepSpace },
+  content: { flex: 1 },
   tabBar: {
-    flexDirection: 'row',
-    backgroundColor: Colors.surface2,
-    paddingBottom: 28,
-    paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: Colors.divider,
+    flexDirection: 'row', backgroundColor: Colors.surface2,
+    paddingBottom: 28, paddingTop: 12, borderTopWidth: 1, borderTopColor: Colors.divider,
   },
-  tab: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 44,
-  },
-  tabLabel: {
-    ...Typography.small,
-    color: Colors.starlightFaint,
-    marginTop: 4,
-  },
-  tabLabelActive: {
-    color: Colors.nebulaPurple,
-  },
+  tab: { flex: 1, alignItems: 'center', justifyContent: 'center', minHeight: 44 },
+  tabLabel: { ...Typography.small, color: Colors.starlightFaint, marginTop: 4 },
+  tabLabelActive: { color: Colors.nebulaPurple },
 });

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, Animated, Platform } from 'react-native';
+import { StyleSheet, Animated } from 'react-native';
 
 interface Props {
   x1: number;
@@ -12,10 +12,15 @@ interface Props {
   highlighted?: boolean;
 }
 
-export function NetworkEdge({ x1, y1, x2, y2, colorA, colorB, strength, highlighted }: Props) {
+export function NetworkEdge({ x1, y1, x2, y2, colorA, strength, highlighted }: Props) {
   const pulseAnim = useRef(new Animated.Value(0.5)).current;
+  // Improvement #11: fade-in animation
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    // Fade in on mount
+    Animated.timing(fadeAnim, { toValue: 1, duration: 500, useNativeDriver: false }).start();
+
     const pulse = Animated.loop(
       Animated.sequence([
         Animated.timing(pulseAnim, { toValue: 1, duration: 1500, useNativeDriver: false }),
@@ -34,7 +39,6 @@ export function NetworkEdge({ x1, y1, x2, y2, colorA, colorB, strength, highligh
   const lineWidth = 1 + strength * 2.5;
   const baseOpacity = highlighted ? 0.9 : 0.3 + strength * 0.4;
 
-  // Use midpoint for positioning - draw a thin rotated View
   const midX = (x1 + x2) / 2;
   const midY = (y1 + y2) / 2;
 
@@ -48,7 +52,7 @@ export function NetworkEdge({ x1, y1, x2, y2, colorA, colorB, strength, highligh
           width: length,
           height: lineWidth,
           backgroundColor: colorA,
-          opacity: highlighted ? pulseAnim : baseOpacity,
+          opacity: Animated.multiply(fadeAnim, highlighted ? pulseAnim : new Animated.Value(baseOpacity)),
           transform: [
             { rotate: `${angle}rad` },
           ],

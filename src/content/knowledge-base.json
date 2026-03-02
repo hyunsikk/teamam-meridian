@@ -1,654 +1,2715 @@
 {
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "lastUpdated": "2026-03-01",
   "correlations": [
     {
-      "id": "sleep-energy-pos",
+      "id": "sleep-energy-pos-mechanism",
       "signalA": "sleep",
       "signalB": "energy",
       "direction": "positive",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "sleep fuels your energy",
       "insight": "on days following [sleepHours]+ hours of sleep, your energy averages [energyDiff] points higher.",
-      "explanation": "sleep restores adenosine levels in the brain — adenosine buildup during waking hours creates the sensation of fatigue. 7-9 hours allows full clearance, resulting in higher subjective energy the next day.",
-      "research": "CDC recommends 7+ hours for adults. Studies show each hour below 7 reduces next-day alertness by roughly 15-20% (Walker, 2017).",
+      "explanation": "sleep restores adenosine levels in the brain \u2014 adenosine buildup during waking hours creates the sensation of fatigue. 7-9 hours allows full clearance, resulting in higher subjective energy the next day.",
       "recommendation": "your sleep-energy link is clear. prioritizing 7+ hours tonight could lift tomorrow's energy.",
-      "source": "CDC Sleep Guidelines; Walker 2017"
+      "source": "Walker 2017; CDC Sleep Guidelines"
     },
     {
-      "id": "sleep-energy-neg",
+      "id": "sleep-energy-neg-mechanism",
       "signalA": "sleep",
       "signalB": "energy",
       "direction": "negative",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "sleep debt drains energy",
       "insight": "when your sleep drops below [threshold] hours, your energy falls by an average of [diff] points within [lag] days.",
       "explanation": "chronic sleep restriction creates cumulative cognitive impairment equivalent to total sleep deprivation. even 6 hours/night for 2 weeks produces deficits equal to 2 nights without sleep.",
-      "research": "Van Dongen et al. (2003) Sleep. Cumulative dose-response study showing linear cognitive decline with restricted sleep.",
       "recommendation": "you're accumulating sleep debt. even one recovery night of 8+ hours can partially restore energy levels.",
       "source": "Van Dongen et al. 2003; NIH"
     },
     {
-      "id": "sleep-mood-pos",
+      "id": "sleep-energy-lag1",
+      "signalA": "sleep",
+      "signalB": "energy",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 1,
+      "category": "lag-variation",
+      "title": "yesterday's sleep shapes today's energy",
+      "insight": "your energy today seems most influenced by last night's sleep. the effect carries over about 24 hours.",
+      "explanation": "while same-day effects are strongest, sleep's impact on energy has a reliable next-day component. the body's recovery processes from sleep continue through the following day's first 12-16 hours.",
+      "recommendation": "if you know tomorrow is a big day, prioritize tonight's sleep \u2014 the energy payoff comes within 24 hours.",
+      "source": "Lim & Dinges 2010"
+    },
+    {
+      "id": "sleep-energy-intervention-timing",
+      "signalA": "sleep",
+      "signalB": "energy",
+      "direction": "positive",
+      "strength": "strong",
+      "lag": 0,
+      "category": "intervention",
+      "title": "consistent bedtime boosts energy more than sleep duration alone",
+      "insight": "your energy may benefit from consistent sleep timing, not just more hours.",
+      "explanation": "circadian rhythm regularity \u2014 going to bed and waking at the same time \u2014 improves sleep quality even at the same duration. irregular sleepers show 20-30% lower subjective energy than regular sleepers with identical total sleep time.",
+      "recommendation": "try keeping your bedtime within a 30-minute window for the next 7 days. track whether your energy improves even if hours stay the same.",
+      "source": "Phillips et al. 2017; CDC"
+    },
+    {
+      "id": "sleep-energy-intervention-nap",
+      "signalA": "sleep",
+      "signalB": "energy",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "strategic naps can recover energy",
+      "insight": "a 10-20 minute nap between 1-3pm can partially compensate for poor sleep.",
+      "explanation": "short naps boost alertness for 2-3 hours without entering deep sleep (which causes grogginess). the post-lunch circadian dip makes this window ideal. longer naps (>30 min) risk sleep inertia.",
+      "recommendation": "if last night was short, try a 15-minute nap before 3pm. set an alarm \u2014 sleeping longer backfires.",
+      "source": "Milner & Cote 2009; NIH"
+    },
+    {
+      "id": "sleep-mood-pos-mechanism",
       "signalA": "sleep",
       "signalB": "mood",
       "direction": "positive",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "sleep and mood move together",
       "insight": "your mood tends to be [moodDiff] points higher on days after [sleepHours]+ hours of sleep.",
       "explanation": "sleep deprivation amplifies amygdala reactivity by up to 60%, making negative emotions feel stronger while blunting positive ones. adequate sleep restores prefrontal cortex regulation of emotional responses.",
-      "research": "Yoo et al. (2007) Current Biology. fMRI study showing 60% increase in amygdala reactivity after sleep deprivation.",
       "recommendation": "the sleep-mood connection in your data is real. sleep is the foundation of emotional resilience.",
       "source": "Yoo et al. 2007; Nature Reviews Neuroscience"
     },
     {
-      "id": "sleep-mood-neg",
+      "id": "sleep-mood-neg-mechanism",
       "signalA": "sleep",
       "signalB": "mood",
       "direction": "negative",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "poor sleep, harder days",
       "insight": "nights under [threshold] hours tend to precede lower mood days for you.",
-      "explanation": "the prefrontal cortex — responsible for emotional regulation — is among the first brain regions impaired by sleep loss. this creates a negativity bias where neutral events are perceived more negatively.",
-      "research": "Walker & van der Helm (2009). Overnight therapy: the role of sleep in emotional brain processing.",
+      "explanation": "the prefrontal cortex \u2014 responsible for emotional regulation \u2014 is among the first brain regions impaired by sleep loss. this creates a negativity bias where neutral events are perceived more negatively.",
       "recommendation": "when you notice a mood dip, check your recent sleep. the connection might be the explanation.",
       "source": "Walker & van der Helm 2009; Harvard Health"
     },
     {
-      "id": "sleep-focus-pos",
+      "id": "sleep-mood-intervention-wind-down",
+      "signalA": "sleep",
+      "signalB": "mood",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "a wind-down routine protects both sleep and mood",
+      "insight": "your mood-sleep pattern suggests a consistent wind-down routine could help both.",
+      "explanation": "a 30-60 minute wind-down period (dim lights, no screens, calming activity) signals the brain to begin melatonin production. this improves both sleep onset latency and subjective sleep quality, which cascades into better next-day mood.",
+      "recommendation": "tonight, try: dim lights at 9pm, no screens after 9:30pm, read or stretch until sleepy. track your mood tomorrow.",
+      "source": "CDC Sleep Hygiene; Walker 2017"
+    },
+    {
+      "id": "sleep-mood-lag1",
+      "signalA": "sleep",
+      "signalB": "mood",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 1,
+      "category": "lag-variation",
+      "title": "sleep's mood effect can lag a day",
+      "insight": "one night of poor sleep may not crash your mood immediately, but two nights often does.",
+      "explanation": "the brain can compensate for one night of poor sleep using cortisol reserves. by the second night, these reserves are depleted, and emotional regulation degrades noticeably. this creates a delayed effect.",
+      "recommendation": "if you had one bad night, protect tonight's sleep especially \u2014 the mood impact compounds.",
+      "source": "Van Dongen et al. 2003"
+    },
+    {
+      "id": "sleep-focus-pos-mechanism",
       "signalA": "sleep",
       "signalB": "focus",
       "direction": "positive",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "well-rested minds focus better",
       "insight": "your focus scores are [focusDiff] points higher after nights of [sleepHours]+ hours.",
-      "explanation": "working memory capacity — essential for sustained focus — depends on sleep-dependent memory consolidation and prefrontal cortex restoration. even modest sleep restriction (6h vs 8h) measurably impairs attention.",
-      "research": "Lim & Dinges (2010). A meta-analysis of the impact of short-term sleep deprivation on cognitive variables.",
+      "explanation": "working memory capacity \u2014 essential for sustained focus \u2014 depends on sleep-dependent memory consolidation and prefrontal cortex restoration. even modest sleep restriction (6h vs 8h) measurably impairs attention.",
       "recommendation": "your data shows focus follows sleep closely. schedule demanding work after good sleep nights.",
       "source": "Lim & Dinges 2010; Nature Reviews Neuroscience"
     },
     {
-      "id": "sleep-focus-neg",
+      "id": "sleep-focus-neg-mechanism",
       "signalA": "sleep",
       "signalB": "focus",
       "direction": "negative",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "sleep loss fragments attention",
       "insight": "after nights under [threshold] hours, your focus drops by [diff] points on average.",
-      "explanation": "sleep deprivation causes 'microsleeps' — brief lapses in attention lasting 1-10 seconds that you may not even notice. these accumulate throughout the day, making sustained concentration progressively harder.",
-      "research": "Basner & Dinges (2011). Maximizing sensitivity of the psychomotor vigilance test (PVT).",
+      "explanation": "sleep deprivation causes 'microsleeps' \u2014 brief lapses in attention lasting 1-10 seconds that you may not even notice. these accumulate throughout the day, making sustained concentration progressively harder.",
       "recommendation": "low focus today might trace back to last night's sleep. consider breaking work into shorter blocks.",
       "source": "Basner & Dinges 2011; CDC"
     },
     {
-      "id": "sleep-headache-neg",
+      "id": "sleep-focus-intervention-timing",
+      "signalA": "sleep",
+      "signalB": "focus",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "schedule deep work after good sleep",
+      "insight": "your focus peaks after 7+ hour sleep nights. plan accordingly.",
+      "explanation": "prefrontal cortex function \u2014 which drives sustained attention and deep work \u2014 is most restored after adequate sleep. planning demanding cognitive tasks for good-sleep days and routine tasks for poor-sleep days optimizes your output.",
+      "recommendation": "check your sleep before planning tomorrow. if it was good, schedule your hardest task first thing.",
+      "source": "Ratey 2008; Lim & Dinges 2010"
+    },
+    {
+      "id": "sleep-headache-neg-mechanism",
       "signalA": "sleep",
       "signalB": "headache",
       "direction": "negative",
       "strength": "moderate",
       "lag": 1,
+      "category": "mechanism",
       "title": "poor sleep triggers headaches",
       "insight": "your headaches appear [lagDays] day(s) after nights of less than [threshold] hours of sleep.",
       "explanation": "sleep deprivation lowers the pain threshold by reducing serotonin and increasing inflammatory markers. the connection often has a 24-48 hour delay as inflammatory processes build.",
-      "research": "Rains & Poceta (2006). Sleep and headache. Seminars in Neurology. Bidirectional relationship established.",
       "recommendation": "if you see a sleep dip, preemptive hydration and stress management in the next 1-2 days may help prevent the headache.",
       "source": "Rains & Poceta 2006; American Migraine Foundation"
     },
     {
-      "id": "sleep-headache-pos",
+      "id": "sleep-headache-pos-mechanism",
       "signalA": "sleep",
       "signalB": "headache",
       "direction": "positive",
       "strength": "moderate",
       "lag": 0,
+      "category": "mechanism",
       "title": "oversleep and headaches",
       "insight": "headaches also appear on days after sleeping more than [threshold] hours.",
       "explanation": "oversleeping disrupts serotonin and other neurotransmitter rhythms. the resulting chemical imbalance can trigger headaches, particularly migraines. both too little and too much sleep are risk factors.",
-      "research": "American Migraine Foundation. Both short and long sleep durations are headache risk factors.",
       "recommendation": "consistency matters more than quantity. try to keep your sleep in the 7-9 hour range.",
       "source": "American Migraine Foundation; JCSM"
     },
     {
-      "id": "sleep-digestion",
+      "id": "sleep-headache-intervention",
+      "signalA": "sleep",
+      "signalB": "headache",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 1,
+      "category": "intervention",
+      "title": "hydration buffer after poor sleep",
+      "insight": "when you sleep poorly, preemptive hydration may prevent the headache that often follows.",
+      "explanation": "dehydration and sleep deprivation compound each other in triggering headaches. the body loses water during sleep, and poor sleep disrupts hormones that regulate fluid balance.",
+      "recommendation": "after a short sleep night, drink an extra 500ml of water before noon. track whether headaches still appear.",
+      "source": "Blau & Thavapalan 1988; NIH"
+    },
+    {
+      "id": "sleep-digestion-mechanism",
       "signalA": "sleep",
       "signalB": "digestion",
       "direction": "negative",
       "strength": "moderate",
       "lag": 0,
+      "category": "mechanism",
       "title": "sleep affects your gut",
       "insight": "digestive issues tend to appear on days following poor sleep in your data.",
       "explanation": "the gut has its own circadian clock. sleep disruption alters gut motility, increases intestinal permeability ('leaky gut'), and shifts the microbiome composition within just 2 days of sleep restriction.",
-      "research": "Benedict et al. (2016). Gut microbiota and glucometabolic alterations in response to recurrent partial sleep deprivation in normal-weight young individuals.",
       "recommendation": "your gut-sleep connection suggests prioritizing sleep could ease digestive discomfort.",
-      "source": "Benedict et al. 2016; Harvard Health gut-brain axis"
+      "source": "Benedict et al. 2016; Harvard Health"
     },
     {
-      "id": "sleep-stress",
+      "id": "sleep-digestion-intervention",
+      "signalA": "sleep",
+      "signalB": "digestion",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "gut-friendly sleep habits",
+      "insight": "your digestion-sleep pattern suggests eating timing may matter.",
+      "explanation": "eating within 2-3 hours of bedtime forces the gut to work during what should be rest mode, disrupting both sleep quality and digestive function. the gut's circadian clock expects a fasting period overnight.",
+      "recommendation": "try finishing your last meal 3 hours before bed for the next week. track whether both sleep and digestion improve.",
+      "source": "Benedict et al. 2016; de Oliveira & Burini 2009"
+    },
+    {
+      "id": "sleep-stress-bidirectional",
       "signalA": "sleep",
       "signalB": "stress",
       "direction": "bidirectional",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "the sleep-stress spiral",
-      "insight": "in your data, poor sleep and high stress appear together frequently — each seems to amplify the other.",
+      "insight": "in your data, poor sleep and high stress appear together frequently \u2014 each seems to amplify the other.",
       "explanation": "sleep deprivation raises cortisol (the stress hormone) by 37-45%. elevated cortisol then makes falling asleep harder, creating a vicious cycle. this is one of the most well-established bidirectional relationships in health science.",
-      "research": "Leproult et al. (1997). Sleep loss results in an elevation of cortisol levels the next evening. Sleep.",
       "recommendation": "breaking the cycle usually requires intervening on one side. try consistent sleep timing even when stressed.",
       "source": "Leproult et al. 1997; Psychosomatic Medicine"
     },
     {
-      "id": "exercise-energy-pos",
+      "id": "sleep-stress-intervention-break",
+      "signalA": "sleep",
+      "signalB": "stress",
+      "direction": "bidirectional",
+      "strength": "strong",
+      "lag": 0,
+      "category": "intervention",
+      "title": "break the stress-sleep cycle",
+      "insight": "your data shows a stress-sleep spiral. breaking it on either end can help both.",
+      "explanation": "the most effective intervention is a 'buffer zone' between the stressful day and sleep. journaling for 10 minutes before bed ('worry dump') reduces sleep onset latency by 9 minutes on average.",
+      "recommendation": "tonight, try writing down everything on your mind for 10 minutes before bed. put the list aside \u2014 you've offloaded it.",
+      "source": "Scullin et al. 2018; \u00c5kerstedt 2006"
+    },
+    {
+      "id": "sleep-stress-intervention-consistency",
+      "signalA": "sleep",
+      "signalB": "stress",
+      "direction": "bidirectional",
+      "strength": "strong",
+      "lag": 0,
+      "category": "intervention",
+      "title": "consistent wake time anchors the cycle",
+      "insight": "even when stressed, a consistent wake time can prevent the sleep-stress spiral from worsening.",
+      "explanation": "the circadian system is anchored more by wake time than bedtime. keeping a consistent wake time (even on weekends) stabilizes cortisol rhythms, which reduces the stress-sleep feedback loop.",
+      "recommendation": "set a fixed wake time and stick to it for 2 weeks, regardless of when you fall asleep. your stress and sleep patterns should both stabilize.",
+      "source": "\u00c5kerstedt 2006; CDC"
+    },
+    {
+      "id": "exercise-energy-pos-mechanism",
       "signalA": "exercise",
       "signalB": "energy",
       "direction": "positive",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "movement creates energy",
       "insight": "on days you exercise, your energy averages [diff] points higher.",
       "explanation": "counterintuitively, physical exertion increases energy. exercise boosts mitochondrial density (cellular energy production), increases cerebral blood flow, and triggers endorphin/endocannabinoid release. the effect lasts 12-24 hours.",
-      "research": "Puetz et al. (2006). A meta-analysis showing exercise reduces fatigue by 20% and increases energy by 65% across 70 studies.",
       "recommendation": "even 20 minutes of moderate activity could boost your energy. your data confirms the effect for you personally.",
+      "source": "Puetz et al. 2006; WHO"
+    },
+    {
+      "id": "exercise-energy-intervention-minimum",
+      "signalA": "exercise",
+      "signalB": "energy",
+      "direction": "positive",
+      "strength": "strong",
+      "lag": 0,
+      "category": "intervention",
+      "title": "the minimum effective dose for energy",
+      "insight": "you don't need a full workout \u2014 even a 10-minute walk boosts energy.",
+      "explanation": "research shows a 10-minute brisk walk increases self-reported energy for up to 2 hours. the threshold for energy benefit is much lower than for cardiovascular fitness. intensity matters less than simply moving.",
+      "recommendation": "on days you can't exercise, try a 10-minute walk instead of nothing. track whether even that small dose moves your energy score.",
       "source": "Puetz et al. 2006; WHO Physical Activity Guidelines"
     },
     {
-      "id": "exercise-mood-pos",
+      "id": "exercise-energy-intervention-timing",
+      "signalA": "exercise",
+      "signalB": "energy",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "morning exercise yields all-day energy",
+      "insight": "your data might show a timing pattern \u2014 morning exercise tends to boost energy more than evening.",
+      "explanation": "morning exercise aligns with cortisol's natural peak, amplifying its energizing effects. it also sets the circadian clock for the day. evening exercise can boost energy too, but may interfere with sleep onset if done within 2 hours of bedtime.",
+      "recommendation": "if possible, try moving your exercise earlier for a week and compare your energy scores to evening sessions.",
+      "source": "Kredlow et al. 2015; CDC"
+    },
+    {
+      "id": "exercise-mood-pos-mechanism",
       "signalA": "exercise",
       "signalB": "mood",
       "direction": "positive",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "exercise lifts mood",
       "insight": "your mood is [diff] points higher on exercise days compared to rest days.",
       "explanation": "exercise triggers release of endorphins, serotonin, dopamine, and BDNF (brain-derived neurotrophic factor). a single session can elevate mood for 12-24 hours. regular exercise is as effective as SSRIs for mild-to-moderate depression.",
-      "research": "Chekroud et al. (2018) Lancet Psychiatry. 1.2 million participants: exercise reduces mental health burden by 43%.",
       "recommendation": "the exercise-mood boost is one of the strongest effects in your data. even a walk counts.",
       "source": "Chekroud et al. 2018; Frontiers in Psychology"
     },
     {
-      "id": "exercise-sleep-pos",
+      "id": "exercise-mood-intervention-type",
+      "signalA": "exercise",
+      "signalB": "mood",
+      "direction": "positive",
+      "strength": "strong",
+      "lag": 0,
+      "category": "intervention",
+      "title": "social exercise doubles the mood benefit",
+      "insight": "exercising with others may amplify the mood boost you're already seeing.",
+      "explanation": "social exercise combines the neurochemical benefits of movement with oxytocin release from social connection. team sports, group classes, or even walking with a friend show stronger mood improvements than solo exercise in most studies.",
+      "recommendation": "next time you exercise, try doing it with someone. compare your mood score to solo sessions.",
+      "source": "Chekroud et al. 2018"
+    },
+    {
+      "id": "exercise-mood-intervention-green",
+      "signalA": "exercise",
+      "signalB": "mood",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "outdoor exercise has bonus mood effects",
+      "insight": "exercising outdoors may boost mood more than indoors \u2014 nature exposure adds its own benefit.",
+      "explanation": "green exercise (physical activity in natural environments) shows additional mood improvements beyond indoor exercise. even 5 minutes of outdoor walking produces measurable mood improvement. sunlight exposure also helps regulate serotonin.",
+      "recommendation": "if you usually exercise indoors, try one outdoor session this week and compare your mood score.",
+      "source": "Barton & Pretty 2010; Chekroud et al. 2018"
+    },
+    {
+      "id": "exercise-sleep-pos-mechanism",
       "signalA": "exercise",
       "signalB": "sleep",
       "direction": "positive",
       "strength": "moderate",
       "lag": 0,
+      "category": "mechanism",
       "title": "exercise improves sleep",
       "insight": "you tend to sleep [diff] hours longer on nights following exercise days.",
       "explanation": "exercise increases slow-wave sleep (the most restorative phase) and helps regulate circadian rhythm through body temperature changes. the effect is strongest with morning/afternoon exercise; late evening exercise can temporarily delay sleep onset.",
-      "research": "Kredlow et al. (2015). Effects of physical activity on sleep: a meta-analytic review. Journal of Behavioral Medicine.",
-      "recommendation": "timing matters — your data might show whether morning or evening exercise helps your sleep more.",
+      "recommendation": "timing matters \u2014 your data might show whether morning or evening exercise helps your sleep more.",
       "source": "Kredlow et al. 2015; CDC"
     },
     {
-      "id": "exercise-focus-pos",
+      "id": "exercise-sleep-intervention-timing",
+      "signalA": "exercise",
+      "signalB": "sleep",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "exercise timing affects sleep quality",
+      "insight": "exercising more than 2 hours before bed tends to improve sleep; closer can delay it.",
+      "explanation": "exercise raises core body temperature by 1-2\u00b0F. the subsequent cooling 1-2 hours later signals the brain to initiate sleep. exercising too close to bedtime keeps the body temperature elevated, delaying this signal.",
+      "recommendation": "if you exercise in the evening, try finishing at least 2 hours before bed and see if your sleep improves.",
+      "source": "Kredlow et al. 2015"
+    },
+    {
+      "id": "exercise-focus-pos-mechanism",
       "signalA": "exercise",
       "signalB": "focus",
       "direction": "positive",
       "strength": "moderate",
       "lag": 0,
+      "category": "mechanism",
       "title": "movement sharpens focus",
       "insight": "your focus tends to be [diff] points higher on days you exercise.",
       "explanation": "exercise increases BDNF, which enhances neuroplasticity and cognitive function. it also increases blood flow to the prefrontal cortex. acute effects last 2-4 hours post-exercise; chronic effects build over weeks.",
-      "research": "Ratey (2008) Spark. Naperville school study: exercise before class dramatically improved academic performance.",
       "recommendation": "scheduling exercise before your most demanding cognitive work could amplify focus.",
       "source": "Ratey 2008; Annual Review of Psychology"
     },
     {
-      "id": "exercise-headache",
+      "id": "exercise-focus-intervention",
+      "signalA": "exercise",
+      "signalB": "focus",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "exercise before deep work",
+      "insight": "a 20-minute exercise session before focused work can extend concentration time.",
+      "explanation": "the Naperville school study found that students who exercised before class showed dramatically improved academic performance. BDNF levels peak 30-60 minutes post-exercise, creating an ideal window for cognitive work.",
+      "recommendation": "try a 20-minute workout before your most demanding task tomorrow. track whether your focus score improves.",
+      "source": "Ratey 2008"
+    },
+    {
+      "id": "exercise-headache-mixed",
       "signalA": "exercise",
       "signalB": "headache",
       "direction": "mixed",
       "strength": "moderate",
       "lag": 0,
+      "category": "mechanism",
       "title": "exercise and headaches: it depends",
-      "insight": "the exercise-headache relationship in your data is complex. [detail based on user data].",
+      "insight": "the exercise-headache relationship in your data is complex.",
       "explanation": "regular moderate exercise reduces headache frequency by 20-50% over time. however, intense exercise can trigger exertion headaches in susceptible individuals, especially when dehydrated. the key is consistency and hydration.",
-      "research": "Varkey et al. (2011). Exercise as migraine prophylaxis: a randomized study. Cephalalgia.",
       "recommendation": "track which types of exercise help vs. trigger headaches for you. intensity and hydration matter.",
       "source": "Varkey et al. 2011; American Migraine Foundation"
     },
     {
-      "id": "exercise-stress-neg",
+      "id": "exercise-headache-intervention",
+      "signalA": "exercise",
+      "signalB": "headache",
+      "direction": "mixed",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "hydrate before exercise to prevent headaches",
+      "insight": "exercise-triggered headaches often come from dehydration, not the exercise itself.",
+      "explanation": "dehydration reduces blood volume, forcing the heart to work harder. this can trigger headaches during or after exercise. drinking 500ml of water 30 minutes before exercise significantly reduces exertion headache risk.",
+      "recommendation": "drink a full glass of water 30 minutes before your next workout. track whether the headache pattern changes.",
+      "source": "Varkey et al. 2011"
+    },
+    {
+      "id": "exercise-stress-neg-mechanism",
       "signalA": "exercise",
       "signalB": "stress",
       "direction": "negative",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "exercise dissolves stress",
       "insight": "your stress levels are [diff] points lower on exercise days.",
       "explanation": "exercise reduces cortisol and adrenaline while stimulating endorphin production. it also activates the parasympathetic nervous system (rest-and-digest) post-exercise. the 'runner's high' is mediated by endocannabinoids, not just endorphins.",
-      "research": "Salmon (2001). Effects of physical exercise on anxiety, depression, and sensitivity to stress. Clinical Psychology Review.",
       "recommendation": "when you notice stress building, even a 15-minute walk can reduce cortisol levels within 30 minutes.",
       "source": "Salmon 2001; WHO"
     },
     {
-      "id": "exercise-digestion-pos",
+      "id": "exercise-stress-intervention",
+      "signalA": "exercise",
+      "signalB": "stress",
+      "direction": "negative",
+      "strength": "strong",
+      "lag": 0,
+      "category": "intervention",
+      "title": "exercise as a stress circuit breaker",
+      "insight": "on high-stress days, even brief movement can break the cortisol cycle.",
+      "explanation": "the stress response primes the body for physical action (fight-or-flight). actually completing that physical action \u2014 through exercise \u2014 signals the body that the threat has been handled, allowing cortisol to normalize. sedentary stress keeps cortisol elevated.",
+      "recommendation": "next time stress spikes, try a 10-minute walk or 20 jumping jacks. track whether your stress score drops within the hour.",
+      "source": "Salmon 2001; McEwen 1998"
+    },
+    {
+      "id": "exercise-digestion-pos-mechanism",
       "signalA": "exercise",
       "signalB": "digestion",
       "direction": "positive",
       "strength": "moderate",
       "lag": 0,
+      "category": "mechanism",
       "title": "movement helps digestion",
       "insight": "you report fewer digestive issues on days you exercise.",
       "explanation": "moderate exercise increases gut motility (the speed food moves through your digestive system), reduces bloating, and promotes a healthier gut microbiome diversity. walking after meals is particularly effective.",
-      "research": "de Oliveira & Burini (2009). The impact of physical exercise on the gastrointestinal tract. Current Opinion in Clinical Nutrition.",
       "recommendation": "a post-meal walk might be especially helpful based on your digestion patterns.",
       "source": "de Oliveira & Burini 2009; Harvard Health"
     },
     {
-      "id": "stress-energy-neg",
+      "id": "exercise-digestion-intervention",
+      "signalA": "exercise",
+      "signalB": "digestion",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "a 15-minute post-meal walk aids digestion",
+      "insight": "walking after eating may improve your digestion more than exercise at other times.",
+      "explanation": "a short walk after meals accelerates gastric emptying by 30-50%, reducing bloating and discomfort. it also helps regulate blood sugar spikes from the meal. intense exercise after eating, however, can worsen symptoms.",
+      "recommendation": "try a gentle 15-minute walk after your largest meal today. gentle \u2014 not intense.",
+      "source": "de Oliveira & Burini 2009"
+    },
+    {
+      "id": "stress-energy-neg-mechanism",
       "signalA": "stress",
       "signalB": "energy",
       "direction": "negative",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "stress drains your battery",
       "insight": "on high-stress days, your energy is [diff] points lower on average.",
-      "explanation": "chronic stress keeps cortisol elevated, which diverts energy from normal metabolic processes to maintain the 'fight-or-flight' state. this is metabolically expensive — your body is burning energy on vigilance instead of vitality.",
-      "research": "McEwen (1998). Protective and damaging effects of stress mediators. New England Journal of Medicine.",
+      "explanation": "chronic stress keeps cortisol elevated, which diverts energy from normal metabolic processes to maintain the 'fight-or-flight' state. this is metabolically expensive \u2014 your body is burning energy on vigilance instead of vitality.",
       "recommendation": "stress-energy drain is one of your clear patterns. stress management could directly boost your energy.",
       "source": "McEwen 1998; Psychosomatic Medicine"
     },
     {
-      "id": "stress-mood-neg",
+      "id": "stress-energy-intervention-breaks",
+      "signalA": "stress",
+      "signalB": "energy",
+      "direction": "negative",
+      "strength": "strong",
+      "lag": 0,
+      "category": "intervention",
+      "title": "micro-breaks prevent stress-related energy crashes",
+      "insight": "taking short breaks on stressful days may prevent the energy crash your data shows.",
+      "explanation": "the ultradian rhythm \u2014 a natural 90-120 minute cycle in alertness \u2014 means the body needs brief recovery periods. during stress, people often push through these cycles, accelerating energy depletion.",
+      "recommendation": "set a timer for every 90 minutes on stressful days. take a 5-minute walk or stretch break. track whether your energy holds up better.",
+      "source": "McEwen 1998"
+    },
+    {
+      "id": "stress-energy-intervention-breathing",
+      "signalA": "stress",
+      "signalB": "energy",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "box breathing recovers energy during stress",
+      "insight": "a 4-minute breathing exercise can shift your nervous system from stress to recovery mode.",
+      "explanation": "box breathing (4 seconds inhale, 4 hold, 4 exhale, 4 hold) activates the vagus nerve, triggering the parasympathetic nervous system. this lowers cortisol within minutes, redirecting metabolic energy from stress to normal function.",
+      "recommendation": "try box breathing for 4 minutes when you feel the stress-energy drain: inhale 4s, hold 4s, exhale 4s, hold 4s. repeat 4 cycles.",
+      "source": "Salmon 2001; NIH"
+    },
+    {
+      "id": "stress-mood-neg-mechanism",
       "signalA": "stress",
       "signalB": "mood",
       "direction": "negative",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "stress weighs on mood",
       "insight": "your mood drops by [diff] points on high-stress days.",
-      "explanation": "chronic stress depletes serotonin and dopamine — the neurotransmitters responsible for positive mood. it also increases inflammatory cytokines which directly affect brain regions involved in mood regulation.",
-      "research": "Hammen (2005). Stress and depression. Annual Review of Clinical Psychology.",
-      "recommendation": "this is bidirectional — low mood can also amplify stress perception. interrupting either one helps both.",
+      "explanation": "chronic stress depletes serotonin and dopamine \u2014 the neurotransmitters responsible for positive mood. it also increases inflammatory cytokines which directly affect brain regions involved in mood regulation.",
+      "recommendation": "this is bidirectional \u2014 low mood can also amplify stress perception. interrupting either one helps both.",
       "source": "Hammen 2005; Lancet Psychiatry"
     },
     {
-      "id": "stress-focus-neg",
+      "id": "stress-mood-intervention",
+      "signalA": "stress",
+      "signalB": "mood",
+      "direction": "negative",
+      "strength": "strong",
+      "lag": 0,
+      "category": "intervention",
+      "title": "one pleasant activity can break the stress-mood loop",
+      "insight": "behavioral activation \u2014 doing one enjoyable thing \u2014 can interrupt the stress-mood downward spiral.",
+      "explanation": "when stressed, people tend to withdraw from enjoyable activities, which worsens mood, which increases stress. deliberately scheduling one pleasant activity (even 15 minutes) breaks this cycle by providing a dopamine counterweight.",
+      "recommendation": "on your next high-stress day, schedule 15 minutes of something you enjoy \u2014 music, a walk, cooking. non-negotiable.",
+      "source": "Hammen 2005; Fredrickson 2001"
+    },
+    {
+      "id": "stress-focus-neg-mechanism",
       "signalA": "stress",
       "signalB": "focus",
       "direction": "negative",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "stress fragments attention",
       "insight": "your focus drops by [diff] points when stress is elevated.",
       "explanation": "stress activates the amygdala which hijacks attention away from the prefrontal cortex (where focused work happens). the brain literally prioritizes threat scanning over deep concentration. this is adaptive for survival but terrible for knowledge work.",
-      "research": "Arnsten (2009). Stress signalling pathways that impair prefrontal cortex structure and function. Nature Reviews Neuroscience.",
       "recommendation": "on high-stress days, try shorter focus blocks (25 min) with breaks. your brain is in scanning mode.",
       "source": "Arnsten 2009; Nature Reviews Neuroscience"
     },
     {
-      "id": "stress-headache-pos",
+      "id": "stress-focus-intervention",
+      "signalA": "stress",
+      "signalB": "focus",
+      "direction": "negative",
+      "strength": "strong",
+      "lag": 0,
+      "category": "intervention",
+      "title": "pomodoro technique for stressed focus",
+      "insight": "shorter work blocks can work with your brain's stress response instead of against it.",
+      "explanation": "the stressed brain can sustain focus for about 25 minutes before the amygdala's threat-scanning pulls attention away. working in 25-minute blocks with 5-minute breaks accommodates this, yielding better total output than trying to force longer sessions.",
+      "recommendation": "on high-stress days, use 25-minute focused blocks with 5-minute breaks. quality of focus often beats quantity of hours.",
+      "source": "Arnsten 2009"
+    },
+    {
+      "id": "stress-headache-pos-mechanism",
       "signalA": "stress",
       "signalB": "headache",
       "direction": "positive",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "stress triggers headaches",
       "insight": "your headaches are [percent]% more likely on high-stress days.",
       "explanation": "tension-type headaches are directly caused by sustained muscle contraction in the head, neck, and shoulders during stress. stress also lowers the migraine threshold by depleting serotonin and increasing cortisol.",
-      "research": "Sauro & Becker (2009). The stress and migraine interaction. Headache.",
       "recommendation": "shoulder and neck relaxation during stressful periods could help prevent the headache pattern.",
       "source": "Sauro & Becker 2009; American Migraine Foundation"
     },
     {
-      "id": "stress-digestion-neg",
+      "id": "stress-headache-intervention",
+      "signalA": "stress",
+      "signalB": "headache",
+      "direction": "positive",
+      "strength": "strong",
+      "lag": 0,
+      "category": "intervention",
+      "title": "neck stretches prevent stress headaches",
+      "insight": "your stress-headache pattern suggests tension is building in your neck and shoulders.",
+      "explanation": "tension headaches originate from sustained contraction of the trapezius and suboccipital muscles. a 2-minute stretch routine every hour during stressful work can prevent the tension from accumulating to headache threshold.",
+      "recommendation": "set an hourly reminder on stressful days: roll your neck slowly 5 times each direction, then shrug and release your shoulders 3 times.",
+      "source": "Sauro & Becker 2009"
+    },
+    {
+      "id": "stress-digestion-neg-mechanism",
       "signalA": "stress",
       "signalB": "digestion",
       "direction": "negative",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "stress hits your gut",
       "insight": "digestive issues cluster around your high-stress periods.",
-      "explanation": "the gut-brain axis is bidirectional — 95% of serotonin is produced in the gut. stress diverts blood flow away from the digestive system (fight-or-flight deprioritizes digestion), slows gut motility, and increases intestinal permeability.",
-      "research": "Mayer et al. (2015). Gut/brain axis and the microbiota. Journal of Clinical Investigation.",
+      "explanation": "the gut-brain axis is bidirectional \u2014 95% of serotonin is produced in the gut. stress diverts blood flow away from the digestive system (fight-or-flight deprioritizes digestion), slows gut motility, and increases intestinal permeability.",
       "recommendation": "managing stress could be more effective for your digestion than dietary changes alone.",
       "source": "Mayer et al. 2015; Psychosomatic Medicine"
     },
     {
-      "id": "stress-sleep-neg",
+      "id": "stress-digestion-intervention",
+      "signalA": "stress",
+      "signalB": "digestion",
+      "direction": "negative",
+      "strength": "strong",
+      "lag": 0,
+      "category": "intervention",
+      "title": "mindful eating on stressful days",
+      "insight": "eating slowly during stressful periods may protect your digestion.",
+      "explanation": "eating while stressed keeps the sympathetic nervous system active, suppressing digestive function. taking 3 deep breaths before eating activates the parasympathetic system ('rest and digest'), improving nutrient absorption and reducing GI symptoms.",
+      "recommendation": "before your next meal on a stressful day: 3 slow deep breaths, then eat slowly for the first 5 minutes. track your digestion.",
+      "source": "Mayer et al. 2015"
+    },
+    {
+      "id": "stress-sleep-neg-mechanism",
       "signalA": "stress",
       "signalB": "sleep",
       "direction": "negative",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "stress steals sleep",
       "insight": "you sleep [diff] hours less on nights following high-stress days.",
       "explanation": "cortisol and the sympathetic nervous system activation from stress directly inhibit melatonin production and maintain arousal. racing thoughts are the cognitive manifestation of this hyperarousal state.",
-      "research": "Âkerstedt (2006). Psychosocial stress and impaired sleep. Scandinavian Journal of Work.",
       "recommendation": "a wind-down buffer of 30-60 minutes before bed on stressful days can help transition to sleep.",
-      "source": "Âkerstedt 2006; CDC Sleep"
+      "source": "\u00c5kerstedt 2006; CDC Sleep"
     },
     {
-      "id": "mood-energy-pos",
+      "id": "mood-energy-pos-mechanism",
       "signalA": "mood",
       "signalB": "energy",
       "direction": "positive",
       "strength": "strong",
       "lag": 0,
+      "category": "mechanism",
       "title": "mood and energy feed each other",
-      "insight": "your mood and energy rise and fall together — [correlation] correlation.",
-      "explanation": "mood and energy share neurochemical pathways — dopamine drives both motivation (energy) and reward (mood). when one drops, the other often follows. this bidirectional relationship means improving either one can lift both.",
-      "research": "Thayer (1989). The biopsychology of mood and arousal. Energy and mood as fundamental dimensions.",
+      "insight": "your mood and energy rise and fall together \u2014 [correlation] correlation.",
+      "explanation": "mood and energy share neurochemical pathways \u2014 dopamine drives both motivation (energy) and reward (mood). when one drops, the other often follows. this bidirectional relationship means improving either one can lift both.",
       "recommendation": "when energy is low, a small mood boost (social interaction, music, sunlight) can lift both.",
       "source": "Thayer 1989; Annual Review of Psychology"
     },
     {
-      "id": "mood-focus",
+      "id": "mood-energy-intervention",
+      "signalA": "mood",
+      "signalB": "energy",
+      "direction": "positive",
+      "strength": "strong",
+      "lag": 0,
+      "category": "intervention",
+      "title": "sunlight lifts both mood and energy",
+      "insight": "10 minutes of morning sunlight can boost the mood-energy connection you're seeing.",
+      "explanation": "morning sunlight exposure suppresses melatonin, triggers cortisol (the healthy morning kind), and sets the circadian clock. these effects boost both alertness (energy) and serotonin production (mood) simultaneously.",
+      "recommendation": "try 10 minutes of outdoor morning light within an hour of waking for the next 5 days. track both mood and energy.",
+      "source": "Thayer 1989; NIH Circadian Rhythms"
+    },
+    {
+      "id": "mood-focus-mechanism",
       "signalA": "mood",
       "signalB": "focus",
       "direction": "positive",
       "strength": "moderate",
       "lag": 0,
+      "category": "mechanism",
       "title": "better mood, better focus",
       "insight": "your focus is [diff] points higher on good-mood days.",
       "explanation": "positive mood broadens attention and increases cognitive flexibility (Fredrickson's broaden-and-build theory). moderate positive mood enhances creative problem-solving, while very high arousal (excitement) can actually reduce focused attention.",
-      "research": "Fredrickson (2001). The role of positive emotions in positive psychology. American Psychologist.",
       "recommendation": "starting your day with something that lifts your mood could prime better focus for the whole day.",
       "source": "Fredrickson 2001; Annual Review of Psychology"
     },
     {
-      "id": "mood-digestion",
+      "id": "mood-focus-intervention",
+      "signalA": "mood",
+      "signalB": "focus",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "prime focus with a mood boost",
+      "insight": "a brief mood-lifting activity before focused work may improve your concentration.",
+      "explanation": "positive emotions broaden cognitive scope and increase working memory capacity. a 5-minute mood boost (favorite song, brief social interaction, gratitude reflection) can enhance subsequent focus for 30-60 minutes.",
+      "recommendation": "before your next deep work session, listen to one favorite song or text someone you appreciate. then start working.",
+      "source": "Fredrickson 2001"
+    },
+    {
+      "id": "mood-digestion-bidirectional",
       "signalA": "mood",
       "signalB": "digestion",
       "direction": "bidirectional",
       "strength": "moderate",
       "lag": 0,
+      "category": "mechanism",
       "title": "the gut-mood connection",
       "insight": "your mood and digestion patterns are linked in your data.",
       "explanation": "the enteric nervous system ('second brain') in your gut produces 95% of the body's serotonin and communicates directly with the brain via the vagus nerve. gut inflammation affects mood; mood affects gut motility. this is genuinely bidirectional.",
-      "research": "Cryan & Dinan (2012). Mind-altering microorganisms: the impact of the gut microbiota on brain and behaviour. Nature Reviews Neuroscience.",
       "recommendation": "improving gut health (fiber, fermented foods, stress reduction) may lift mood, and vice versa.",
       "source": "Cryan & Dinan 2012; Harvard Health"
     },
     {
-      "id": "focus-headache",
+      "id": "mood-digestion-intervention",
+      "signalA": "mood",
+      "signalB": "digestion",
+      "direction": "bidirectional",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "probiotic foods may help both mood and gut",
+      "insight": "the gut-mood link in your data suggests fermented foods could be worth trying.",
+      "explanation": "fermented foods (yogurt, kimchi, kefir, sauerkraut) provide beneficial bacteria that produce neurotransmitter precursors in the gut. a Stanford study found 6 weeks of fermented food consumption reduced inflammatory markers and improved mood self-reports.",
+      "recommendation": "try adding one serving of fermented food daily for 2 weeks. track both mood and digestion changes.",
+      "source": "Cryan & Dinan 2012; Wastyk et al. 2021"
+    },
+    {
+      "id": "mood-headache-mechanism",
+      "signalA": "mood",
+      "signalB": "headache",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "mechanism",
+      "title": "low mood and headaches cluster",
+      "insight": "headaches and low mood appear together in your data.",
+      "explanation": "both headaches and low mood involve serotonin dysregulation. migraines in particular share neurotransmitter pathways with depression \u2014 this is why certain antidepressants (tricyclics, SNRIs) are used to prevent migraines.",
+      "recommendation": "treating one may help the other. focus on the upstream cause (often sleep or stress) that drives both.",
+      "source": "Moore et al. 2013; American Migraine Foundation"
+    },
+    {
+      "id": "focus-headache-mechanism",
       "signalA": "focus",
       "signalB": "headache",
       "direction": "negative",
       "strength": "moderate",
       "lag": 0,
+      "category": "mechanism",
       "title": "headaches kill focus",
       "insight": "on headache days, your focus drops by [diff] points.",
-      "explanation": "pain demands cognitive resources — the brain allocates attention to the pain signal, leaving less capacity for concentration. even mild headaches consume working memory bandwidth, reducing effective cognitive performance by 20-40%.",
-      "research": "Moore et al. (2013). Impact of migraine on cognitive function. Journal of Headache and Pain.",
+      "explanation": "pain demands cognitive resources \u2014 the brain allocates attention to the pain signal, leaving less capacity for concentration. even mild headaches consume working memory bandwidth, reducing effective cognitive performance by 20-40%.",
       "recommendation": "addressing the root cause (sleep, stress, hydration) may be more effective than pushing through.",
       "source": "Moore et al. 2013; American Migraine Foundation"
     },
     {
-      "id": "energy-headache",
+      "id": "energy-headache-mechanism",
       "signalA": "energy",
       "signalB": "headache",
       "direction": "negative",
       "strength": "moderate",
       "lag": 0,
+      "category": "mechanism",
       "title": "low energy days bring headaches",
       "insight": "headaches are [percent]% more common on your low-energy days.",
       "explanation": "low energy and headaches often share upstream causes: dehydration, poor sleep, stress, or blood sugar fluctuations. they're symptoms of the same underlying dysregulation rather than one causing the other.",
-      "research": "Blau & Thavapalan (1988). Preventing migraine: a study of precipitating factors. Headache.",
       "recommendation": "when energy is low, preemptive hydration and a small meal may prevent the associated headache.",
       "source": "Blau & Thavapalan 1988; NIH"
     },
     {
-      "id": "digestion-energy",
+      "id": "energy-headache-intervention",
+      "signalA": "energy",
+      "signalB": "headache",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "blood sugar stability prevents both",
+      "insight": "eating regularly may prevent both energy crashes and headaches.",
+      "explanation": "blood sugar drops trigger both fatigue and headaches. the brain uses 20% of the body's glucose despite being only 2% of body weight. going more than 4-5 hours without eating can trigger both symptoms simultaneously.",
+      "recommendation": "on days you notice low energy, check when you last ate. a small snack with protein and complex carbs may prevent a headache.",
+      "source": "Blau & Thavapalan 1988"
+    },
+    {
+      "id": "digestion-energy-mechanism",
       "signalA": "digestion",
       "signalB": "energy",
       "direction": "negative",
       "strength": "moderate",
       "lag": 0,
+      "category": "mechanism",
       "title": "gut trouble drains energy",
       "insight": "your energy dips on days with digestive issues.",
-      "explanation": "digestive discomfort activates inflammatory pathways that produce cytokines — signaling molecules that induce fatigue (this is why you feel tired when sick). even mild gut inflammation can cause 'sickness behavior' including reduced energy.",
-      "research": "Dantzer et al. (2008). From inflammation to sickness and depression. Nature Reviews Neuroscience.",
+      "explanation": "digestive discomfort activates inflammatory pathways that produce cytokines \u2014 signaling molecules that induce fatigue (this is why you feel tired when sick). even mild gut inflammation can cause 'sickness behavior' including reduced energy.",
       "recommendation": "the energy-digestion link in your data suggests gut health is an energy lever for you.",
       "source": "Dantzer et al. 2008; Psychosomatic Medicine"
     },
     {
-      "id": "digestion-headache",
+      "id": "digestion-energy-intervention",
+      "signalA": "digestion",
+      "signalB": "energy",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "fiber for sustained energy and gut health",
+      "insight": "increasing dietary fiber may help both your digestion and energy stability.",
+      "explanation": "soluble fiber slows glucose absorption, preventing energy spikes and crashes. it also feeds beneficial gut bacteria that reduce inflammation. most adults eat only 15g/day of fiber vs. the recommended 25-30g.",
+      "recommendation": "try adding one high-fiber food daily (beans, oats, berries, broccoli) for a week. track both energy and digestion.",
+      "source": "Dantzer et al. 2008; WHO Nutrition Guidelines"
+    },
+    {
+      "id": "digestion-headache-mechanism",
       "signalA": "digestion",
       "signalB": "headache",
       "direction": "positive",
       "strength": "moderate",
       "lag": 0,
+      "category": "mechanism",
       "title": "gut issues and headaches cluster",
       "insight": "digestive issues and headaches tend to appear together in your data.",
       "explanation": "the gut-brain axis connects these directly. serotonin dysregulation affects both gut motility and migraine threshold. IBS and migraine have a 40-60% comorbidity rate, suggesting shared neurological pathways.",
-      "research": "Cámara-Lemarroy et al. (2016). Gastrointestinal disorders associated with migraine. World Journal of Gastroenterology.",
-      "recommendation": "these may share a root cause. track what you ate on days with both — food sensitivities could be a factor.",
-      "source": "Cámara-Lemarroy et al. 2016; Nature Reviews Neuroscience"
+      "recommendation": "these may share a root cause. track what you ate on days with both \u2014 food sensitivities could be a factor.",
+      "source": "C\u00e1mara-Lemarroy et al. 2016; Nature Reviews Neuroscience"
+    },
+    {
+      "id": "digestion-mood-mechanism",
+      "signalA": "digestion",
+      "signalB": "mood",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "mechanism",
+      "title": "gut inflammation dampens mood",
+      "insight": "your mood tends to be lower on days with digestive trouble.",
+      "explanation": "gut inflammation produces cytokines that cross the blood-brain barrier and directly impact serotonin production in the brain. this 'inflammatory mood' effect explains why GI conditions are associated with higher rates of anxiety and depression.",
+      "recommendation": "on days with digestive issues, be gentle with yourself \u2014 the mood impact is biological, not just about feeling uncomfortable.",
+      "source": "Dantzer et al. 2008; Cryan & Dinan 2012"
+    },
+    {
+      "id": "digestion-stress-mechanism",
+      "signalA": "digestion",
+      "signalB": "stress",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "mechanism",
+      "title": "stress and digestion are linked through the vagus nerve",
+      "insight": "your digestive issues tend to worsen during stressful periods.",
+      "explanation": "the vagus nerve \u2014 the longest cranial nerve \u2014 connects the brain directly to the gut. stress signals travel down this nerve and can cause cramping, slowed motility, and increased acid production within minutes of a stress trigger.",
+      "recommendation": "deep breathing activates the vagus nerve's calming branch. try 5 slow breaths before meals on stressful days.",
+      "source": "Mayer et al. 2015"
+    },
+    {
+      "id": "focus-energy-mechanism",
+      "signalA": "focus",
+      "signalB": "energy",
+      "direction": "positive",
+      "strength": "strong",
+      "lag": 0,
+      "category": "mechanism",
+      "title": "focus follows energy",
+      "insight": "your focus and energy move together in your data.",
+      "explanation": "sustained attention requires glucose and oxygen \u2014 both are more available when energy is high. the prefrontal cortex, which drives focus, is one of the most metabolically expensive brain regions. low energy = understaffed focus.",
+      "recommendation": "if you need to focus, make sure your energy is supported first: eat, hydrate, and rest as needed.",
+      "source": "Lim & Dinges 2010; Thayer 1989"
+    },
+    {
+      "id": "focus-stress-mechanism",
+      "signalA": "focus",
+      "signalB": "stress",
+      "direction": "negative",
+      "strength": "strong",
+      "lag": 0,
+      "category": "mechanism",
+      "title": "stress steals focus resources",
+      "insight": "your focus score is lower on high-stress days.",
+      "explanation": "stress and focused attention compete for the same prefrontal cortex resources. under stress, the amygdala essentially commandeers the prefrontal cortex for threat monitoring, leaving less bandwidth for deliberate concentration.",
+      "recommendation": "on high-stress days, reduce your focused work expectations and use shorter time blocks.",
+      "source": "Arnsten 2009"
+    },
+    {
+      "id": "headache-stress-lag1",
+      "signalA": "stress",
+      "signalB": "headache",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 1,
+      "category": "lag-variation",
+      "title": "stress headaches often hit the next day",
+      "insight": "your headaches sometimes appear the day after a high-stress day.",
+      "explanation": "the 'let-down headache' phenomenon: during stress, cortisol and adrenaline mask pain. when stress drops (evening, weekend), the masking effect fades and accumulated muscle tension manifests as a headache. this explains weekend migraines.",
+      "recommendation": "if you had a stressful day, gentle stretching in the evening may prevent tomorrow's headache.",
+      "source": "Sauro & Becker 2009"
+    },
+    {
+      "id": "exercise-mood-lag1",
+      "signalA": "exercise",
+      "signalB": "mood",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 1,
+      "category": "lag-variation",
+      "title": "exercise's mood boost can last 2 days",
+      "insight": "you may notice higher mood not just on exercise days but the day after too.",
+      "explanation": "while the acute endorphin boost fades within hours, BDNF elevation and anti-inflammatory effects from exercise persist for 24-48 hours. regular exercisers show persistent mood elevation between sessions.",
+      "recommendation": "if you can't exercise every day, every-other-day may still keep your mood elevated continuously.",
+      "source": "Chekroud et al. 2018"
+    },
+    {
+      "id": "sleep-focus-lag1",
+      "signalA": "sleep",
+      "signalB": "focus",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 1,
+      "category": "lag-variation",
+      "title": "two bad nights compound focus loss",
+      "insight": "one bad night reduces focus a little. two in a row reduces it a lot.",
+      "explanation": "cognitive performance degrades linearly with cumulative sleep restriction. by the second day of 6-hour sleep, focus is impaired as much as staying awake for 24 hours straight. the effect compounds because the brain can't fully recover in one short night.",
+      "recommendation": "if you've had two short nights, prioritize sleep tonight \u2014 the focus deficit is accumulating.",
+      "source": "Van Dongen et al. 2003"
+    },
+    {
+      "id": "mood-sleep-lag0",
+      "signalA": "mood",
+      "signalB": "sleep",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "mechanism",
+      "title": "low mood disrupts sleep",
+      "insight": "on low-mood days, your sleep quality tends to suffer.",
+      "explanation": "negative mood states increase rumination \u2014 repetitive negative thinking \u2014 which is the #1 self-reported cause of difficulty falling asleep. low mood also reduces the motivation for good sleep hygiene behaviors.",
+      "recommendation": "on low-mood evenings, try a brief gratitude exercise: write 3 things that went okay today. this reduces rumination and improves sleep onset.",
+      "source": "Walker & van der Helm 2009"
+    },
+    {
+      "id": "energy-exercise-mechanism",
+      "signalA": "energy",
+      "signalB": "exercise",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "mechanism",
+      "title": "high energy days are exercise days",
+      "insight": "you're more likely to exercise on high-energy days \u2014 and exercise raises energy further.",
+      "explanation": "this is a virtuous cycle: higher energy makes exercise feel easier, and exercise generates more energy. the key is to also exercise on low-energy days (even briefly) to prevent the opposite spiral.",
+      "recommendation": "on low-energy days when exercise feels impossible, try just 5 minutes. most people find they continue once they start.",
+      "source": "Puetz et al. 2006"
+    },
+    {
+      "id": "headache-focus-intervention",
+      "signalA": "headache",
+      "signalB": "focus",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "intervention",
+      "title": "manage headaches to protect focus",
+      "insight": "your focus drops significantly on headache days. early intervention helps both.",
+      "explanation": "treating a headache early (within 30 minutes of onset) is far more effective than waiting. the pain-focus interference grows exponentially as the headache progresses, making early action the best strategy for both symptoms.",
+      "recommendation": "at the first sign of a headache: hydrate, step away from screens for 5 minutes, and address the root cause (stress, posture, hunger).",
+      "source": "Moore et al. 2013"
+    },
+    {
+      "id": "sleep-exercise-bidirectional",
+      "signalA": "sleep",
+      "signalB": "exercise",
+      "direction": "bidirectional",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "mechanism",
+      "title": "sleep and exercise reinforce each other",
+      "insight": "good sleep makes you more likely to exercise, and exercise improves your sleep.",
+      "explanation": "this is one of the most powerful virtuous cycles in health. adequate sleep provides the energy and motivation for exercise. exercise increases slow-wave sleep depth. disrupting either can unravel both.",
+      "recommendation": "when you notice this cycle breaking (poor sleep \u2192 no exercise \u2192 worse sleep), intervene on the easier side. usually that's exercise \u2014 even a short walk can restart the cycle.",
+      "source": "Kredlow et al. 2015; Walker 2017"
+    },
+    {
+      "id": "focus-digestion-mechanism",
+      "signalA": "focus",
+      "signalB": "digestion",
+      "direction": "negative",
+      "strength": "weak",
+      "lag": 0,
+      "category": "mechanism",
+      "title": "gut discomfort disrupts concentration",
+      "insight": "you tend to focus less well on days with digestive issues.",
+      "explanation": "digestive discomfort activates interoceptive attention \u2014 the brain's monitoring of internal body signals. this diverts cognitive resources from external tasks, reducing available focus bandwidth.",
+      "recommendation": "address digestive issues early in the day to protect your afternoon focus.",
+      "source": "Mayer et al. 2015; Dantzer et al. 2008"
+    },
+    {
+      "id": "sleep-energy-context-age",
+      "signalA": "sleep",
+      "signalB": "energy",
+      "direction": "positive",
+      "strength": "strong",
+      "lag": 0,
+      "category": "context",
+      "title": "sleep needs change with age",
+      "insight": "your optimal sleep-energy ratio may shift over time.",
+      "explanation": "adults under 25 often need 8-9 hours for peak energy. by 35-45, 7-8 hours is typical. over 55, sleep becomes lighter and more fragmented, but total need remains 7-8 hours. track your personal optimal.",
+      "recommendation": "experiment with your sleep duration over a few weeks. your energy data will reveal your personal optimal range.",
+      "source": "Hirshkowitz et al. 2015; CDC"
+    },
+    {
+      "id": "sleep-energy-context-quality",
+      "signalA": "sleep",
+      "signalB": "energy",
+      "direction": "positive",
+      "strength": "strong",
+      "lag": 0,
+      "category": "context",
+      "title": "sleep quality matters as much as quantity",
+      "insight": "7 hours of uninterrupted sleep may beat 9 hours of fragmented sleep for your energy.",
+      "explanation": "sleep efficiency (time asleep vs. time in bed) and sleep continuity affect next-day energy independently of total duration. frequent awakenings prevent the deep slow-wave sleep that most restores energy.",
+      "recommendation": "if you sleep enough hours but still wake tired, focus on sleep quality: cool room, dark environment, consistent timing.",
+      "source": "Walker 2017"
+    },
+    {
+      "id": "exercise-energy-context-intensity",
+      "signalA": "exercise",
+      "signalB": "energy",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "moderate intensity beats high intensity for energy",
+      "insight": "your energy boost from exercise may depend on intensity.",
+      "explanation": "moderate-intensity exercise (walking, cycling, yoga) consistently boosts energy. high-intensity exercise boosts energy after recovery but can cause short-term fatigue. the energy benefit peaks at moderate effort.",
+      "recommendation": "if you're exercising for energy rather than fitness, keep intensity moderate. you should be able to hold a conversation.",
+      "source": "Puetz et al. 2006"
+    },
+    {
+      "id": "stress-energy-context-acute-vs-chronic",
+      "signalA": "stress",
+      "signalB": "energy",
+      "direction": "mixed",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "acute stress energizes; chronic stress drains",
+      "insight": "short bursts of stress can actually boost your energy temporarily.",
+      "explanation": "acute stress triggers adrenaline, temporarily increasing alertness and energy (this is useful for deadlines). chronic stress, however, depletes cortisol reserves and causes persistent fatigue. the key is whether stress resolves.",
+      "recommendation": "notice whether your stress has clear endpoints (healthy) or feels constant (needs intervention).",
+      "source": "McEwen 1998"
+    },
+    {
+      "id": "mood-stress-context-perceived",
+      "signalA": "mood",
+      "signalB": "stress",
+      "direction": "negative",
+      "strength": "strong",
+      "lag": 0,
+      "category": "context",
+      "title": "mood colors stress perception",
+      "insight": "the same stressor feels harder when mood is already low.",
+      "explanation": "low mood reduces the brain's capacity for cognitive reappraisal \u2014 the ability to reframe stressors positively. this means identical situations feel more threatening when mood is low, creating an amplification effect.",
+      "recommendation": "when stress feels overwhelming, check your mood first. sometimes lifting mood (even slightly) makes the stressor more manageable.",
+      "source": "Hammen 2005; Fredrickson 2001"
+    },
+    {
+      "id": "sleep-headache-context-pattern",
+      "signalA": "sleep",
+      "signalB": "headache",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "sleep pattern changes trigger headaches more than sleep loss alone",
+      "insight": "shifting your sleep schedule may trigger headaches even without reducing hours.",
+      "explanation": "the brain adapts to consistent sleep timing. abrupt changes (weekend sleeping in, jet lag, shift work) disrupt neurotransmitter rhythms that regulate pain thresholds, even if total sleep is adequate.",
+      "recommendation": "if headaches cluster around schedule changes (weekends, travel), focus on timing consistency rather than just duration.",
+      "source": "Rains & Poceta 2006"
+    },
+    {
+      "id": "exercise-stress-context-type",
+      "signalA": "exercise",
+      "signalB": "stress",
+      "direction": "negative",
+      "strength": "strong",
+      "lag": 0,
+      "category": "context",
+      "title": "rhythmic exercise is best for stress relief",
+      "insight": "repetitive, rhythmic movements (walking, swimming, cycling) may reduce your stress more than variable-intensity exercise.",
+      "explanation": "rhythmic exercise induces a meditative state through repetitive motion, activating the parasympathetic nervous system more effectively than start-stop activities. the rhythmic pattern also regulates breathing automatically.",
+      "recommendation": "on high-stress days, choose rhythmic exercise: a steady walk, jog, or swim. the regularity of motion is part of the stress relief.",
+      "source": "Salmon 2001"
+    },
+    {
+      "id": "mood-exercise-context-low-mood",
+      "signalA": "mood",
+      "signalB": "exercise",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "the hardest time to exercise is when it helps most",
+      "insight": "low-mood days make exercise feel impossible, but those are the days it helps most.",
+      "explanation": "low mood reduces motivation through dopamine depletion \u2014 the same system that drives the desire to move. this creates a paradox: exercise would restore dopamine, but you need dopamine to feel motivated to start.",
+      "recommendation": "on low-mood days, commit to just 5 minutes. tell yourself you'll stop after 5 minutes if you want to. most people continue.",
+      "source": "Chekroud et al. 2018"
+    },
+    {
+      "id": "stress-focus-context-moderate",
+      "signalA": "stress",
+      "signalB": "focus",
+      "direction": "mixed",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "a little stress helps focus (yerkes-dodson law)",
+      "insight": "moderate stress can actually sharpen your focus \u2014 it's the extremes that hurt.",
+      "explanation": "the Yerkes-Dodson law describes an inverted-U relationship between stress and performance. too little stress = boredom, too much = anxiety. the sweet spot is moderate arousal \u2014 a deadline that feels challenging but achievable.",
+      "recommendation": "notice your stress-focus sweet spot. if your focus data shows a peak at moderate stress, that's your productive zone.",
+      "source": "Arnsten 2009; Yerkes & Dodson 1908"
+    },
+    {
+      "id": "digestion-sleep-context-meal-timing",
+      "signalA": "digestion",
+      "signalB": "sleep",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "late eating disrupts both gut and sleep",
+      "insight": "eating close to bedtime may worsen both your digestion and sleep quality.",
+      "explanation": "the gut's circadian clock expects a fasting period overnight. late meals force digestive activity during rest, which disrupts sleep architecture (especially REM sleep) and leads to poorer digestion of the late meal.",
+      "recommendation": "try a 3-hour gap between your last meal and bedtime. your body will thank you on both fronts.",
+      "source": "Benedict et al. 2016"
+    },
+    {
+      "id": "energy-focus-context-time-of-day",
+      "signalA": "energy",
+      "signalB": "focus",
+      "direction": "positive",
+      "strength": "strong",
+      "lag": 0,
+      "category": "context",
+      "title": "peak focus follows peak energy (usually morning)",
+      "insight": "your best focus window probably aligns with your natural energy peak.",
+      "explanation": "most people's cortisol peaks 30-60 minutes after waking, creating a natural focus window. a second smaller peak occurs in the late morning. the post-lunch dip (2-3pm) reliably reduces both energy and focus.",
+      "recommendation": "schedule your most demanding cognitive work during your energy peak. save routine tasks for the post-lunch dip.",
+      "source": "Thayer 1989; NIH Circadian Rhythms"
+    },
+    {
+      "id": "headache-digestion-context-food",
+      "signalA": "headache",
+      "signalB": "digestion",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "food sensitivities can trigger both headaches and gut issues",
+      "insight": "when headaches and digestive issues appear together, food may be the common trigger.",
+      "explanation": "certain foods (aged cheese, wine, chocolate, processed meats, artificial sweeteners) contain compounds that affect both the gut and the brain's pain pathways. these trigger both GI symptoms and headaches through shared serotonin pathways.",
+      "recommendation": "when you log both a headache and digestive issue on the same day, note what you ate in the previous 24 hours. patterns may emerge.",
+      "source": "C\u00e1mara-Lemarroy et al. 2016"
+    },
+    {
+      "id": "mood-sleep-context-rem",
+      "signalA": "mood",
+      "signalB": "sleep",
+      "direction": "positive",
+      "strength": "strong",
+      "lag": 0,
+      "category": "context",
+      "title": "REM sleep processes emotions",
+      "insight": "the last 2 hours of an 8-hour sleep are mostly REM \u2014 the phase that processes emotions.",
+      "explanation": "REM sleep strips the emotional charge from memories, helping you wake up with a more balanced perspective. cutting sleep to 6 hours eliminates most REM, meaning emotional memories remain 'raw' \u2014 contributing to mood instability.",
+      "recommendation": "sleeping 8 hours instead of 6 doesn't just give you 33% more sleep \u2014 it gives you 2-3x more emotion-processing REM sleep.",
+      "source": "Walker & van der Helm 2009; Walker 2017"
+    },
+    {
+      "id": "exercise-digestion-context-timing",
+      "signalA": "exercise",
+      "signalB": "digestion",
+      "direction": "mixed",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "exercise timing matters for digestion",
+      "insight": "gentle exercise after meals helps digestion; intense exercise too soon after eating hurts it.",
+      "explanation": "light walking after meals increases gut motility and blood flow to the digestive system. intense exercise, however, diverts blood away from the gut to muscles, which can cause cramping and nausea. timing and intensity both matter.",
+      "recommendation": "for digestion: gentle walk within 30 minutes after eating. for intense exercise: wait 1.5-2 hours after a meal.",
+      "source": "de Oliveira & Burini 2009"
+    },
+    {
+      "id": "stress-headache-context-weekend",
+      "signalA": "stress",
+      "signalB": "headache",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 1,
+      "category": "context",
+      "title": "the 'let-down' headache on weekends",
+      "insight": "do your headaches sometimes appear on weekends or after stressful periods end?",
+      "explanation": "during stress, cortisol and adrenaline suppress pain perception. when stress resolves (weekends, vacations), these hormones drop rapidly, and accumulated muscle tension and vascular changes manifest as headaches.",
+      "recommendation": "if you get weekend headaches, try to 'ramp down' stress gradually rather than going from max stress to full rest. a friday evening walk can help.",
+      "source": "Sauro & Becker 2009"
+    },
+    {
+      "id": "energy-mood-context-chicken-egg",
+      "signalA": "energy",
+      "signalB": "mood",
+      "direction": "positive",
+      "strength": "strong",
+      "lag": 0,
+      "category": "context",
+      "title": "energy and mood: which comes first?",
+      "insight": "your data shows energy and mood are tightly linked. they share the same upstream causes.",
+      "explanation": "energy and mood are both outputs of the same neurochemical system (dopamine, serotonin). they move together because they share inputs: sleep, exercise, nutrition, stress. improving any input tends to lift both simultaneously.",
+      "recommendation": "don't try to fix mood and energy separately \u2014 focus on their shared inputs (sleep, exercise, stress management).",
+      "source": "Thayer 1989"
+    },
+    {
+      "id": "focus-exercise-context-acute",
+      "signalA": "focus",
+      "signalB": "exercise",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "the focus window after exercise",
+      "insight": "your best focus window may be 30-120 minutes after exercise.",
+      "explanation": "BDNF and blood flow to the prefrontal cortex peak 30-60 minutes post-exercise and remain elevated for about 2 hours. this creates an optimal window for deep cognitive work.",
+      "recommendation": "experiment: exercise, wait 30 minutes, then start your most demanding task. track whether focus scores are higher on these days.",
+      "source": "Ratey 2008"
+    },
+    {
+      "id": "sleep-stress-context-cortisol-timing",
+      "signalA": "sleep",
+      "signalB": "stress",
+      "direction": "bidirectional",
+      "strength": "strong",
+      "lag": 0,
+      "category": "context",
+      "title": "cortisol should be high in the morning, low at night",
+      "insight": "healthy stress follows a daily rhythm \u2014 high cortisol on waking, low at bedtime.",
+      "explanation": "cortisol follows a circadian pattern: high in the morning (wakes you up), declining through the day, lowest at bedtime (allows sleep). chronic stress flattens this curve \u2014 cortisol stays elevated at night, causing insomnia.",
+      "recommendation": "morning sunlight amplifies the natural cortisol peak. evening relaxation helps cortisol drop. these restore the healthy rhythm.",
+      "source": "Leproult et al. 1997; NIH"
+    },
+    {
+      "id": "headache-energy-context-caffeine",
+      "signalA": "headache",
+      "signalB": "energy",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "caffeine withdrawal can cause both headaches and energy crashes",
+      "insight": "if headaches and low energy appear together, caffeine withdrawal may be a factor.",
+      "explanation": "regular caffeine users develop tolerance. on days with less caffeine (weekends, changes in routine), withdrawal can cause headaches and fatigue simultaneously. this is because caffeine blocks adenosine \u2014 withdrawal lets adenosine flood in.",
+      "recommendation": "if headaches and energy dips align with caffeine changes, try keeping intake consistent or tapering gradually.",
+      "source": "NIH; Walker 2017"
+    },
+    {
+      "id": "mood-headache-context-serotonin",
+      "signalA": "mood",
+      "signalB": "headache",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "mood and headaches share a serotonin connection",
+      "insight": "low mood and headaches may appear together because they share serotonin pathways.",
+      "explanation": "serotonin regulates both mood and pain perception. when serotonin is depleted (from stress, poor sleep, or nutrition), both mood dips and headache threshold drops simultaneously. this is why some antidepressants also prevent migraines.",
+      "recommendation": "when mood and headaches cluster, focus on serotonin-supporting behaviors: sleep, exercise, morning sunlight, and tryptophan-rich foods.",
+      "source": "Moore et al. 2013; American Migraine Foundation"
+    },
+    {
+      "id": "digestion-focus-context",
+      "signalA": "digestion",
+      "signalB": "focus",
+      "direction": "negative",
+      "strength": "weak",
+      "lag": 0,
+      "category": "context",
+      "title": "heavy meals reduce afternoon focus",
+      "insight": "digestive load from large meals may explain your post-lunch focus dips.",
+      "explanation": "digesting a large meal diverts blood to the gut and triggers parasympathetic activation (rest-and-digest). this combines with the natural circadian dip at 2-3pm, creating a focus trough. lighter lunches help.",
+      "recommendation": "try a lighter lunch with protein and vegetables (not heavy carbs) and see if your afternoon focus improves.",
+      "source": "Thayer 1989; de Oliveira & Burini 2009"
+    },
+    {
+      "id": "stress-exercise-context-type",
+      "signalA": "stress",
+      "signalB": "exercise",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "the best exercise for stress depends on the type of stress",
+      "insight": "mental stress responds best to physical exercise. physical stress responds best to rest.",
+      "explanation": "for mental/emotional stress, exercise 'completes the stress cycle' by providing the physical output the fight-or-flight response prepared for. for physical stress (overwork, exhaustion), more physical activity can worsen things. match the intervention to the stressor.",
+      "recommendation": "identify your stress type: if it's mental (worry, deadline, conflict), move your body. if it's physical (exhaustion, illness), rest.",
+      "source": "Salmon 2001; Nagoski & Nagoski 2019"
+    },
+    {
+      "id": "sleep-mood-context-dreams",
+      "signalA": "sleep",
+      "signalB": "mood",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "dream sleep is emotion therapy",
+      "insight": "adequate REM sleep literally processes your emotions overnight.",
+      "explanation": "during REM sleep, the brain replays emotional memories without the stress hormones that accompanied the original experience. this 'overnight therapy' effect means you wake with a more balanced emotional perspective. truncated sleep = truncated emotional processing.",
+      "recommendation": "the last sleep cycles are REM-heavy. sleeping 7.5-8 hours vs 6 hours gives disproportionately more emotional processing time.",
+      "source": "Walker & van der Helm 2009"
+    },
+    {
+      "id": "energy-stress-context-battery",
+      "signalA": "energy",
+      "signalB": "stress",
+      "direction": "negative",
+      "strength": "strong",
+      "lag": 0,
+      "category": "context",
+      "title": "stress burns energy even when you're sitting still",
+      "insight": "high-stress sedentary days can be as draining as physically active days.",
+      "explanation": "the stress response maintains elevated heart rate, blood pressure, and muscle tension \u2014 all of which burn glucose. mental stress can increase metabolic rate by 10-20%. this is why stressful desk days feel as exhausting as active ones.",
+      "recommendation": "if you're drained after a sedentary stressful day, it's real fatigue \u2014 not laziness. your body was working hard on threat response.",
+      "source": "McEwen 1998"
+    },
+    {
+      "id": "exercise-sleep-context-duration",
+      "signalA": "exercise",
+      "signalB": "sleep",
+      "direction": "positive",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "regular exercise increases deep sleep by 20-30%",
+      "insight": "consistent exercise improves sleep quality even more than sleep duration.",
+      "explanation": "regular exercisers spend 20-30% more time in deep (slow-wave) sleep \u2014 the most physically restorative phase. this effect builds over 2-4 weeks of consistent exercise and is independent of exercise timing or intensity.",
+      "recommendation": "exercise consistently for at least 2 weeks before judging its sleep impact. the deep sleep benefit takes time to build.",
+      "source": "Kredlow et al. 2015"
+    },
+    {
+      "id": "mood-digestion-context-microbiome",
+      "signalA": "mood",
+      "signalB": "digestion",
+      "direction": "bidirectional",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "your microbiome affects your mood within days",
+      "insight": "changes to your gut bacteria can shift your mood within 1-3 days.",
+      "explanation": "the gut microbiome produces neurotransmitter precursors (serotonin, GABA, dopamine) that cross the blood-brain barrier. a diet shift can change microbiome composition within 24 hours, with mood effects following within 1-3 days.",
+      "recommendation": "dietary changes affect mood faster than most people realize. if you change your diet, give it 3 days before checking the mood impact.",
+      "source": "Cryan & Dinan 2012; Wastyk et al. 2021"
+    },
+    {
+      "id": "focus-sleep-context-creativity",
+      "signalA": "focus",
+      "signalB": "sleep",
+      "direction": "mixed",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "tired brains are more creative (but less focused)",
+      "insight": "poor sleep reduces focused attention but may increase creative thinking.",
+      "explanation": "sleep deprivation weakens the prefrontal cortex's inhibitory control, which is bad for logical focus but can allow more divergent, creative thinking. this is why insights often come when tired. but implementing those insights requires focused energy.",
+      "recommendation": "use your tired moments for brainstorming and your rested moments for execution.",
+      "source": "Lim & Dinges 2010; Wieth & Zacks 2011"
+    },
+    {
+      "id": "headache-exercise-context-prevention",
+      "signalA": "headache",
+      "signalB": "exercise",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "regular exercise prevents headaches long-term",
+      "insight": "consistent exercise reduces headache frequency by 20-50% over weeks.",
+      "explanation": "while individual exercise sessions can sometimes trigger headaches (especially intense ones), regular moderate exercise reduces headache frequency significantly over 6-12 weeks. the mechanism involves improved vascular health and reduced inflammatory markers.",
+      "recommendation": "if you get frequent headaches, 3-4 weekly sessions of moderate exercise may be one of the best preventive strategies.",
+      "source": "Varkey et al. 2011"
+    },
+    {
+      "id": "stress-mood-context-resilience",
+      "signalA": "stress",
+      "signalB": "mood",
+      "direction": "negative",
+      "strength": "moderate",
+      "lag": 0,
+      "category": "context",
+      "title": "resilience is a skill, not a trait",
+      "insight": "your ability to maintain mood during stress can improve with practice.",
+      "explanation": "stress resilience depends on prefrontal cortex function, social support, and practiced coping strategies. people who regularly practice stress management show smaller mood drops during stressful periods. the brain's stress response is trainable.",
+      "recommendation": "consistent small stress management practices (breathing, walks, social connection) build resilience over weeks. it's like training a muscle.",
+      "source": "McEwen 1998; Hammen 2005"
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "rec-sleep-low-energy",
+      "trigger": {
+        "signal": "sleep",
+        "condition": "below_threshold",
+        "threshold": 6.5
+      },
+      "targetSignal": "energy",
+      "priority": "high",
+      "title": "tonight's sleep = tomorrow's energy",
+      "action": "dim lights by 9pm. no screens after 9:30pm. aim for 7.5+ hours.",
+      "rationale": "your data shows energy drops significantly after short sleep nights. tonight's sleep directly predicts tomorrow's energy level.",
+      "source": "Walker 2017; CDC"
+    },
+    {
+      "id": "rec-exercise-for-mood",
+      "trigger": {
+        "signal": "mood",
+        "condition": "below_average",
+        "days": 2
+      },
+      "targetSignal": "mood",
+      "priority": "high",
+      "title": "movement is the fastest mood lever",
+      "action": "20 minutes of any movement today \u2014 walk, stretch, dance. even 10 minutes helps.",
+      "rationale": "2+ days of below-average mood in your data. exercise produces measurable mood improvement within 30 minutes and lasts 12-24 hours.",
+      "source": "Chekroud et al. 2018"
+    },
+    {
+      "id": "rec-stress-breathing",
+      "trigger": {
+        "signal": "stress",
+        "condition": "above_threshold",
+        "threshold": 4
+      },
+      "targetSignal": "stress",
+      "priority": "high",
+      "title": "activate your calm system",
+      "action": "box breathing: inhale 4 seconds, hold 4, exhale 4, hold 4. repeat 4 times. takes under 2 minutes.",
+      "rationale": "stress has been elevated. box breathing activates the parasympathetic nervous system within minutes, lowering cortisol and heart rate.",
+      "source": "Salmon 2001; NIH"
+    },
+    {
+      "id": "rec-hydration-headache",
+      "trigger": {
+        "signal": "headache",
+        "condition": "true",
+        "consecutiveDays": 1
+      },
+      "targetSignal": "headache",
+      "priority": "high",
+      "title": "hydration check",
+      "action": "drink 500ml of water now if you haven't had much today. dehydration is the #1 preventable headache trigger.",
+      "rationale": "headache reported. 75% of headaches have a dehydration component. hydrating is the lowest-risk, highest-return intervention.",
+      "source": "Blau & Thavapalan 1988"
+    },
+    {
+      "id": "rec-sleep-consistency",
+      "trigger": {
+        "signal": "sleep",
+        "condition": "high_variance",
+        "window": 7
+      },
+      "targetSignal": "sleep",
+      "priority": "medium",
+      "title": "consistency beats quantity",
+      "action": "pick a fixed bedtime and wake time. keep it within a 30-minute window for the next week.",
+      "rationale": "your sleep timing has been variable. irregular sleep schedules impair circadian rhythm function, reducing sleep quality even when hours are adequate.",
+      "source": "Phillips et al. 2017; CDC"
+    },
+    {
+      "id": "rec-exercise-regularity",
+      "trigger": {
+        "signal": "exercise",
+        "condition": "false",
+        "consecutiveDays": 3
+      },
+      "targetSignal": "energy",
+      "priority": "medium",
+      "title": "3 days without movement",
+      "action": "even a 10-minute walk counts. the energy-exercise virtuous cycle breaks after 2-3 sedentary days.",
+      "rationale": "3 days without exercise. research shows the energy and mood benefits of exercise fade after 48-72 hours of inactivity.",
+      "source": "Puetz et al. 2006; WHO"
+    },
+    {
+      "id": "rec-focus-sleep-debt",
+      "trigger": {
+        "signal": "focus",
+        "condition": "below_average",
+        "days": 2
+      },
+      "targetSignal": "focus",
+      "priority": "medium",
+      "title": "focus follows sleep",
+      "action": "check your recent sleep \u2014 2+ days of low focus often traces back to accumulated sleep debt. prioritize tonight's sleep.",
+      "rationale": "2+ days of below-average focus. the most common upstream cause is sleep restriction, which compounds over consecutive nights.",
+      "source": "Lim & Dinges 2010"
+    },
+    {
+      "id": "rec-digestion-stress",
+      "trigger": {
+        "signal": "digestion",
+        "condition": "true",
+        "andSignal": "stress",
+        "andCondition": "above_threshold",
+        "andThreshold": 3
+      },
+      "targetSignal": "digestion",
+      "priority": "medium",
+      "title": "your gut feels your stress",
+      "action": "3 deep breaths before your next meal. eat slowly for the first 5 minutes. this activates your digestive system.",
+      "rationale": "digestive issues coincide with stress in your data. the vagus nerve connects stress directly to gut function.",
+      "source": "Mayer et al. 2015"
+    },
+    {
+      "id": "rec-morning-sunlight",
+      "trigger": {
+        "signal": "mood",
+        "condition": "below_average",
+        "days": 3
+      },
+      "targetSignal": "mood",
+      "priority": "medium",
+      "title": "morning light reset",
+      "action": "get 10 minutes of outdoor morning light within an hour of waking. this sets your circadian clock and boosts serotonin.",
+      "rationale": "3+ days of below-average mood. morning light exposure is one of the most evidence-based non-pharmacological mood interventions.",
+      "source": "NIH Circadian Rhythms; Thayer 1989"
+    },
+    {
+      "id": "rec-stress-social",
+      "trigger": {
+        "signal": "stress",
+        "condition": "above_average",
+        "days": 3
+      },
+      "targetSignal": "stress",
+      "priority": "medium",
+      "title": "social connection buffers stress",
+      "action": "reach out to one person today \u2014 a text, a call, coffee. social connection reduces cortisol even in brief interactions.",
+      "rationale": "3+ days of elevated stress. social isolation amplifies the stress response; brief social contact activates oxytocin pathways that buffer cortisol.",
+      "source": "McEwen 1998; Hammen 2005"
+    },
+    {
+      "id": "rec-energy-nutrition",
+      "trigger": {
+        "signal": "energy",
+        "condition": "below_average",
+        "days": 3
+      },
+      "targetSignal": "energy",
+      "priority": "medium",
+      "title": "check your fuel",
+      "action": "ensure you're eating every 4-5 hours with protein at each meal. blood sugar stability is a key energy driver.",
+      "rationale": "3+ days of low energy. after ruling out sleep issues, nutrition is the next most common cause of persistent fatigue.",
+      "source": "NIH; Harvard Health"
+    },
+    {
+      "id": "rec-headache-posture",
+      "trigger": {
+        "signal": "headache",
+        "condition": "true",
+        "consecutiveDays": 2
+      },
+      "targetSignal": "headache",
+      "priority": "medium",
+      "title": "check your posture and screen setup",
+      "action": "eyes should be level with the top third of your screen. shoulders back and down. take a screen break every 30 minutes.",
+      "rationale": "recurring headaches often have a posture component, especially for desk workers. screen distance and angle directly affect neck tension.",
+      "source": "American Migraine Foundation"
+    },
+    {
+      "id": "rec-weekend-sleep",
+      "trigger": {
+        "signal": "sleep",
+        "condition": "weekend_catchup",
+        "excessHours": 2
+      },
+      "targetSignal": "sleep",
+      "priority": "low",
+      "title": "weekend sleep binge = social jet lag",
+      "action": "try to keep weekend sleep within 1 hour of weekday timing. catching up disrupts your circadian rhythm.",
+      "rationale": "sleeping significantly more on weekends indicates weekday sleep debt. this 'social jet lag' effect can worsen monday mood and energy.",
+      "source": "Wittmann et al. 2006; CDC"
+    },
+    {
+      "id": "rec-exercise-type-headache",
+      "trigger": {
+        "signal": "headache",
+        "condition": "true",
+        "andSignal": "exercise",
+        "andCondition": "true"
+      },
+      "targetSignal": "headache",
+      "priority": "low",
+      "title": "exercise + headache? check intensity and hydration",
+      "action": "make sure you're hydrated before exercise. if headaches persist with intense exercise, try moderate intensity instead.",
+      "rationale": "exercise-triggered headaches are usually caused by dehydration or sudden intensity increases, not exercise itself.",
+      "source": "Varkey et al. 2011"
+    },
+    {
+      "id": "rec-mood-gratitude",
+      "trigger": {
+        "signal": "mood",
+        "condition": "below_average",
+        "days": 1
+      },
+      "targetSignal": "mood",
+      "priority": "low",
+      "title": "a tiny gratitude practice",
+      "action": "write down 3 things that went okay today. doesn't have to be profound \u2014 'had good coffee' counts.",
+      "rationale": "gratitude exercises have measurable effects on mood neurotransmitters. even brief practices shift attention from threat scanning to positive appraisal.",
+      "source": "Fredrickson 2001; Emmons & McCullough 2003"
+    },
+    {
+      "id": "rec-focus-environment",
+      "trigger": {
+        "signal": "focus",
+        "condition": "below_average",
+        "days": 1
+      },
+      "targetSignal": "focus",
+      "priority": "low",
+      "title": "check your environment",
+      "action": "phone on silent in another room. close unnecessary tabs. clear your desk surface. small environmental changes have outsized focus effects.",
+      "rationale": "environmental distractions are often the most immediate and fixable cause of poor focus, even more than sleep or stress.",
+      "source": "Arnsten 2009"
+    },
+    {
+      "id": "rec-energy-cold-water",
+      "trigger": {
+        "signal": "energy",
+        "condition": "below_average",
+        "days": 1
+      },
+      "targetSignal": "energy",
+      "priority": "low",
+      "title": "cold water wake-up",
+      "action": "splash cold water on your face or end your shower with 30 seconds of cold water. the shock activates your sympathetic nervous system.",
+      "rationale": "cold exposure triggers norepinephrine release, which increases alertness. the effect is immediate and lasts about 30-60 minutes.",
+      "source": "Shevchuk 2008; NIH"
+    },
+    {
+      "id": "rec-sleep-caffeine-cutoff",
+      "trigger": {
+        "signal": "sleep",
+        "condition": "below_threshold",
+        "threshold": 6
+      },
+      "targetSignal": "sleep",
+      "priority": "medium",
+      "title": "check your caffeine cutoff time",
+      "action": "no caffeine after 2pm. caffeine's half-life is 5-6 hours \u2014 an afternoon coffee still has 25% left at midnight.",
+      "rationale": "poor sleep nights may correlate with late caffeine consumption. caffeine blocks adenosine receptors, directly preventing sleep pressure from building.",
+      "source": "Walker 2017; CDC"
+    },
+    {
+      "id": "rec-stress-nature",
+      "trigger": {
+        "signal": "stress",
+        "condition": "above_average",
+        "days": 1
+      },
+      "targetSignal": "stress",
+      "priority": "low",
+      "title": "5 minutes in nature",
+      "action": "step outside for 5 minutes. look at trees, sky, or water. nature exposure reduces cortisol within 10 minutes.",
+      "rationale": "attention restoration theory: natural environments require less directed attention than urban environments, allowing the stress-attention system to recover.",
+      "source": "Kaplan 1995; Bratman et al. 2015"
+    },
+    {
+      "id": "rec-digestion-fiber",
+      "trigger": {
+        "signal": "digestion",
+        "condition": "true",
+        "consecutiveDays": 2
+      },
+      "targetSignal": "digestion",
+      "priority": "medium",
+      "title": "increase fiber gradually",
+      "action": "add one serving of high-fiber food today: oats, beans, berries, or broccoli. increase gradually over a week.",
+      "rationale": "recurring digestive issues may indicate insufficient fiber intake. most adults eat half the recommended amount. increase slowly to avoid gas.",
+      "source": "WHO Nutrition; de Oliveira & Burini 2009"
+    },
+    {
+      "id": "rec-sleep-weekend-consistency",
+      "trigger": {
+        "signal": "sleep",
+        "condition": "weekend_variance"
+      },
+      "targetSignal": "sleep",
+      "priority": "medium",
+      "title": "keep weekend timing close to weekday",
+      "action": "try waking within 1 hour of your weekday alarm on weekends.",
+      "rationale": "'social jet lag' from weekend sleep-ins disrupts circadian rhythm and causes monday grogginess.",
+      "source": "Wittmann et al. 2006"
+    },
+    {
+      "id": "rec-mood-social-connection",
+      "trigger": {
+        "signal": "mood",
+        "condition": "below_average",
+        "days": 2
+      },
+      "targetSignal": "mood",
+      "priority": "medium",
+      "title": "reach out to someone",
+      "action": "text or call one person you enjoy talking to. brief social connection boosts mood for hours.",
+      "rationale": "social isolation amplifies mood dips. even a 5-minute positive interaction activates oxytocin and buffers cortisol.",
+      "source": "Hammen 2005"
+    },
+    {
+      "id": "rec-energy-protein-breakfast",
+      "trigger": {
+        "signal": "energy",
+        "condition": "morning_low"
+      },
+      "targetSignal": "energy",
+      "priority": "medium",
+      "title": "protein at breakfast stabilizes morning energy",
+      "action": "include 20g+ protein at breakfast (eggs, yogurt, nuts). prevents the mid-morning crash from high-carb breakfasts.",
+      "rationale": "protein slows glucose absorption, preventing the insulin spike and subsequent crash that causes mid-morning fatigue.",
+      "source": "NIH; Harvard Health"
+    },
+    {
+      "id": "rec-focus-phone-away",
+      "trigger": {
+        "signal": "focus",
+        "condition": "below_average",
+        "days": 1
+      },
+      "targetSignal": "focus",
+      "priority": "high",
+      "title": "phone in another room",
+      "action": "put your phone in another room during focused work. just having it visible reduces cognitive capacity by 10%.",
+      "rationale": "the mere presence of a smartphone reduces available cognitive capacity, even when the phone is face-down and on silent.",
+      "source": "Ward et al. 2017; Mark et al. 2008"
+    },
+    {
+      "id": "rec-headache-water-tracking",
+      "trigger": {
+        "signal": "headache",
+        "condition": "true"
+      },
+      "targetSignal": "headache",
+      "priority": "high",
+      "title": "track your water intake today",
+      "action": "aim for 2-3 liters of water. headaches and dehydration are so linked that hydration should be the first intervention.",
+      "rationale": "mild dehydration (1-3% body weight loss) is common and causes headaches, fatigue, and reduced focus \u2014 all reversible with hydration.",
+      "source": "Blau & Thavapalan 1988"
+    },
+    {
+      "id": "rec-digestion-walking",
+      "trigger": {
+        "signal": "digestion",
+        "condition": "true"
+      },
+      "targetSignal": "digestion",
+      "priority": "medium",
+      "title": "gentle walk after meals",
+      "action": "a 10-15 minute walk after your largest meal can speed digestion by 30-50%.",
+      "rationale": "walking accelerates gastric emptying and reduces bloating through gentle mechanical movement.",
+      "source": "de Oliveira & Burini 2009"
+    },
+    {
+      "id": "rec-stress-worry-dump",
+      "trigger": {
+        "signal": "stress",
+        "condition": "above_threshold",
+        "threshold": 4
+      },
+      "targetSignal": "sleep",
+      "priority": "high",
+      "title": "worry dump before bed",
+      "action": "spend 10 minutes writing everything on your mind before bed. offload the thoughts so your brain doesn't replay them at 3am.",
+      "rationale": "constructive worry journaling reduces sleep onset latency by an average of 9 minutes and improves subjective sleep quality.",
+      "source": "Scullin et al. 2018"
+    },
+    {
+      "id": "rec-exercise-streak",
+      "trigger": {
+        "signal": "exercise",
+        "condition": "streak_3"
+      },
+      "targetSignal": "exercise",
+      "priority": "low",
+      "title": "3-day exercise streak! keep it going",
+      "action": "you've exercised 3 days in a row. tomorrow is the critical day \u2014 most streaks break on day 4. just 10 minutes counts.",
+      "rationale": "behavioral research shows the habit-forming window for exercise is 3-6 consecutive days. protecting the streak through the first week dramatically increases long-term adherence.",
+      "source": "Lally et al. 2010"
+    },
+    {
+      "id": "rec-sleep-room-temp",
+      "trigger": {
+        "signal": "sleep",
+        "condition": "below_threshold",
+        "threshold": 6.5
+      },
+      "targetSignal": "sleep",
+      "priority": "low",
+      "title": "check your room temperature",
+      "action": "ideal sleep temperature is 65-68\u00b0F (18-20\u00b0C). a cool room is one of the most underrated sleep interventions.",
+      "rationale": "core body temperature needs to drop 1-2\u00b0F to initiate sleep. a cool room facilitates this natural temperature decline.",
+      "source": "Walker 2017"
+    },
+    {
+      "id": "rec-mood-movement-snack",
+      "trigger": {
+        "signal": "mood",
+        "condition": "below_average",
+        "days": 1
+      },
+      "targetSignal": "mood",
+      "priority": "low",
+      "title": "movement snack",
+      "action": "stand up and stretch for 2 minutes. or 10 jumping jacks. micro-doses of movement shift mood measurably.",
+      "rationale": "even 2-minute 'movement snacks' trigger small dopamine releases that shift mood. the effect is modest but immediate.",
+      "source": "Puetz et al. 2006"
+    },
+    {
+      "id": "rec-energy-afternoon-dip",
+      "trigger": {
+        "signal": "energy",
+        "condition": "afternoon_low"
+      },
+      "targetSignal": "energy",
+      "priority": "low",
+      "title": "the 2pm dip is normal",
+      "action": "the post-lunch energy dip is circadian, not personal failure. try: 10-minute walk, splash cold water on your face, or a 15-minute nap (not longer).",
+      "rationale": "everyone has a circadian energy dip around 2-3pm. acknowledging it as normal (not fixable by caffeine alone) allows better strategies.",
+      "source": "Thayer 1989; NIH"
+    },
+    {
+      "id": "rec-stress-reduce-decisions",
+      "trigger": {
+        "signal": "stress",
+        "condition": "above_average",
+        "days": 2
+      },
+      "targetSignal": "stress",
+      "priority": "low",
+      "title": "reduce decision load",
+      "action": "on stressful days, reduce unnecessary decisions: plan meals in advance, lay out clothes, batch similar tasks.",
+      "rationale": "decision fatigue compounds stress. each decision uses the same cognitive resources as stress management. reducing decisions frees resources for stress coping.",
+      "source": "Arnsten 2009; McEwen 1998"
+    },
+    {
+      "id": "rec-sleep-light-exposure",
+      "trigger": {
+        "signal": "sleep",
+        "condition": "below_threshold",
+        "threshold": 7
+      },
+      "targetSignal": "sleep",
+      "priority": "medium",
+      "title": "manage your light exposure",
+      "action": "bright light in the morning (go outside for 10 min). dim, warm light in the evening. blue light from screens suppresses melatonin.",
+      "rationale": "light is the primary zeitgeber (time-giver) for the circadian clock. strategic light exposure is more effective than melatonin supplements.",
+      "source": "Walker 2017; NIH"
+    },
+    {
+      "id": "rec-headache-screen-break",
+      "trigger": {
+        "signal": "headache",
+        "condition": "true"
+      },
+      "targetSignal": "headache",
+      "priority": "medium",
+      "title": "take a screen break",
+      "action": "step away from screens for 10 minutes. look at something far away. screen-related eye strain is a top headache trigger for desk workers.",
+      "rationale": "prolonged near-focus causes ciliary muscle strain, which triggers tension headaches. the 20-20-20 rule (every 20 min, look 20 feet away for 20 seconds) helps prevent this.",
+      "source": "American Migraine Foundation"
+    },
+    {
+      "id": "rec-focus-single-task",
+      "trigger": {
+        "signal": "focus",
+        "condition": "below_average",
+        "days": 2
+      },
+      "targetSignal": "focus",
+      "priority": "medium",
+      "title": "single-task for one hour",
+      "action": "pick one task. close everything else. set a 60-minute timer. multitasking reduces effective IQ by 10 points.",
+      "rationale": "context switching costs 15-25 minutes of recovery per switch. single-tasking for even one hour produces more output than 3 hours of multitasking.",
+      "source": "Mark et al. 2008; Arnsten 2009"
+    },
+    {
+      "id": "rec-sleep-alcohol",
+      "trigger": {
+        "signal": "sleep",
+        "condition": "poor_after_alcohol"
+      },
+      "targetSignal": "sleep",
+      "priority": "medium",
+      "title": "alcohol fragments sleep",
+      "action": "if you drank last night and slept poorly, that's the connection. alcohol suppresses REM sleep and causes 2nd-half-of-night awakenings.",
+      "rationale": "alcohol is sedating but not sleep-promoting. it blocks REM sleep and causes fragmented sleep after blood alcohol drops.",
+      "source": "Walker 2017"
+    },
+    {
+      "id": "rec-energy-hydration",
+      "trigger": {
+        "signal": "energy",
+        "condition": "below_average"
+      },
+      "targetSignal": "energy",
+      "priority": "medium",
+      "title": "check hydration first",
+      "action": "drink 500ml of water. mild dehydration (which you may not feel as thirst) is the most common and fixable cause of low energy.",
+      "rationale": "even 1-2% dehydration reduces cognitive performance and energy. most people don't drink enough water.",
+      "source": "NIH"
+    },
+    {
+      "id": "rec-mood-sleep-priority",
+      "trigger": {
+        "signal": "mood",
+        "condition": "below_average",
+        "andSignal": "sleep",
+        "andCondition": "below_threshold"
+      },
+      "targetSignal": "mood",
+      "priority": "high",
+      "title": "your mood may be a sleep problem",
+      "action": "your mood and sleep are both low. prioritize sleep tonight \u2014 mood often auto-corrects after a good night's rest.",
+      "rationale": "60% of mood variability in the general population can be explained by sleep quality. fix sleep first, then reassess mood.",
+      "source": "Walker & van der Helm 2009"
+    },
+    {
+      "id": "rec-focus-deep-work-limit",
+      "trigger": {
+        "signal": "focus",
+        "condition": "declining_trend"
+      },
+      "targetSignal": "focus",
+      "priority": "low",
+      "title": "respect your focus limit",
+      "action": "most people max out at 4 hours of deep focus per day. if you've been pushing beyond that, the declining trend is expected.",
+      "rationale": "deep focus depletes glucose and neurotransmitters. after ~4 hours, returns diminish. rest is more productive than pushing through.",
+      "source": "Lim & Dinges 2010"
+    },
+    {
+      "id": "rec-stress-movement-break",
+      "trigger": {
+        "signal": "stress",
+        "condition": "above_average"
+      },
+      "targetSignal": "stress",
+      "priority": "medium",
+      "title": "complete the stress cycle with movement",
+      "action": "stress primes your body for physical action. completing that action (a walk, stretches, even shaking it out) tells your body the threat has passed.",
+      "rationale": "the stress cycle: trigger \u2192 fight/flight preparation \u2192 physical action \u2192 recovery. skipping the physical action leaves cortisol elevated.",
+      "source": "Nagoski & Nagoski 2019; Salmon 2001"
+    },
+    {
+      "id": "rec-digestion-peppermint",
+      "trigger": {
+        "signal": "digestion",
+        "condition": "true"
+      },
+      "targetSignal": "digestion",
+      "priority": "low",
+      "title": "peppermint tea for digestive discomfort",
+      "action": "peppermint relaxes smooth muscle in the digestive tract. a cup of peppermint tea after meals can reduce bloating and cramping.",
+      "rationale": "peppermint has antispasmodic properties supported by clinical trials for IBS symptoms.",
+      "source": "NIH NCCIH; Khanna et al. 2014"
+    },
+    {
+      "id": "rec-exercise-minimum-viable",
+      "trigger": {
+        "signal": "exercise",
+        "condition": "false",
+        "consecutiveDays": 5
+      },
+      "targetSignal": "exercise",
+      "priority": "high",
+      "title": "5 days without movement",
+      "action": "your body needs movement. today: commit to just 5 minutes. literally 5 minutes of walking, stretching, or stairs. that's it.",
+      "rationale": "5 days of inactivity begins measurable cardiovascular and metabolic decline. the minimum effective dose is lower than you think \u2014 even 5 minutes has measurable benefits.",
+      "source": "WHO; Puetz et al. 2006"
+    },
+    {
+      "id": "rec-headache-magnesium",
+      "trigger": {
+        "signal": "headache",
+        "condition": "true",
+        "consecutiveDays": 3
+      },
+      "targetSignal": "headache",
+      "priority": "medium",
+      "title": "consider magnesium",
+      "action": "400mg of magnesium glycinate before bed. magnesium deficiency is common and linked to both headaches and poor sleep.",
+      "rationale": "50% of migraine patients are magnesium deficient. supplementation reduces migraine frequency by 41% in clinical trials.",
+      "source": "American Migraine Foundation; Mauskop & Varughese 2012"
+    },
+    {
+      "id": "rec-sleep-gratitude",
+      "trigger": {
+        "signal": "sleep",
+        "condition": "below_threshold",
+        "threshold": 6
+      },
+      "targetSignal": "sleep",
+      "priority": "low",
+      "title": "gratitude journaling improves sleep",
+      "action": "write 3 things you're grateful for before bed. this simple practice improves sleep quality and reduces pre-sleep worry.",
+      "rationale": "gratitude journaling reduces negative pre-sleep cognition, which is the #1 cause of difficulty falling asleep.",
+      "source": "Wood et al. 2009; Scullin et al. 2018"
+    },
+    {
+      "id": "rec-mood-accomplishment",
+      "trigger": {
+        "signal": "mood",
+        "condition": "below_average"
+      },
+      "targetSignal": "mood",
+      "priority": "low",
+      "title": "do one small thing",
+      "action": "complete one tiny task: make your bed, wash a dish, reply to one email. the sense of accomplishment, however small, activates reward circuits.",
+      "rationale": "completing tasks releases dopamine regardless of task size. when mood is low, tiny wins build momentum for bigger ones.",
+      "source": "Fredrickson 2001"
+    },
+    {
+      "id": "rec-energy-posture",
+      "trigger": {
+        "signal": "energy",
+        "condition": "below_average"
+      },
+      "targetSignal": "energy",
+      "priority": "low",
+      "title": "check your posture",
+      "action": "sit up straight or stand for a minute. slouching compresses your diaphragm, reducing oxygen intake and increasing fatigue.",
+      "rationale": "posture affects breathing mechanics and blood flow. an upright posture increases alertness through both mechanical and psychological pathways.",
+      "source": "NIH; Thayer 1989"
+    },
+    {
+      "id": "rec-stress-progressive-relaxation",
+      "trigger": {
+        "signal": "stress",
+        "condition": "above_threshold",
+        "threshold": 4
+      },
+      "targetSignal": "stress",
+      "priority": "medium",
+      "title": "progressive muscle relaxation (2 min)",
+      "action": "tense each muscle group for 5 seconds, then release: feet, calves, thighs, abs, hands, arms, shoulders, face. takes 2 minutes.",
+      "rationale": "progressive muscle relaxation teaches the body to recognize and release tension, reducing cortisol and muscle-related symptoms (headache, neck pain).",
+      "source": "Jacobson 1938; NIH"
+    },
+    {
+      "id": "rec-focus-caffeine-strategic",
+      "trigger": {
+        "signal": "focus",
+        "condition": "below_average"
+      },
+      "targetSignal": "focus",
+      "priority": "low",
+      "title": "strategic caffeine timing",
+      "action": "wait 90 minutes after waking before caffeine (let natural cortisol peak first). then use caffeine strategically before your hardest task.",
+      "rationale": "caffeine blocks adenosine, not cortisol. using it when cortisol is already high wastes its effect. timing caffeine for your productive window maximizes impact.",
+      "source": "Walker 2017"
+    },
+    {
+      "id": "rec-general-celebrate-streak",
+      "trigger": {
+        "signal": "any",
+        "condition": "log_streak_7"
+      },
+      "targetSignal": "general",
+      "priority": "high",
+      "title": "7-day streak! you've unlocked your first connections",
+      "action": "you've logged 7 consecutive days. your personal correlation map is now active. check your network for new connections.",
+      "rationale": "7 days is the minimum for statistically meaningful correlations. your data is now telling a story.",
+      "source": "Statistical significance threshold"
+    },
+    {
+      "id": "rec-general-celebrate-month",
+      "trigger": {
+        "signal": "any",
+        "condition": "log_streak_30"
+      },
+      "targetSignal": "general",
+      "priority": "medium",
+      "title": "30 days. your body map is real.",
+      "action": "one month of data. your correlations are now reliable, your predictions are improving, and your patterns are uniquely yours.",
+      "rationale": "30 days provides enough data for robust trend detection, cycle identification, and reliable correlation coefficients.",
+      "source": "Statistical methodology"
+    },
+    {
+      "id": "rec-morning-sunlight",
+      "trigger": {
+        "signal": "energy",
+        "condition": "below_average"
+      },
+      "targetSignal": "energy",
+      "priority": "medium",
+      "title": "morning light resets your clock",
+      "action": "get 10 minutes of bright light (ideally outdoor sunlight) within 30 minutes of waking. this is the single most powerful circadian signal.",
+      "rationale": "below-average energy often correlates with circadian misalignment. morning light exposure advances your body clock and boosts cortisol (the wake-up hormone) at the right time.",
+      "source": "Huberman 2021; Wirz-Justice et al. 2020"
+    },
+    {
+      "id": "rec-hydration-headache",
+      "trigger": {
+        "signal": "headache",
+        "condition": "true"
+      },
+      "targetSignal": "headache",
+      "priority": "high",
+      "title": "hydrate first",
+      "action": "drink 500ml of water right now. dehydration is the most underdiagnosed headache trigger \u2014 75% of people are chronically mildly dehydrated.",
+      "rationale": "headache reported today. dehydration-related headaches respond to fluid intake within 30-60 minutes without medication.",
+      "source": "Spigt et al. 2012; European Journal of Neurology"
+    },
+    {
+      "id": "rec-wind-down-ritual",
+      "trigger": {
+        "signal": "sleep",
+        "condition": "below_threshold",
+        "threshold": 6.5
+      },
+      "targetSignal": "sleep",
+      "priority": "medium",
+      "title": "create a 30-minute wind-down",
+      "action": "starting tonight: set a phone alarm 30 minutes before your target bedtime. dim lights, no screens, do something calming (read, stretch, breathe). same routine every night.",
+      "rationale": "your recent sleep has been short. a consistent pre-sleep ritual trains your brain to associate these cues with sleep onset, reducing time to fall asleep by 15-20 minutes on average.",
+      "source": "Irish et al. 2015; Sleep Health journal"
+    },
+    {
+      "id": "rec-walk-after-meal",
+      "trigger": {
+        "signal": "digestion",
+        "condition": "true"
+      },
+      "targetSignal": "digestion",
+      "priority": "medium",
+      "title": "a 10-minute post-meal walk helps",
+      "action": "walk for 10-15 minutes after your largest meal today. even a slow walk accelerates gastric emptying and reduces bloating.",
+      "rationale": "digestive discomfort reported. post-meal walking reduces blood sugar spikes by 30% and improves gut motility immediately.",
+      "source": "Reynolds et al. 2022; Sports Medicine"
+    },
+    {
+      "id": "rec-focus-pomodoro",
+      "trigger": {
+        "signal": "focus",
+        "condition": "below_threshold",
+        "threshold": 2.5
+      },
+      "targetSignal": "focus",
+      "priority": "medium",
+      "title": "try 25-minute focus blocks",
+      "action": "work in 25-minute sprints with 5-minute breaks (Pomodoro technique). for the next task, set a timer and commit to 25 minutes of single-tasking.",
+      "rationale": "focus has been low recently. the Pomodoro technique works because 25 minutes is within most people's sustainable attention span, and the timer creates external accountability.",
+      "source": "Cirillo 2006; attention restoration research"
+    }
+  ],
+  "baselines": [
+    {
+      "id": "baseline-sleep",
+      "signal": "sleep",
+      "title": "sleep: what's normal",
+      "populationAverage": 7.1,
+      "recommendedRange": [
+        7,
+        9
+      ],
+      "unit": "hours",
+      "description": "adults need 7-9 hours. the CDC reports the average american gets 6.8 hours. anything under 7 consistently is classified as short sleep.",
+      "ageVariation": "younger adults (18-25) may need up to 9 hours. adults over 65 often need 7-8 hours but get less deep sleep.",
+      "source": "Hirshkowitz et al. 2015; CDC"
+    },
+    {
+      "id": "baseline-energy",
+      "signal": "energy",
+      "title": "energy: what's normal",
+      "populationAverage": 3.2,
+      "recommendedRange": [
+        3,
+        5
+      ],
+      "unit": "scale 1-5",
+      "description": "most people report moderate energy (3/5) on an average day. natural dips occur at 2-3pm (post-lunch circadian dip) and recover by 4-5pm.",
+      "ageVariation": "energy levels are highest in the late teens/early 20s and gradually decline. however, regular exercise can offset age-related energy decline.",
+      "source": "Thayer 1989; NIH"
+    },
+    {
+      "id": "baseline-mood",
+      "signal": "mood",
+      "title": "mood: what's normal",
+      "populationAverage": 3.5,
+      "recommendedRange": [
+        3,
+        5
+      ],
+      "unit": "scale 1-5",
+      "description": "most people rate their mood around 3.5/5 on a typical day. mild fluctuations are normal. persistent scores below 2 for more than 2 weeks may indicate clinical depression.",
+      "ageVariation": "mood tends to be lowest in the late 40s ('midlife dip') and improves again after 50. seasonal variation is common \u2014 lower in winter, higher in summer.",
+      "source": "Blanchflower & Oswald 2008; NIH"
+    },
+    {
+      "id": "baseline-focus",
+      "signal": "focus",
+      "title": "focus: what's normal",
+      "populationAverage": 3.0,
+      "recommendedRange": [
+        3,
+        5
+      ],
+      "unit": "scale 1-5",
+      "description": "sustained attention naturally fluctuates in 90-minute cycles. peak focus periods typically last 20-40 minutes before requiring a break. most people sustain about 4 hours of truly focused work per day.",
+      "ageVariation": "focus ability matures into the mid-20s (prefrontal cortex development). it remains stable through middle age, then gradually declines. regular cognitive challenges slow the decline.",
+      "source": "Lim & Dinges 2010; NIH"
+    },
+    {
+      "id": "baseline-headache",
+      "signal": "headache",
+      "title": "headaches: what's normal",
+      "populationAverage": 0.15,
+      "recommendedRange": [
+        0,
+        0.1
+      ],
+      "unit": "frequency (days/week)",
+      "description": "about 50% of adults experience at least one headache per month. tension-type headaches are most common. more than 15 headache days per month is classified as chronic daily headache.",
+      "ageVariation": "headache frequency peaks in the 30s-40s and often decreases after 55. women experience more headaches than men (hormonal factors).",
+      "source": "WHO; American Migraine Foundation"
+    },
+    {
+      "id": "baseline-digestion",
+      "signal": "digestion",
+      "title": "digestion: what's normal",
+      "populationAverage": 0.12,
+      "recommendedRange": [
+        0,
+        0.1
+      ],
+      "unit": "frequency (issue days/week)",
+      "description": "occasional digestive discomfort (1-2 days/week) is common. frequent issues (4+ days/week) may indicate IBS or food sensitivities. the gut takes 24-72 hours to process food, so symptoms often lag meals.",
+      "ageVariation": "digestive issues tend to increase with age due to reduced gut motility and stomach acid production. however, diet and exercise have stronger effects than age.",
+      "source": "NIH NIDDK; Harvard Health"
+    },
+    {
+      "id": "baseline-stress",
+      "signal": "stress",
+      "title": "stress: what's normal",
+      "populationAverage": 2.8,
+      "recommendedRange": [
+        1,
+        3
+      ],
+      "unit": "scale 1-5",
+      "description": "some stress is normal and even beneficial (eustress). the average adult reports moderate stress. persistent levels above 4/5 indicate chronic stress, which has measurable health consequences.",
+      "ageVariation": "stress peaks during the 25-44 age range (career building, family responsibilities). it often decreases after 55. however, individual variation is huge \u2014 circumstances matter more than age.",
+      "source": "APA Stress in America; McEwen 1998"
+    },
+    {
+      "id": "baseline-exercise",
+      "signal": "exercise",
+      "title": "exercise: what's recommended",
+      "populationAverage": 0.3,
+      "recommendedRange": [
+        0.5,
+        1
+      ],
+      "unit": "frequency (days exercised/days)",
+      "description": "WHO recommends 150 minutes of moderate exercise per week (about 30 min/day, 5 days/week). only 23% of adults meet this guideline. any exercise is better than none \u2014 even 10 minutes has measurable benefits.",
+      "ageVariation": "exercise needs don't decrease with age \u2014 if anything, they increase. resistance training becomes more important after 40 to maintain muscle mass and bone density.",
+      "source": "WHO 2020; CDC"
+    }
+  ],
+  "education": [
+    {
+      "id": "edu-sleep-why",
+      "signal": "sleep",
+      "title": "why track sleep",
+      "content": "sleep is the single most impactful signal on your health. it affects energy, mood, focus, immune function, and even digestion. most people underestimate their sleep debt because they've adapted to feeling tired.",
+      "funFact": "after 17 hours awake, cognitive performance equals a blood alcohol level of 0.05% \u2014 legally impaired in many countries.",
+      "source": "Walker 2017; CDC"
+    },
+    {
+      "id": "edu-energy-why",
+      "signal": "energy",
+      "title": "why track energy",
+      "content": "energy isn't random \u2014 it follows patterns you can decode. sleep, exercise, stress, nutrition, and circadian rhythm all contribute. tracking reveals your personal energy formula.",
+      "funFact": "the brain uses 20% of your body's energy despite being only 2% of your body weight. when energy is low, cognitive function drops first.",
+      "source": "NIH; Thayer 1989"
+    },
+    {
+      "id": "edu-mood-why",
+      "signal": "mood",
+      "title": "why track mood",
+      "content": "mood isn't just 'how you feel' \u2014 it's a signal about your body's state. sleep, gut health, exercise, and social connection all affect mood through measurable neurochemical pathways.",
+      "funFact": "95% of your serotonin (the 'happiness molecule') is produced in your gut, not your brain. your mood is partly a gut feeling \u2014 literally.",
+      "source": "Cryan & Dinan 2012; Thayer 1989"
+    },
+    {
+      "id": "edu-focus-why",
+      "signal": "focus",
+      "title": "why track focus",
+      "content": "sustained focus is a limited resource that depletes and recovers. tracking reveals what depletes your focus fastest and what restores it. most people can only sustain deep focus for about 4 hours per day.",
+      "funFact": "it takes an average of 23 minutes to return to deep focus after a distraction. a single phone notification can cost you nearly half an hour of productive work.",
+      "source": "Mark et al. 2008; Lim & Dinges 2010"
+    },
+    {
+      "id": "edu-headache-why",
+      "signal": "headache",
+      "title": "why track headaches",
+      "content": "headaches are rarely random \u2014 they have triggers. sleep, stress, dehydration, and posture are the most common. tracking creates a personal trigger map that can reduce frequency by 30-50%.",
+      "funFact": "the brain itself can't feel pain \u2014 it has no pain receptors. headaches come from blood vessels, muscles, and nerves surrounding the brain.",
+      "source": "American Migraine Foundation; Rains & Poceta 2006"
+    },
+    {
+      "id": "edu-digestion-why",
+      "signal": "digestion",
+      "title": "why track digestion",
+      "content": "your gut is your 'second brain' with 500 million neurons. digestive health affects mood, energy, sleep, and immune function. tracking helps you identify foods and patterns that trigger problems.",
+      "funFact": "your gut microbiome weighs about 2kg (4.4 lbs) and contains more cells than the rest of your body combined. it changes measurably within 24 hours of a diet change.",
+      "source": "Cryan & Dinan 2012; Mayer et al. 2015"
+    },
+    {
+      "id": "edu-stress-why",
+      "signal": "stress",
+      "title": "why track stress",
+      "content": "stress isn't just a feeling \u2014 it's a physiological state that affects every system in your body. tracking reveals your stress patterns: when it spikes, what triggers it, and what resolves it.",
+      "funFact": "short-term stress actually enhances immune function and cognitive performance ('eustress'). it's chronic, unresolved stress that causes damage. the dose makes the poison.",
+      "source": "McEwen 1998; APA"
+    },
+    {
+      "id": "edu-exercise-why",
+      "signal": "exercise",
+      "title": "why track exercise",
+      "content": "exercise is the closest thing to a universal health intervention. it improves sleep, mood, energy, focus, and digestion \u2014 often simultaneously. tracking reveals which exercise patterns give you the biggest personal benefit.",
+      "funFact": "a single 30-minute exercise session produces measurable improvements in mood for up to 24 hours. regular exercise is as effective as antidepressants for mild-to-moderate depression.",
+      "source": "Chekroud et al. 2018; Puetz et al. 2006"
+    },
+    {
+      "id": "edu-sleep-architecture",
+      "signal": "sleep",
+      "title": "what happens while you sleep",
+      "content": "your brain cycles through 4-5 sleep cycles per night (~90 min each). early cycles are dominated by deep slow-wave sleep (physical repair, growth hormone release). later cycles are REM-heavy (memory consolidation, emotional processing). cutting sleep short steals REM time specifically.",
+      "funFact": "your brain uses almost as much energy during REM sleep as when you're awake.",
+      "source": "Walker 2017, Why We Sleep; National Sleep Foundation"
+    },
+    {
+      "id": "edu-energy-circadian",
+      "signal": "energy",
+      "title": "your natural energy curve",
+      "content": "energy isn't flat throughout the day. most people peak around 10-11am, dip at 1-3pm (the post-lunch circadian trough \u2014 it happens even without eating), and have a second smaller peak around 6pm. knowing your curve helps you schedule demanding tasks wisely.",
+      "funFact": "the afternoon dip is biological, not just from food. it's a mini version of your nighttime sleep drive.",
+      "source": "Monk 2005; Circadian Rhythm Research; NIH"
+    },
+    {
+      "id": "edu-mood-neurotransmitters",
+      "signal": "mood",
+      "title": "mood isn't just 'feeling good'",
+      "content": "mood reflects a complex interplay of serotonin (stability), dopamine (motivation/reward), norepinephrine (alertness), and GABA (calm). exercise, sleep, sunlight, and social connection each uniquely influence different neurotransmitter systems \u2014 which is why tracking multiple signals reveals which levers work for you.",
+      "funFact": "about 95% of your serotonin is produced in your gut, not your brain \u2014 hence the gut-mood connection.",
+      "source": "Lv & Liu 2017; Neuroscience & Biobehavioral Reviews"
+    },
+    {
+      "id": "edu-focus-attention-types",
+      "signal": "focus",
+      "title": "focus isn't one thing",
+      "content": "cognitive science identifies at least 3 types of attention: sustained (staying on task), selective (filtering distractions), and executive (switching between tasks). sleep deprivation impairs sustained attention first. stress impairs executive attention. understanding which type is suffering helps target the fix.",
+      "funFact": "your brain can only maintain peak focus for about 90 minutes before needing a break \u2014 matching the ultradian rhythm.",
+      "source": "Posner & Petersen 1990; Attention research review"
+    },
+    {
+      "id": "edu-stress-allostatic-load",
+      "signal": "stress",
+      "title": "stress accumulates like debt",
+      "content": "short-term stress can be beneficial (sharpens focus, boosts immunity briefly). but chronic stress creates 'allostatic load' \u2014 wear on the body that accumulates over weeks and months. tracking stress daily helps you catch accumulation before it manifests as illness, insomnia, or burnout.",
+      "funFact": "chronic stress literally shrinks the prefrontal cortex (decision-making) while enlarging the amygdala (threat detection).",
+      "source": "McEwen 2008; Neuropsychopharmacology"
+    },
+    {
+      "id": "edu-exercise-brain-bdnf",
+      "signal": "exercise",
+      "title": "exercise grows your brain",
+      "content": "aerobic exercise triggers release of BDNF (brain-derived neurotrophic factor), which promotes new neuron growth in the hippocampus \u2014 the brain region critical for memory and emotional regulation. a single workout produces measurable BDNF increase within 30 minutes.",
+      "funFact": "exercise has been called 'Miracle-Gro for the brain' by neuroscientist John Ratey. it's the single most effective non-pharmaceutical intervention for mood and cognition.",
+      "source": "Ratey 2008, Spark; Cotman & Berchtold 2002"
+    },
+    {
+      "id": "edu-headache-triggers",
+      "signal": "headache",
+      "title": "headaches are multifactorial",
+      "content": "tension headaches and migraines have different trigger profiles, but both share common aggravators: dehydration, poor sleep, high stress, bright light, and irregular meals. tracking headaches alongside other signals reveals YOUR specific trigger pattern \u2014 most people have 2-3 primary triggers they can manage.",
+      "funFact": "migraines affect 12% of the population and are 3x more common in women \u2014 they're not 'just headaches' but a neurological condition.",
+      "source": "American Migraine Foundation; Buse et al. 2019"
+    },
+    {
+      "id": "edu-digestion-gut-brain",
+      "signal": "digestion",
+      "title": "your gut talks to your brain",
+      "content": "the gut-brain axis is a bidirectional communication highway via the vagus nerve. stress slows digestion (fight-or-flight diverts blood from gut). poor sleep disrupts the gut microbiome within 2 days. exercise improves gut motility and microbiome diversity. tracking digestion alongside these signals reveals the connections.",
+      "funFact": "your gut has its own nervous system with 100 million neurons \u2014 sometimes called the 'second brain.'",
+      "source": "Mayer 2011; Carabotti et al. 2015; Gut Journal"
+    }
+  ],
+  "coldStart": [
+    {
+      "id": "cold-sleep-energy",
+      "signalA": "sleep",
+      "signalB": "energy",
+      "title": "most people find sleep is their #1 energy lever",
+      "content": "research across millions of people shows that sleep duration is the strongest predictor of next-day energy. each hour below 7 reduces self-reported energy by about 15-20%. you'll discover your personal threshold soon.",
+      "source": "Walker 2017; CDC"
+    },
+    {
+      "id": "cold-exercise-mood",
+      "signalA": "exercise",
+      "signalB": "mood",
+      "title": "exercise \u2192 mood is one of the strongest connections in health science",
+      "content": "a study of 1.2 million people found that exercise reduces mental health burden by 43%. even a single session elevates mood for 12-24 hours. your personal data will show exactly how strong this effect is for you.",
+      "source": "Chekroud et al. 2018"
+    },
+    {
+      "id": "cold-stress-sleep",
+      "signalA": "stress",
+      "signalB": "sleep",
+      "title": "the stress-sleep spiral is real",
+      "content": "stress raises cortisol by 37-45%, which blocks melatonin production. poor sleep then raises stress the next day. most people don't realize how directly these two are connected until they track both.",
+      "source": "Leproult et al. 1997"
+    },
+    {
+      "id": "cold-gut-mood",
+      "signalA": "digestion",
+      "signalB": "mood",
+      "title": "your gut and your mood share a direct line",
+      "content": "95% of serotonin is made in the gut. the vagus nerve connects your gut directly to your brain. gut inflammation can lower mood within hours. tracking both reveals a pattern most people never notice.",
+      "source": "Cryan & Dinan 2012"
+    },
+    {
+      "id": "cold-sleep-focus",
+      "signalA": "sleep",
+      "signalB": "focus",
+      "title": "sleep debt accumulates invisibly",
+      "content": "after 2 weeks of 6-hour nights, your cognitive performance equals someone who has been awake for 48 hours straight \u2014 but you won't feel that impaired. tracking makes the invisible visible.",
+      "source": "Van Dongen et al. 2003"
+    },
+    {
+      "id": "cold-exercise-energy",
+      "signalA": "exercise",
+      "signalB": "energy",
+      "title": "the exercise-energy paradox",
+      "content": "spending energy on exercise creates more energy \u2014 across 70 studies, regular exercise reduced fatigue by 20% and increased energy by 65%. this counterintuitive effect will likely show up in your data.",
+      "source": "Puetz et al. 2006"
+    },
+    {
+      "id": "cold-headache-triggers",
+      "signalA": "headache",
+      "signalB": "sleep",
+      "title": "most headaches have predictable triggers",
+      "content": "both too little and too much sleep increase headache risk. stress, dehydration, and skipped meals are the other top triggers. with enough data, meridian can identify your personal trigger pattern.",
+      "source": "Rains & Poceta 2006; Blau & Thavapalan 1988"
+    },
+    {
+      "id": "cold-stress-digestion",
+      "signalA": "stress",
+      "signalB": "digestion",
+      "title": "your gut feels your stress before you do",
+      "content": "the fight-or-flight response shuts down digestion within minutes of a stress trigger. if you often have digestive issues during stressful periods, tracking both will make the pattern undeniable.",
+      "source": "Mayer et al. 2015"
+    },
+    {
+      "id": "cold-general-welcome",
+      "title": "your body sends signals every day",
+      "content": "sleep, energy, mood, focus \u2014 they're not random. they follow patterns that research has mapped for decades. meridian will find your personal version of these patterns. for now, here's what science knows about the connections between them."
+    },
+    {
+      "id": "cold-general-day1",
+      "title": "what to expect",
+      "content": "day 1-6: log daily, see population-level science about your signals. day 7: your first personal connections emerge. day 14: predictions begin. day 30+: deep pattern recognition. every log makes the picture clearer."
+    },
+    {
+      "id": "cold-sleep-general-rec",
+      "signal": "sleep",
+      "title": "science-backed sleep advice",
+      "content": "consistent sleep timing matters more than duration. keep your bedroom cool (65-68\u00b0F). avoid screens 30 minutes before bed. caffeine's half-life is 5-6 hours \u2014 an afternoon coffee is still 25% active at midnight.",
+      "source": "Walker 2017; CDC"
+    },
+    {
+      "id": "cold-energy-general-rec",
+      "signal": "energy",
+      "title": "science-backed energy advice",
+      "content": "the three pillars of energy: sleep (fuel), exercise (generator), and nutrition (sustained release). a 10-minute walk boosts energy for 2 hours. blood sugar stability prevents crashes \u2014 eat every 4-5 hours with protein.",
+      "source": "Puetz et al. 2006; NIH"
+    },
+    {
+      "id": "cold-mood-general-rec",
+      "signal": "mood",
+      "title": "science-backed mood advice",
+      "content": "morning sunlight, exercise, and social connection are the three most evidence-based mood interventions. even 5 minutes of outdoor time improves mood measurably. sleep deprivation amplifies negative emotions by 60%.",
+      "source": "Yoo et al. 2007; Chekroud et al. 2018; Thayer 1989"
+    },
+    {
+      "id": "cold-focus-general-rec",
+      "signal": "focus",
+      "title": "science-backed focus advice",
+      "content": "sustained focus cycles last about 90 minutes. work in focused blocks of 25-50 minutes with breaks. your phone in another room improves focus more than any app or technique. deep work capacity: about 4 hours/day.",
+      "source": "Lim & Dinges 2010; Mark et al. 2008"
+    },
+    {
+      "id": "cold-exercise-sleep",
+      "signalA": "exercise",
+      "signalB": "sleep",
+      "title": "exercisers sleep 20-30% more deeply",
+      "content": "regular exercise increases deep slow-wave sleep \u2014 the most physically restorative phase. the effect builds over 2-4 weeks. your data will show whether this holds for you.",
+      "source": "Kredlow et al. 2015"
+    },
+    {
+      "id": "cold-stress-focus",
+      "signalA": "stress",
+      "signalB": "focus",
+      "title": "a little stress helps focus; a lot destroys it",
+      "content": "the Yerkes-Dodson law: performance peaks at moderate arousal. too little stress = boredom, too much = anxiety. your data will reveal your personal sweet spot.",
+      "source": "Yerkes & Dodson 1908; Arnsten 2009"
+    },
+    {
+      "id": "cold-mood-energy",
+      "signalA": "mood",
+      "signalB": "energy",
+      "title": "mood and energy share the same fuel",
+      "content": "dopamine powers both motivation (energy) and reward (mood). they usually move together. your data will show how tightly yours are linked.",
+      "source": "Thayer 1989"
+    },
+    {
+      "id": "cold-headache-pattern",
+      "signalA": "headache",
+      "signalB": "stress",
+      "title": "50% of headaches are predictable with enough data",
+      "content": "most headaches have 2-3 consistent triggers. the most common: sleep changes, stress, dehydration, and skipped meals. with 2-4 weeks of data, meridian can identify your personal triggers.",
+      "source": "Rains & Poceta 2006"
+    },
+    {
+      "id": "cold-exercise-focus",
+      "signalA": "exercise",
+      "signalB": "focus",
+      "title": "exercise before learning doubles retention",
+      "content": "the Naperville school study: students who exercised before class dramatically improved academic performance. BDNF from exercise enhances the brain's ability to form new connections.",
+      "source": "Ratey 2008"
+    },
+    {
+      "id": "cold-general-interconnected",
+      "title": "your signals are more connected than you think",
+      "content": "sleep affects energy, energy affects exercise, exercise affects mood, mood affects stress, stress affects sleep. these aren't separate systems \u2014 they're one interconnected network. that's why meridian uses a network graph."
+    },
+    {
+      "id": "cs-exercise-mood-science",
+      "signalA": "exercise",
+      "signalB": "mood",
+      "title": "exercise is the most reliable mood booster",
+      "content": "a meta-analysis of 1.2 million adults found that exercisers had 43% fewer days of poor mental health per month. even 15 minutes of running or 45 minutes of walking significantly reduces depression risk. the mood boost kicks in within 30 minutes and lasts 12-24 hours.",
+      "source": "Chekroud et al. 2018, The Lancet Psychiatry"
+    },
+    {
+      "id": "cs-stress-sleep-bidirectional",
+      "signalA": "stress",
+      "signalB": "sleep",
+      "title": "stress and sleep feed each other",
+      "content": "stress raises cortisol, which blocks sleep onset. poor sleep raises cortisol the next day, increasing stress reactivity. this creates a vicious cycle \u2014 but breaking it at either end works. one night of good sleep reduces next-day cortisol by 25-30%. one day of managed stress improves that night's sleep onset by 20 minutes on average.",
+      "source": "Hirotsu et al. 2015; Sleep Medicine Reviews"
+    },
+    {
+      "id": "cs-focus-sleep-dose-response",
+      "signalA": "focus",
+      "signalB": "sleep",
+      "title": "focus degrades linearly with sleep loss",
+      "content": "each hour of sleep below 7 hours reduces next-day cognitive performance by ~15%. at 6 hours, you're operating at ~85%. at 5 hours, ~70%. at 4 hours, ~55%. the insidious part: subjective sleepiness plateaus after a few days, so you stop noticing the decline even as performance keeps dropping.",
+      "source": "Van Dongen et al. 2003; Sleep Journal; Belenky et al. 2003"
+    },
+    {
+      "id": "cs-energy-exercise-paradox",
+      "signalA": "energy",
+      "signalB": "exercise",
+      "title": "the energy paradox: spending creates more",
+      "content": "counterintuitively, exercise increases rather than decreases overall energy. a University of Georgia meta-analysis found that regular exercise reduces fatigue by 65% and increases energy by 20% compared to sedentary controls. the effect is stronger than stimulant medications for chronic fatigue.",
+      "source": "Puetz et al. 2006; Psychological Bulletin"
+    },
+    {
+      "id": "cs-headache-sleep-threshold",
+      "signalA": "headache",
+      "signalB": "sleep",
+      "title": "sleep under 6h doubles headache risk",
+      "content": "research shows sleeping less than 6 hours increases next-day headache probability by 2x. but oversleeping (9+ hours) also increases risk by 1.5x. the sweet spot for headache prevention is consistently 7-8 hours. irregular sleep schedules are an additional risk factor independent of duration.",
+      "source": "\u00d8deg\u00e5rd et al. 2011; Cephalalgia; American Headache Society"
     }
   ],
   "generalInsights": [
     {
       "id": "gen-sleep-foundation",
-      "category": "sleep",
-      "title": "sleep is the foundation",
-      "text": "across all your signals, sleep has the most connections. it influences energy, mood, focus, headaches, digestion, and stress. improving sleep is the highest-leverage change you can make.",
-      "threshold": "sleep correlates with 4+ other signals at |r| > 0.3"
+      "title": "sleep is your keystone signal",
+      "text": "in your data, sleep connects to more signals than any other. improving sleep tends to improve everything downstream \u2014 energy, mood, focus. it's the single highest-leverage intervention.",
+      "source": "Walker 2017; CDC"
     },
     {
       "id": "gen-exercise-universal",
-      "category": "exercise",
-      "title": "exercise helps everything",
-      "text": "in your data, exercise days are better across almost every signal. this matches research showing exercise is the single most broadly beneficial health behavior.",
-      "threshold": "exercise correlates positively with 3+ signals"
+      "title": "exercise boosts everything",
+      "text": "your exercise data shows positive connections to [count] other signals. this matches population-level research \u2014 exercise is the closest thing to a universal health intervention.",
+      "source": "Chekroud et al. 2018; WHO"
     },
     {
       "id": "gen-stress-cascade",
-      "category": "stress",
-      "title": "stress creates cascades",
-      "text": "stress doesn't just affect one thing — it ripples through your body. in your data, high-stress days correlate with worse sleep, energy, mood, focus, and digestion.",
-      "threshold": "stress correlates negatively with 4+ signals"
+      "title": "stress is the disruptor",
+      "text": "high stress in your data correlates with worse outcomes across multiple signals. stress disrupts sleep, energy, focus, mood, and digestion through cortisol and inflammatory pathways.",
+      "source": "McEwen 1998; Arnsten 2009"
     },
     {
-      "id": "gen-weekly-pattern",
-      "category": "cycle",
-      "title": "you have a weekly rhythm",
-      "text": "your data shows a consistent weekly pattern. [dayOfWeek] tends to be your best day for [bestSignal], while [worstDay] is typically hardest.",
-      "threshold": "7+ days of data with day-of-week variance > 1σ"
+      "id": "gen-virtuous-cycle",
+      "title": "the virtuous cycle",
+      "text": "your data shows a positive feedback loop: good sleep \u2192 more energy \u2192 more likely to exercise \u2192 better mood \u2192 better sleep. when one link improves, the whole chain lifts.",
+      "source": "Thayer 1989; Kredlow et al. 2015"
     },
     {
-      "id": "gen-consistency",
-      "category": "general",
-      "title": "consistency matters more than perfection",
-      "text": "your best periods aren't when individual signals peak — they're when signal variability is lowest. steady sleep, regular exercise, and managed stress create stability that benefits everything.",
-      "threshold": "coefficient of variation analysis across all signals"
+      "id": "gen-vicious-cycle",
+      "title": "the spiral to watch",
+      "text": "poor sleep \u2192 low energy \u2192 no exercise \u2192 stress \u2192 worse sleep. your data shows this pattern too. the key is to intervene on any single link \u2014 usually sleep or exercise is easiest.",
+      "source": "Walker 2017; McEwen 1998"
     },
     {
-      "id": "gen-bidirectional",
-      "category": "general",
-      "title": "these connections go both ways",
-      "text": "many of your signal connections are bidirectional — poor sleep worsens mood AND poor mood worsens sleep. breaking the cycle at any point helps both sides.",
-      "threshold": "bidirectional correlation detected"
+      "id": "gen-consistency-over-perfection",
+      "title": "consistency beats intensity",
+      "text": "in your data, consistent moderate patterns outperform sporadic extremes. 7 hours of sleep every night beats alternating 5 and 9. regular walking beats occasional intense workouts. your body prefers rhythm.",
+      "source": "Phillips et al. 2017; WHO"
     },
     {
-      "id": "gen-lag-effect",
-      "category": "general",
-      "title": "some effects have a delay",
-      "text": "not everything happens instantly. your data shows some signals affect others with a 1-2 day delay. this is why tracking over time reveals what a single day can't.",
-      "threshold": "lag > 0 correlation detected"
+      "id": "gen-weekend-pattern",
+      "title": "your weekend pattern",
+      "text": "your signals shift on weekends \u2014 [description]. this 'social jet lag' effect is common but can be minimized by keeping sleep timing consistent.",
+      "source": "Wittmann et al. 2006"
     },
     {
-      "id": "gen-compound-effect",
-      "category": "general",
-      "title": "small changes compound",
-      "text": "your data over [days] days shows that the difference between your best and worst periods isn't dramatic changes — it's small, consistent habits stacking up.",
-      "threshold": "30+ days of data"
-    }
-  ],
-  "predictionTemplates": [
-    {
-      "id": "pred-energy",
-      "signal": "energy",
-      "template": "based on your last [n] nights of sleep (avg [sleepAvg]h) and recent [exerciseStatus], tomorrow's energy forecast: [prediction]/5 ([confidence]% confidence).",
-      "factors": ["sleep_recent", "exercise_recent", "stress_recent"]
+      "id": "gen-seasonal-awareness",
+      "title": "seasonal patterns may emerge",
+      "text": "as your data grows, you may notice seasonal shifts in mood and energy. reduced daylight hours in winter lower serotonin production. awareness is the first step to adaptation.",
+      "source": "NIH; Blanchflower & Oswald 2008"
     },
     {
-      "id": "pred-mood",
-      "signal": "mood",
-      "template": "your mood tomorrow: likely [prediction]/5. key factors: sleep trend [sleepTrend], stress level [stressLevel], exercise [exerciseRecent].",
-      "factors": ["sleep_recent", "stress_recent", "exercise_recent", "mood_momentum"]
+      "id": "gen-data-grows",
+      "title": "your data gets smarter",
+      "text": "correlations at day 7 are preliminary. at day 30, they're reliable. at day 90, they're deeply personal. every log adds resolution to your body's unique pattern.",
+      "source": "Statistical significance improves with sample size"
     },
     {
-      "id": "pred-headache",
-      "signal": "headache",
-      "template": "headache risk tomorrow: [risk]%. contributing factors: [factors].",
-      "factors": ["sleep_deficit", "stress_level", "hydration_proxy"]
+      "id": "gen-upstream-downstream",
+      "title": "find the upstream signal",
+      "text": "when multiple signals are down simultaneously, there's usually one upstream cause. in your data, [signal] appears to be the root. fixing it may fix the others.",
+      "source": "Walker 2017; McEwen 1998"
     },
     {
-      "id": "pred-focus",
-      "signal": "focus",
-      "template": "focus forecast: [prediction]/5. [explanation].",
-      "factors": ["sleep_recent", "stress_recent", "exercise_recent"]
+      "id": "gen-one-thing",
+      "title": "change one thing at a time",
+      "text": "when trying to improve a pattern, change ONE variable for ONE week. if you change sleep, exercise, and diet simultaneously, you won't know which worked. your data will be clearest with isolated experiments.",
+      "source": "Scientific method principles"
     },
     {
-      "id": "pred-general",
-      "signal": "overall",
-      "template": "tomorrow looks like a [quality] day. your strongest signals: [strong]. watch out for: [weak].",
-      "factors": ["all_recent_trends"]
-    }
-  ],
-  "recommendationTemplates": [
-    {
-      "id": "rec-sleep-priority",
-      "trigger": "sleep_declining_3days",
-      "text": "your sleep has been declining for 3 days. based on your patterns, this typically leads to energy and mood drops within 1-2 days. tonight matters.",
-      "action": "prioritize 7+ hours tonight"
+      "id": "gen-personal-variation",
+      "title": "your body is unique",
+      "text": "population averages are starting points, not targets. some people thrive on 7 hours of sleep; others need 9. your personal data is more accurate than any general recommendation.",
+      "source": "Hirshkowitz et al. 2015"
     },
     {
-      "id": "rec-exercise-boost",
-      "trigger": "energy_low_no_exercise",
-      "text": "energy has been low and you haven't exercised in [days] days. in your data, exercise days show [diff] higher energy.",
-      "action": "even 20 minutes of movement could help"
+      "id": "gen-weekend-effect",
+      "title": "the weekend effect on your signals",
+      "content": "most people show measurable differences in sleep, mood, and energy between weekdays and weekends. weekend sleep is typically 30-60 minutes longer, mood 10-15% higher, but the Monday transition often creates a 'social jet lag' effect that impacts the first 2 days of the week.",
+      "source": "Wittmann et al. 2006; Chronobiology International"
     },
     {
-      "id": "rec-stress-intervention",
-      "trigger": "stress_high_2days",
-      "text": "stress has been elevated for 2+ days. your data shows this cascades to [affected signals] within [lag] days.",
-      "action": "breaking the stress cycle now prevents downstream effects"
+      "id": "gen-seasonal-variation",
+      "title": "your signals have seasons",
+      "content": "energy, mood, and sleep quality all show seasonal patterns. in winter, reduced daylight suppresses serotonin and shifts melatonin timing, lowering mood and energy by 10-20% on average. this isn't weakness \u2014 it's biology. knowing this helps you adjust expectations and interventions seasonally.",
+      "source": "Roecklein & Rohan 2005; Seasonal Affective Disorder research"
     },
     {
-      "id": "rec-headache-prevention",
-      "trigger": "headache_predictors_present",
-      "text": "your headache risk factors are elevated: [factors]. historically, this pattern leads to a headache within [lag] days.",
-      "action": "preemptive hydration and rest may help"
-    },
-    {
-      "id": "rec-good-streak",
-      "trigger": "all_signals_good_3days",
-      "text": "you've had 3 strong days in a row. your sleep, energy, and mood are all above your average. whatever you're doing, keep doing it.",
-      "action": "maintain current routine"
-    },
-    {
-      "id": "rec-recovery-day",
-      "trigger": "multiple_signals_low",
-      "text": "several signals are below your baseline today. your body might be telling you something — this is a recovery day.",
-      "action": "go easy today. sleep early tonight."
-    },
-    {
-      "id": "rec-pattern-break",
-      "trigger": "weekly_dip_predicted",
-      "text": "based on your weekly pattern, [dayOfWeek] tends to be a tough day for you. knowing this lets you prepare.",
-      "action": "schedule lighter work and prioritize recovery"
-    },
-    {
-      "id": "rec-foundation",
-      "trigger": "sleep_is_keystone",
-      "text": "across all your data, sleep is your keystone signal — it influences [count] other signals more than anything else.",
-      "action": "sleep is your highest-leverage health variable"
-    }
-  ],
-  "dayOfWeekInsights": [
-    {
-      "id": "dow-monday-dip",
-      "pattern": "monday_low_energy",
-      "text": "your mondays show consistently lower energy than other weekdays. this 'monday effect' is common — weekend schedule shifts disrupt circadian rhythm (social jet lag).",
-      "source": "Wittmann et al. (2006). Social jetlag. Chronobiology International."
-    },
-    {
-      "id": "dow-friday-high",
-      "pattern": "friday_high_mood",
-      "text": "your fridays tend to be your best mood days. anticipation of the weekend activates dopaminergic reward pathways — the happiness is in the looking forward.",
-      "source": "Thayer (1989). Biopsychology of mood and arousal."
-    },
-    {
-      "id": "dow-weekend-sleep",
-      "pattern": "weekend_oversleep",
-      "text": "you sleep significantly more on weekends. this 'sleep rebound' indicates accumulated weekday sleep debt. consistent timing would actually feel better than weekend catch-up sleep.",
-      "source": "National Sleep Foundation guidelines"
-    },
-    {
-      "id": "dow-midweek-stress",
-      "pattern": "midweek_stress_peak",
-      "text": "your stress peaks midweek (wednesday-thursday). this is common in knowledge workers — accumulated work pressure before the weekend release.",
-      "source": "American Psychological Association stress surveys"
-    }
-  ],
-  "anomalyTemplates": [
-    {
-      "id": "anom-unusually-low",
-      "type": "below_threshold",
-      "template": "today's [signal] ([value]) is unusually low for you — [stddev]σ below your average. check if any upstream signals explain this.",
-      "threshold": "value < mean - 2σ"
-    },
-    {
-      "id": "anom-unusually-high",
-      "type": "above_threshold",
-      "template": "today's [signal] ([value]) is unusually high — [stddev]σ above your average. what's different today?",
-      "threshold": "value > mean + 2σ"
-    },
-    {
-      "id": "anom-pattern-break",
-      "type": "pattern_deviation",
-      "template": "interesting — [signal] broke its usual pattern today. typically [expected] on [dayOfWeek], but today was [actual].",
-      "threshold": "deviation from day-of-week mean > 1.5σ"
-    },
-    {
-      "id": "anom-streak-break",
-      "type": "streak_end",
-      "template": "your [days]-day streak of [condition] ended today. your longest was [longestStreak] days.",
-      "threshold": "streak > 3 days broken"
-    }
-  ],
-  "onboardingInsights": [
-    {
-      "id": "onb-day1",
-      "day": 1,
-      "text": "day 1 logged. every journey starts here. patterns need at least 7 days to emerge."
-    },
-    {
-      "id": "onb-day3",
-      "day": 3,
-      "text": "3 days mapped. your signal baselines are forming. keep going — the first connections appear around day 7."
-    },
-    {
-      "id": "onb-day7",
-      "day": 7,
-      "text": "7 days. your first connections are ready. check your network — the lines appearing aren't random. they're your body's patterns."
-    },
-    {
-      "id": "onb-day14",
-      "day": 14,
-      "text": "2 weeks of data. predictions are now available. meridian can forecast tomorrow based on your patterns."
-    },
-    {
-      "id": "onb-day30",
-      "day": 30,
-      "text": "30 days. your body map is becoming something real. the patterns you see now are statistically significant — this is your body's operating manual."
-    },
-    {
-      "id": "onb-day60",
-      "day": 60,
-      "text": "60 days. your data is deep enough for cycle detection — weekly rhythms, monthly patterns. your body has rhythms you're only now seeing."
-    },
-    {
-      "id": "onb-day90",
-      "day": 90,
-      "text": "90 days. your correlation map is rich and personal. most of what meridian shows you now, no doctor or app could tell you — it comes from YOUR data."
+      "id": "gen-keystone-habits",
+      "title": "keystone signals affect everything else",
+      "content": "in your body's network, some signals are 'hubs' \u2014 they connect to many others. sleep is almost always the #1 hub, followed by exercise and stress. improving a hub signal creates cascading benefits: better sleep \u2192 better energy + mood + focus + fewer headaches. this is why meridian tracks connections, not just individual signals.",
+      "source": "Duhigg 2012, The Power of Habit; network science principles"
     }
   ]
 }

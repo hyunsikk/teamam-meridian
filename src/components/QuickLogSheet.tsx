@@ -1,98 +1,157 @@
 import React, { useState, useRef } from 'react';
 import {
   View, Text, TouchableOpacity, StyleSheet, Modal,
-  Animated, Dimensions, Platform,
+  Dimensions, Platform, PanResponder, Animated as RNAnimated,
 } from 'react-native';
 import * as Haptics from 'expo-haptics';
-import { Colors, Typography, Spacing, SignalConfig, SIGNAL_KEYS, SignalKey } from '../styles/theme';
+import { Colors, Typography, Spacing, SignalConfig, SignalKey } from '../styles/theme';
 import { useData } from '../context/DataContext';
 
-const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
+const SLIDER_WIDTH = Math.min(SCREEN_WIDTH - 80, 300);
+
+// Improvement #4: time-of-day prompt
+function getTimeOfDayPrompt(signalType: string, label: string): string {
+  const hour = new Date().getHours();
+  if (signalType === 'slider') return 'how many hours?';
+  if (signalType === 'toggle') return 'today?';
+  if (hour >= 5 && hour < 12) return `how's your ${label} this morning?`;
+  if (hour >= 12 && hour < 17) return `how's your ${label} this afternoon?`;
+  return `how are you feeling this evening?`;
+}
 
 interface Props {
   onClose: () => void;
 }
 
 export function QuickLogSheet({ onClose }: Props) {
-  const { addLog, logs } = useData();
+  const { addLog, logs, settings } = useData();
+  const activeSignals = settings.activeSignals;
   const [stepIndex, setStepIndex] = useState(0);
   const [values, setValues] = useState<Partial<Record<SignalKey, number | boolean>>>({});
 
-  const signals = SIGNAL_KEYS;
-  const currentSignal = signals[stepIndex];
-  const config = SignalConfig[currentSignal];
-  const isLast = stepIndex === signals.length - 1;
+  // Smooth slider state
+  const sliderX = useRef(new RNAnimated.Value(SLIDER_WIDTH * (7 / 12))).current;
+  const [sliderDisplayValue, setSliderDisplayValue] = useState(7);
+  const sliderXRef = useRef(SLIDER_WIDTH * (7 / 12));
 
-  // Pre-fill with today's existing data
+  const currentSignal = activeSignals[stepIndex] as SignalKey;
+  const config = SignalConfig[currentSignal];
+  const isLast = stepIndex === activeSignals.length - 1;
   const today = new Date().toISOString().split('T')[0];
   const existingLog = logs.find(l => l.date === today);
 
   const handleValue = (val: number | boolean) => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setValues(prev => ({ ...prev, [currentSignal]: val }));
   };
 
   const handleNext = () => {
-    if (isLast) {
-      handleDone();
-    } else {
-      setStepIndex(prev => prev + 1);
-    }
+    if (isLast) { handleDone(); } else { setStepIndex(prev => prev + 1); resetSlider(); }
   };
 
   const handleSkip = () => {
-    if (isLast) {
-      handleDone();
-    } else {
-      setStepIndex(prev => prev + 1);
+    if (isLast) { handleDone(); } else { setStepIndex(prev => prev + 1); resetSlider(); }
+  };
+
+  // Improvement #2: back button
+  const handleBack = () => {
+    if (stepIndex > 0) {
+      setStepIndex(prev => prev - 1);
+      resetSlider();
+    }
+  };
+
+  const resetSlider = () => {
+    const nextSignal = activeSignals[stepIndex + 1] as SignalKey | undefined;
+    if (nextSignal) {
+      const existing = values[nextSignal];
+      const val = typeof existing === 'number' ? existing : 7;
+      sliderXRef.current = SLIDER_WIDTH * (val / 12);
+      sliderX.setValue(sliderXRef.current);
+      setSliderDisplayValue(val);
     }
   };
 
   const handleDone = async () => {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    await addLog({ date: today, signals: { ...(existingLog?.signals || {}), ...values } });
+    if (Platform.OS !== 'web') Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    await addLog({
+      date: today,
+      loggedAt: new Date().toISOString(), // Improvement #4
+      signals: { ...(existingLog?.signals || {}), ...values },
+    });
     onClose();
   };
 
+  // Improvement #1: smooth slider PanResponder
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: (evt) => {
+        const locationX = evt.nativeEvent.locationX;
+        const clamped = Math.max(0, Math.min(SLIDER_WIDTH, locationX));
+        sliderXRef.current = clamped;
+        sliderX.setValue(clamped);
+        const raw = (clamped / SLIDER_WIDTH) * 12;
+        const snapped = Math.round(raw * 2) / 2; // 0.5h increments
+        setSliderDisplayValue(snapped);
+        handleValue(snapped);
+        if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      },
+      onPanResponderMove: (_, gestureState) => {
+        const newX = Math.max(0, Math.min(SLIDER_WIDTH, sliderXRef.current + gestureState.dx));
+        sliderX.setValue(newX);
+        const raw = (newX / SLIDER_WIDTH) * 12;
+        const snapped = Math.round(raw * 2) / 2;
+        if (snapped !== sliderDisplayValue) {
+          setSliderDisplayValue(snapped);
+          handleValue(snapped);
+          if (Platform.OS !== 'web') Haptics.selectionAsync();
+        }
+      },
+      onPanResponderRelease: (_, gestureState) => {
+        const newX = Math.max(0, Math.min(SLIDER_WIDTH, sliderXRef.current + gestureState.dx));
+        sliderXRef.current = newX;
+        const raw = (newX / SLIDER_WIDTH) * 12;
+        const snapped = Math.round(raw * 2) / 2;
+        const snappedX = (snapped / 12) * SLIDER_WIDTH;
+        RNAnimated.spring(sliderX, { toValue: snappedX, useNativeDriver: false, friction: 8 }).start();
+        sliderXRef.current = snappedX;
+        setSliderDisplayValue(snapped);
+        handleValue(snapped);
+      },
+    })
+  ).current;
+
   const currentValue = values[currentSignal];
 
+  if (!config) return null;
+
   return (
-    <Modal
-      visible
-      animationType="slide"
-      transparent
-      onRequestClose={onClose}
-    >
+    <Modal visible animationType="slide" transparent onRequestClose={onClose}>
       <View style={styles.backdrop}>
-        <TouchableOpacity style={styles.dismissArea} onPress={onClose} />
+        <TouchableOpacity style={styles.dismissArea} onPress={onClose} accessibilityLabel="dismiss" accessibilityRole="button" />
         <View style={styles.sheet}>
-          {/* Handle */}
           <View style={styles.handle} />
 
           {/* Progress */}
           <View style={styles.progressRow}>
-            {signals.map((_, i) => (
-              <View
-                key={i}
-                style={[
-                  styles.progressDot,
-                  i === stepIndex && styles.progressDotActive,
-                  i < stepIndex && styles.progressDotDone,
-                ]}
-              />
+            {activeSignals.map((_, i) => (
+              <View key={i} style={[
+                styles.progressDot,
+                i === stepIndex && styles.progressDotActive,
+                i < stepIndex && styles.progressDotDone,
+              ]} />
             ))}
           </View>
 
-          {/* Signal Header */}
           <Text style={styles.emoji}>{config.emoji}</Text>
           <Text style={styles.signalName}>{config.label}</Text>
           <Text style={styles.prompt}>
-            {config.type === 'slider' ? 'how many hours?' :
-             config.type === 'toggle' ? 'today?' :
-             'how would you rate it?'}
+            {getTimeOfDayPrompt(config.type, config.label)}
           </Text>
 
-          {/* Input Widget */}
           <View style={styles.inputArea}>
             {config.type === 'emoji' && config.options && (
               <View style={styles.emojiRow}>
@@ -101,51 +160,45 @@ export function QuickLogSheet({ onClose }: Props) {
                   const selected = currentValue === val;
                   return (
                     <TouchableOpacity
-                      key={i}
-                      onPress={() => handleValue(val)}
-                      style={[
-                        styles.emojiOption,
-                        selected && { backgroundColor: config.color + '30', borderColor: config.color },
-                      ]}
+                      key={i} onPress={() => handleValue(val)}
+                      style={[styles.emojiOption, selected && { backgroundColor: config.color + '30', borderColor: config.color }]}
                       accessibilityLabel={`${config.label} level ${val}`}
+                      accessibilityRole="button"
                     >
-                      <Text style={[styles.emojiText, selected && styles.emojiTextSelected]}>
-                        {opt}
-                      </Text>
-                      <Text style={[styles.emojiVal, selected && { color: config.color }]}>
-                        {val}
-                      </Text>
+                      <Text style={[styles.emojiText, selected && styles.emojiTextSelected]}>{opt}</Text>
+                      <Text style={[styles.emojiVal, selected && { color: config.color }]}>{val}</Text>
                     </TouchableOpacity>
                   );
                 })}
               </View>
             )}
 
+            {/* Improvement #1: smooth draggable slider */}
             {config.type === 'slider' && (
               <View style={styles.sliderContainer}>
                 <Text style={[styles.sliderValue, { color: config.color }]}>
-                  {typeof currentValue === 'number' ? currentValue.toFixed(1) : '7.0'}h
+                  {typeof currentValue === 'number' ? currentValue.toFixed(1) : sliderDisplayValue.toFixed(1)}h
                 </Text>
-                <View style={styles.sliderTrack}>
-                  {Array.from({ length: 13 }, (_, i) => (
-                    <TouchableOpacity
-                      key={i}
-                      onPress={() => handleValue(i)}
-                      style={[
-                        styles.sliderDetent,
-                        {
-                          backgroundColor: (typeof currentValue === 'number' ? currentValue : 7) >= i
-                            ? config.color
-                            : Colors.surface3,
-                        },
-                      ]}
-                      accessibilityLabel={`${i} hours`}
-                    >
-                      {i % 3 === 0 && (
-                        <Text style={styles.sliderLabel}>{i}</Text>
-                      )}
-                    </TouchableOpacity>
-                  ))}
+                <View style={styles.smoothSliderWrapper} {...panResponder.panHandlers}>
+                  <View style={[styles.smoothSliderTrack, { width: SLIDER_WIDTH }]}>
+                    <RNAnimated.View
+                      style={[styles.smoothSliderFill, {
+                        width: sliderX,
+                        backgroundColor: config.color,
+                      }]}
+                    />
+                  </View>
+                  <RNAnimated.View
+                    style={[styles.smoothSliderThumb, {
+                      backgroundColor: config.color,
+                      transform: [{ translateX: RNAnimated.subtract(sliderX, 14) }],
+                    }]}
+                  />
+                  <View style={styles.smoothSliderLabels}>
+                    {[0, 3, 6, 9, 12].map(v => (
+                      <Text key={v} style={styles.smoothSliderLabel}>{v}h</Text>
+                    ))}
+                  </View>
                 </View>
               </View>
             )}
@@ -153,22 +206,14 @@ export function QuickLogSheet({ onClose }: Props) {
             {config.type === 'toggle' && (
               <View style={styles.toggleRow}>
                 <TouchableOpacity
-                  style={[
-                    styles.toggleOption,
-                    currentValue === false && { backgroundColor: Colors.surface3, borderColor: Colors.auroraTeal },
-                  ]}
-                  onPress={() => handleValue(false)}
-                  accessibilityLabel={`no ${config.label}`}
+                  style={[styles.toggleOption, currentValue === false && { backgroundColor: Colors.surface3, borderColor: Colors.auroraTeal }]}
+                  onPress={() => handleValue(false)} accessibilityLabel={`no ${config.label}`} accessibilityRole="button"
                 >
                   <Text style={styles.toggleText}>no</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={[
-                    styles.toggleOption,
-                    currentValue === true && { backgroundColor: config.color + '30', borderColor: config.color },
-                  ]}
-                  onPress={() => handleValue(true)}
-                  accessibilityLabel={`yes ${config.label}`}
+                  style={[styles.toggleOption, currentValue === true && { backgroundColor: config.color + '30', borderColor: config.color }]}
+                  onPress={() => handleValue(true)} accessibilityLabel={`yes ${config.label}`} accessibilityRole="button"
                 >
                   <Text style={styles.toggleText}>yes</Text>
                 </TouchableOpacity>
@@ -176,14 +221,25 @@ export function QuickLogSheet({ onClose }: Props) {
             )}
           </View>
 
-          {/* Actions */}
           <View style={styles.actionRow}>
-            <TouchableOpacity onPress={handleSkip} style={styles.skipButton}>
+            {/* Improvement #2: back button */}
+            <TouchableOpacity
+              onPress={handleBack}
+              style={[styles.backButton, stepIndex === 0 && styles.backButtonDisabled]}
+              disabled={stepIndex === 0}
+              accessibilityLabel="back"
+              accessibilityRole="button"
+            >
+              <Text style={[styles.backText, stepIndex === 0 && styles.backTextDisabled]}>← back</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleSkip} style={styles.skipButton} accessibilityLabel="skip" accessibilityRole="button">
               <Text style={styles.skipText}>skip</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleNext}
               style={[styles.nextButton, { backgroundColor: currentValue !== undefined ? Colors.nebulaPurple : Colors.surface3 }]}
+              accessibilityLabel={isLast ? 'done' : 'next'}
+              accessibilityRole="button"
             >
               <Text style={styles.nextText}>{isLast ? 'done' : 'next'}</Text>
             </TouchableOpacity>
@@ -195,167 +251,60 @@ export function QuickLogSheet({ onClose }: Props) {
 }
 
 const styles = StyleSheet.create({
-  backdrop: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'flex-end',
-  },
-  dismissArea: {
-    flex: 1,
-  },
+  backdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
+  dismissArea: { flex: 1 },
   sheet: {
-    backgroundColor: Colors.surface2,
-    borderTopLeftRadius: Spacing.sheetRadius,
-    borderTopRightRadius: Spacing.sheetRadius,
-    paddingHorizontal: Spacing.screenPadding,
-    paddingBottom: Platform.OS === 'ios' ? 40 : 24,
-    paddingTop: 12,
-    minHeight: SCREEN_HEIGHT * 0.55,
+    backgroundColor: Colors.surface2, borderTopLeftRadius: Spacing.sheetRadius, borderTopRightRadius: Spacing.sheetRadius,
+    paddingHorizontal: Spacing.screenPadding, paddingBottom: Platform.OS === 'ios' ? 40 : 24, paddingTop: 12,
+    minHeight: SCREEN_HEIGHT * 0.5,
   },
-  handle: {
-    width: 36,
-    height: 4,
-    backgroundColor: Colors.divider,
-    borderRadius: 2,
-    alignSelf: 'center',
-    marginBottom: 20,
-  },
-  progressRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 6,
-    marginBottom: 28,
-  },
-  progressDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: Colors.surface3,
-  },
-  progressDotActive: {
-    backgroundColor: Colors.nebulaPurple,
-    width: 24,
-  },
-  progressDotDone: {
-    backgroundColor: Colors.auroraTeal,
-  },
-  emoji: {
-    fontSize: 48,
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  signalName: {
-    ...Typography.heading,
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  prompt: {
-    ...Typography.caption,
-    textAlign: 'center',
-    marginBottom: 32,
-  },
-  inputArea: {
-    flex: 1,
-    justifyContent: 'center',
-    minHeight: 120,
-  },
-  emojiRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 12,
-  },
+  handle: { width: 36, height: 4, backgroundColor: Colors.divider, borderRadius: 2, alignSelf: 'center', marginBottom: 20 },
+  progressRow: { flexDirection: 'row', justifyContent: 'center', gap: 6, marginBottom: 28 },
+  progressDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: Colors.surface3 },
+  progressDotActive: { backgroundColor: Colors.nebulaPurple, width: 24 },
+  progressDotDone: { backgroundColor: Colors.auroraTeal },
+  emoji: { fontSize: 48, textAlign: 'center', marginBottom: 8 },
+  signalName: { ...Typography.heading, textAlign: 'center', marginBottom: 4 },
+  prompt: { ...Typography.caption, textAlign: 'center', marginBottom: 32 },
+  inputArea: { flex: 1, justifyContent: 'center', minHeight: 120 },
+  emojiRow: { flexDirection: 'row', justifyContent: 'center', gap: 12 },
   emojiOption: {
-    width: 56,
-    height: 72,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.surface3,
-    borderWidth: 2,
-    borderColor: 'transparent',
+    width: 56, height: 72, borderRadius: 16, alignItems: 'center', justifyContent: 'center',
+    backgroundColor: Colors.surface3, borderWidth: 2, borderColor: 'transparent',
   },
-  emojiText: {
-    fontSize: 28,
-    opacity: 0.5,
+  emojiText: { fontSize: 28, opacity: 0.5 },
+  emojiTextSelected: { opacity: 1, fontSize: 32 },
+  emojiVal: { ...Typography.small, color: Colors.starlightFaint, marginTop: 2 },
+  sliderContainer: { alignItems: 'center' },
+  sliderValue: { ...Typography.display, marginBottom: 20 },
+  smoothSliderWrapper: { width: SLIDER_WIDTH, height: 60, justifyContent: 'center' },
+  smoothSliderTrack: {
+    height: 8, backgroundColor: Colors.surface3, borderRadius: 4, overflow: 'hidden',
   },
-  emojiTextSelected: {
-    opacity: 1,
-    fontSize: 32,
+  smoothSliderFill: { height: '100%', borderRadius: 4 },
+  smoothSliderThumb: {
+    position: 'absolute', top: 16, width: 28, height: 28, borderRadius: 14,
+    borderWidth: 3, borderColor: Colors.surface2,
+    shadowColor: '#000', shadowOpacity: 0.3, shadowRadius: 4, shadowOffset: { width: 0, height: 2 },
+    elevation: 4,
   },
-  emojiVal: {
-    ...Typography.small,
-    color: Colors.starlightFaint,
-    marginTop: 2,
+  smoothSliderLabels: {
+    flexDirection: 'row', justifyContent: 'space-between', marginTop: 12,
   },
-  sliderContainer: {
-    alignItems: 'center',
-  },
-  sliderValue: {
-    ...Typography.display,
-    marginBottom: 20,
-  },
-  sliderTrack: {
-    flexDirection: 'row',
-    gap: 4,
-    alignItems: 'flex-end',
-  },
-  sliderDetent: {
-    width: 22,
-    height: 36,
-    borderRadius: 6,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingBottom: 4,
-  },
-  sliderLabel: {
-    ...Typography.small,
-    color: Colors.starlightFaint,
-    fontSize: 9,
-  },
-  toggleRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 20,
-  },
+  smoothSliderLabel: { ...Typography.small, color: Colors.starlightFaint, fontSize: 9 },
+  toggleRow: { flexDirection: 'row', justifyContent: 'center', gap: 20 },
   toggleOption: {
-    width: 100,
-    height: 56,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.surface3,
-    borderWidth: 2,
-    borderColor: 'transparent',
+    width: 100, height: 56, borderRadius: 16, alignItems: 'center', justifyContent: 'center',
+    backgroundColor: Colors.surface3, borderWidth: 2, borderColor: 'transparent',
   },
-  toggleText: {
-    ...Typography.bodyBold,
-    color: Colors.starlight,
-  },
-  actionRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 28,
-  },
-  skipButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    minHeight: 44,
-    justifyContent: 'center',
-  },
-  skipText: {
-    ...Typography.caption,
-    color: Colors.starlightFaint,
-  },
-  nextButton: {
-    paddingVertical: 14,
-    paddingHorizontal: 36,
-    borderRadius: Spacing.borderRadius,
-    minHeight: 48,
-    justifyContent: 'center',
-  },
-  nextText: {
-    ...Typography.bodyBold,
-    color: Colors.starlight,
-  },
+  toggleText: { ...Typography.bodyBold, color: Colors.starlight },
+  actionRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 28 },
+  backButton: { paddingVertical: 12, paddingHorizontal: 16, minHeight: 44, justifyContent: 'center' },
+  backButtonDisabled: { opacity: 0.3 },
+  backText: { ...Typography.caption, color: Colors.starlightDim },
+  backTextDisabled: { color: Colors.starlightFaint },
+  skipButton: { paddingVertical: 12, paddingHorizontal: 16, minHeight: 44, justifyContent: 'center' },
+  skipText: { ...Typography.caption, color: Colors.starlightFaint },
+  nextButton: { paddingVertical: 14, paddingHorizontal: 36, borderRadius: Spacing.borderRadius, minHeight: 48, justifyContent: 'center' },
+  nextText: { ...Typography.bodyBold, color: Colors.starlight },
 });

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Meridian: Body Pattern Intelligence",
+    "name": "Meridian: Health Insights",
     "slug": "meridian",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,7 +15,24 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.teamam.meridian",
-      "backgroundColor": "#0D0F1A"
+      "backgroundColor": "#0D0F1A",
+      "infoPlist": {
+        "NSUserTrackingUsageDescription": "This app does not track you. We ask only to comply with App Store requirements.",
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
+      },
+      "buildNumber": "1",
+      "privacyManifests": {
+        "NSPrivacyAccessedAPITypes": [
+          {
+            "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+            "NSPrivacyAccessedAPITypeReasons": [
+              "CA92.1"
+            ]
+          }
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -27,10 +44,12 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "backgroundColor": "#0D0F1A",
-      "name": "Meridian: Body Pattern Intelligence"
+      "name": "Meridian: Health Insights"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "expo-sharing",
+      "expo-notifications"
     ]
   }
 }
