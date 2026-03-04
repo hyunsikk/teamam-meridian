@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Colors, Typography, Spacing, SignalConfig } from '../styles/theme';
 import { Recommendation } from '../utils/insightEngine';
 
@@ -36,7 +37,25 @@ export function RecommendationCard({ recommendation, isFocusAction }: Props) {
       </View>
 
       {recommendation.source && (
-        <Text style={styles.source}>{recommendation.source}</Text>
+        <TouchableOpacity
+          style={styles.sourceRow}
+          onPress={() => {
+            if (recommendation.sourceUrl) {
+              Linking.openURL(recommendation.sourceUrl).catch(() => {});
+            }
+          }}
+          activeOpacity={recommendation.sourceUrl ? 0.6 : 1}
+          accessibilityLabel={`Source: ${recommendation.source}`}
+          accessibilityRole={recommendation.sourceUrl ? 'link' : 'text'}
+        >
+          <Ionicons name="library-outline" size={11} color={Colors.starlightFaint} />
+          <Text style={[styles.source, recommendation.sourceUrl && styles.sourceLink]}>
+            {recommendation.source}
+          </Text>
+          {recommendation.sourceUrl && (
+            <Ionicons name="open-outline" size={10} color={Colors.nebulaPurple} style={{ marginLeft: 4 }} />
+          )}
+        </TouchableOpacity>
       )}
     </View>
   );
@@ -104,10 +123,20 @@ const styles = StyleSheet.create({
     ...Typography.caption,
     lineHeight: 20,
   },
+  sourceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 8,
+    gap: 5,
+  },
   source: {
     ...Typography.small,
     color: Colors.starlightFaint,
-    marginTop: 8,
     fontStyle: 'italic',
+    flex: 1,
+  },
+  sourceLink: {
+    color: Colors.nebulaPurple,
+    textDecorationLine: 'underline',
   },
 });

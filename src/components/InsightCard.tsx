@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Share, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Share, Platform, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 import { Colors, Typography, Spacing, SignalConfig } from '../styles/theme';
@@ -108,8 +108,26 @@ export function InsightCard({ insight, compact, correlation }: Props) {
           </Text>
         )}
 
-        {insight.source && expanded && (
-          <Text style={styles.source}>{insight.source}</Text>
+        {insight.source && (expanded || !compact) && (
+          <TouchableOpacity
+            style={styles.sourceRow}
+            onPress={() => {
+              if (insight.sourceUrl) {
+                Linking.openURL(insight.sourceUrl).catch(() => {});
+              }
+            }}
+            activeOpacity={insight.sourceUrl ? 0.6 : 1}
+            accessibilityLabel={`Source: ${insight.source}`}
+            accessibilityRole={insight.sourceUrl ? 'link' : 'text'}
+          >
+            <Ionicons name="library-outline" size={11} color={Colors.starlightFaint} />
+            <Text style={[styles.source, insight.sourceUrl && styles.sourceLink]}>
+              {insight.source}
+            </Text>
+            {insight.sourceUrl && (
+              <Ionicons name="open-outline" size={10} color={Colors.nebulaPurple} style={{ marginLeft: 4 }} />
+            )}
+          </TouchableOpacity>
         )}
 
         {insight.coefficient !== undefined && (
@@ -156,7 +174,9 @@ const styles = StyleSheet.create({
   recLabel: { ...Typography.small, color: Colors.auroraTeal, marginBottom: 6, textTransform: 'lowercase' },
   detail: { ...Typography.caption, lineHeight: 20 },
   expandHint: { ...Typography.small, color: Colors.nebulaPurple, marginTop: 8 },
-  source: { ...Typography.small, color: Colors.starlightFaint, marginTop: 8, fontStyle: 'italic' },
+  sourceRow: { flexDirection: 'row', alignItems: 'center', marginTop: 8, gap: 5 },
+  source: { ...Typography.small, color: Colors.starlightFaint, fontStyle: 'italic', flex: 1 },
+  sourceLink: { color: Colors.nebulaPurple, textDecorationLine: 'underline' },
   strengthRow: { flexDirection: 'row', alignItems: 'center', marginTop: 10, gap: 8 },
   strengthBar: { height: 3, borderRadius: 2, flex: 1, maxWidth: 100 },
   strengthLabel: { ...Typography.small, color: Colors.starlightFaint },

@@ -24,6 +24,7 @@ export interface Insight {
   isNew?: boolean;
   createdAt: string;
   source?: string;
+  sourceUrl?: string;
 }
 
 export interface Recommendation {
@@ -34,6 +35,7 @@ export interface Recommendation {
   priority: 'high' | 'medium' | 'low';
   targetSignal: string;
   source?: string;
+  sourceUrl?: string;
 }
 
 function getKnowledgeEntry(signalA: string, signalB: string, direction: string) {
@@ -123,6 +125,7 @@ export function generateInsights(logs: DayLog[], correlations: Correlation[]): I
       coefficient: corr.coefficient,
       createdAt: now,
       source: kb?.source,
+      sourceUrl: kb?.sourceUrl,
     });
   }
 
@@ -243,6 +246,7 @@ export function generateRecommendations(logs: DayLog[], correlations: Correlatio
         priority: kbRec.priority || 'medium',
         targetSignal: kbRec.targetSignal || signal,
         source: kbRec.source,
+        sourceUrl: kbRec.sourceUrl,
       });
     }
   }
@@ -450,6 +454,7 @@ export function generateColdStartContent(activeSignals: SignalKey[]): Insight[] 
       title: cs.title,
       text: cs.content,
       source: cs.source,
+      sourceUrl: cs.sourceUrl,
       createdAt: now,
     });
   }
@@ -464,6 +469,7 @@ export function generateColdStartContent(activeSignals: SignalKey[]): Insight[] 
       text: edu.content,
       detail: edu.funFact ? `fun fact: ${edu.funFact}` : undefined,
       source: edu.source,
+      sourceUrl: edu.sourceUrl,
       createdAt: now,
     });
   }
@@ -478,6 +484,7 @@ export function generateColdStartContent(activeSignals: SignalKey[]): Insight[] 
       text: bl.description,
       detail: bl.ageVariation,
       source: bl.source,
+      sourceUrl: bl.sourceUrl,
       createdAt: now,
     });
   }

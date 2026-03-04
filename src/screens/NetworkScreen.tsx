@@ -13,6 +13,7 @@ import { NetworkNode } from '../components/NetworkNode';
 import { NetworkEdge } from '../components/NetworkEdge';
 import { InsightCard } from '../components/InsightCard';
 import { RecommendationCard } from '../components/RecommendationCard';
+import { MedicalDisclaimer } from '../components/MedicalDisclaimer';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const GRAPH_SIZE = Math.min(SCREEN_WIDTH - 48, 340);
@@ -216,6 +217,7 @@ export function NetworkScreen() {
             <Text style={styles.sectionTitle}>
               {totalDays === 0 ? '🔬 what science knows' : '🔬 while your patterns emerge'}
             </Text>
+            <MedicalDisclaimer compact />
             {coldStartContent
               .filter(c => c.type === 'coldstart')
               .slice(0, 3)

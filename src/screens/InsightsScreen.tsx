@@ -4,6 +4,7 @@ import { Colors, Typography, Spacing, SignalConfig } from '../styles/theme';
 import { useData } from '../context/DataContext';
 import { InsightCard } from '../components/InsightCard';
 import { RecommendationCard } from '../components/RecommendationCard';
+import { MedicalDisclaimer } from '../components/MedicalDisclaimer';
 
 export function InsightsScreen() {
   const { insights, recommendations, coldStartContent, totalDays, correlations, emergingCorrelations, weeklyDigest, streak, settings } = useData();
@@ -41,6 +42,8 @@ export function InsightsScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
       <Text style={styles.title}>insights</Text>
+
+      <MedicalDisclaimer compact />
 
       {recommendations.length > 0 && (
         <View style={styles.section}>
@@ -219,6 +222,8 @@ export function InsightsScreen() {
           )}
         </>
       )}
+
+      <MedicalDisclaimer />
 
       <View style={{ height: 40 }} />
     </ScrollView>
