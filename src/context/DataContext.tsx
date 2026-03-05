@@ -14,7 +14,6 @@ export interface AppSettings {
   activeSignals: SignalKey[];
   unlockedSignals: SignalKey[];
   onboardingComplete: boolean;
-  premium: boolean;
   focusSignal?: SignalKey;
   reminderEnabled?: boolean;
   reminderHour?: number;
@@ -54,7 +53,6 @@ const defaultSettings: AppSettings = {
   activeSignals: DEFAULT_ACTIVE,
   unlockedSignals: [...DEFAULT_ACTIVE],
   onboardingComplete: false,
-  premium: false,
   reminderEnabled: false,
   reminderHour: 20,
   reminderMinute: 0,

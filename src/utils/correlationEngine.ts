@@ -135,43 +135,7 @@ export function computeEmergingCorrelations(logs: DayLog[], mainCorrelations: Co
     .map(c => ({ ...c, emerging: true }));
 }
 
-export function rollingAverage(logs: DayLog[], signal: SignalKey, window: number = 7): number[] {
-  const series = extractSeries(logs, signal);
-  const result: number[] = [];
-
-  for (let i = 0; i < series.length; i++) {
-    const start = Math.max(0, i - window + 1);
-    const windowVals = series.slice(start, i + 1).filter((v): v is number => v !== null);
-    result.push(windowVals.length > 0 ? windowVals.reduce((a, b) => a + b, 0) / windowVals.length : NaN);
-  }
-
-  return result;
-}
-
-export function detectAnomalies(logs: DayLog[], signal: SignalKey): { date: string; value: number; zscore: number }[] {
-  const series = extractSeries(logs, signal);
-  const anomalies: { date: string; value: number; zscore: number }[] = [];
-
-  if (series.length < 7) return anomalies;
-
-  const validValues = series.filter((v): v is number => v !== null);
-  const mean = validValues.reduce((a, b) => a + b, 0) / validValues.length;
-  const stdDev = Math.sqrt(validValues.reduce((a, b) => a + (b - mean) ** 2, 0) / validValues.length);
-
-  if (stdDev === 0) return anomalies;
-
-  for (let i = 0; i < logs.length; i++) {
-    const val = series[i];
-    if (val !== null) {
-      const z = (val - mean) / stdDev;
-      if (Math.abs(z) > 2) {
-        anomalies.push({ date: logs[i].date, value: val, zscore: Math.round(z * 10) / 10 });
-      }
-    }
-  }
-
-  return anomalies;
-}
+// Note: rollingAverage and detectAnomalies removed - were exported but never used (dead code)
 
 export function predictTomorrow(
   logs: DayLog[],
