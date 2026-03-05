@@ -19,6 +19,12 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "paul483@naver.com",
+        "ascAppId": "6759892880",
+        "appleTeamId": "22R4239A68"
+      }
+    }
   }
 }
