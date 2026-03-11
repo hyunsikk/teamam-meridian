@@ -103,8 +103,8 @@ export const SAMPLE_SETTINGS = {
 };
 
 export const SAMPLE_STREAK = {
-  current: 5,
-  longest: 12,
+  current: 7,
+  longest: 14,
   lastLogDate: new Date().toISOString().split('T')[0],
-  previousStreak: 8,
+  previousStreak: 10,
 };

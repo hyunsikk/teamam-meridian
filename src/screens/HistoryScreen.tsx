@@ -4,7 +4,7 @@ import { Colors, Typography, Spacing, SignalConfig, SIGNAL_KEYS, SignalKey } fro
 import { useData } from '../context/DataContext';
 import { useTheme } from '../context/ThemeContext';
 
-const DAYS = ['m', 't', 'w', 't', 'f', 's', 's'];
+const DAYS = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'];
 
 function getDaysInMonth(year: number, month: number): number {
   return new Date(year, month + 1, 0).getDate();

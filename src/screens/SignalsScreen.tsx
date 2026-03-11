@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Platform, Share, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Platform, Share, Alert, Switch } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import * as Sharing from 'expo-sharing';
 import { Colors, Typography, Spacing, SignalConfig, SIGNAL_KEYS, CORE_SIGNALS, SignalKey } from '../styles/theme';
@@ -74,9 +74,12 @@ export function SignalsScreen() {
             {isCore ? (
               <View style={[styles.coreBadge, { backgroundColor: colors.auroraTeal + '20' }]}><Text style={[styles.coreBadgeText, { color: colors.auroraTeal }]}>core</Text></View>
             ) : unlocked ? (
-              <View style={[styles.toggle, { backgroundColor: isActive ? colors.nebulaPurple + '40' : colors.surface3 }]}>
-                <View style={[styles.toggleDot, { backgroundColor: isActive ? colors.nebulaPurple : colors.starlightFaint, alignSelf: isActive ? 'flex-end' : 'flex-start' }]} />
-              </View>
+              <Switch
+                value={isActive}
+                onValueChange={() => toggleSignal(sig)}
+                trackColor={{ false: colors.surface3, true: colors.nebulaPurple + '60' }}
+                thumbColor={isActive ? colors.nebulaPurple : colors.starlightFaint}
+              />
             ) : (
               <View style={styles.lockBadge}>
                 <Text style={[styles.lockBadgeText, { color: colors.starlightFaint }]}>
@@ -141,8 +144,8 @@ const styles = StyleSheet.create({
   signalDesc: { ...Typography.small },
   coreBadge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8 },
   coreBadgeText: { ...Typography.small },
-  toggle: { width: 44, height: 26, borderRadius: 13, justifyContent: 'center', padding: 2 },
-  toggleDot: { width: 22, height: 22, borderRadius: 11 },
+
+
   lockBadge: { paddingHorizontal: 10, paddingVertical: 4 },
   lockBadgeText: { ...Typography.small },
   footerNote: { ...Typography.caption, textAlign: 'center', marginTop: 24, lineHeight: 20 },
