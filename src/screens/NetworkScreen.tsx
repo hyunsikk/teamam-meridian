@@ -7,6 +7,7 @@ import { SignalConfig as SigCfg } from '../styles/theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { Colors, Typography, Spacing, SignalConfig, SignalKey } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import { useData } from '../context/DataContext';
 import { QuickLogSheet } from '../components/QuickLogSheet';
 import { NetworkNode } from '../components/NetworkNode';
@@ -35,6 +36,7 @@ function getNodePositions(activeSignals: SignalKey[]): Record<string, { x: numbe
 
 export function NetworkScreen() {
   const { logs, correlations, insights, coldStartContent, todayLogged, totalDays, settings, dailyFocusAction, streak, newlyUnlocked, clearNewlyUnlocked, proactiveInsights } = useData();
+  const { colors, isDark } = useTheme();
   const [showLog, setShowLog] = useState(false);
   const [selectedNode, setSelectedNode] = useState<SignalKey | null>(null);
   const [showUnlockModal, setShowUnlockModal] = useState(false);
@@ -45,6 +47,7 @@ export function NetworkScreen() {
   const unlockOpacity = useRef(new Animated.Value(0)).current;
   const digestSlide = useRef(new Animated.Value(30)).current;
   const digestOpacity = useRef(new Animated.Value(0)).current;
+  const pulseAnim = useRef(new Animated.Value(1)).current;
 
   // Streak badge spring animation
   useEffect(() => {
@@ -76,6 +79,20 @@ export function NetworkScreen() {
     ]).start();
   }, []);
 
+  // Pulse animation for log button when no logs yet
+  useEffect(() => {
+    if (totalDays === 0) {
+      const pulse = Animated.loop(
+        Animated.sequence([
+          Animated.timing(pulseAnim, { toValue: 1.05, duration: 1000, useNativeDriver: true }),
+          Animated.timing(pulseAnim, { toValue: 1, duration: 1000, useNativeDriver: true }),
+        ])
+      );
+      pulse.start();
+      return () => pulse.stop();
+    }
+  }, [totalDays]);
+
   const activeSignals = settings.activeSignals;
   const positions = getNodePositions(activeSignals);
   const latestLog = logs.length > 0 ? logs[logs.length - 1] : null;
@@ -86,9 +103,9 @@ export function NetworkScreen() {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.deepSpace }]}>
       <LinearGradient
-        colors={['#1a1540', Colors.deepSpace, Colors.deepSpace]}
+        colors={isDark ? ['#1a1540', colors.deepSpace, colors.deepSpace] : ['#E8E6F0', colors.deepSpace, colors.deepSpace]}
         style={StyleSheet.absoluteFillObject}
         start={{ x: 0.5, y: 0 }} end={{ x: 0.5, y: 0.6 }}
       />
@@ -96,7 +113,7 @@ export function NetworkScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.wordmark}>meridian</Text>
+          <Text style={[styles.wordmark, { color: colors.starlight }]}>meridian</Text>
           <View style={styles.headerBadges}>
             {streak.current > 0 && (
               <Animated.View style={[styles.streakBadge, { transform: [{ scale: streakScale }] }]}>
@@ -104,14 +121,14 @@ export function NetworkScreen() {
               </Animated.View>
             )}
             {totalDays >= 14 && (
-              <View style={styles.forecastBadge}>
-                <Text style={styles.forecastText}>🔮 forecast ready</Text>
+              <View style={[styles.forecastBadge, { backgroundColor: colors.surface2 }]}>
+                <Text style={[styles.forecastText, { color: colors.nebulaPurple }]}>🔮 forecast ready</Text>
               </View>
             )}
           </View>
         </View>
 
-        <Text style={styles.subtitle}>
+        <Text style={[styles.subtitle, { color: colors.starlightDim }]}>
           {totalDays === 0
             ? 'your body has patterns. let\'s find them.'
             : totalDays < 7
@@ -123,8 +140,8 @@ export function NetworkScreen() {
         {proactiveInsights.length > 0 && (
           <View style={styles.proactiveSection}>
             {proactiveInsights.map(pi => (
-              <View key={pi.id} style={styles.proactiveCard}>
-                <Text style={styles.proactiveText}>{pi.text}</Text>
+              <View key={pi.id} style={[styles.proactiveCard, { backgroundColor: colors.nebulaPurpleLight, borderLeftColor: colors.nebulaPurple }]}>
+                <Text style={[styles.proactiveText, { color: colors.starlight }]}>{pi.text}</Text>
               </View>
             ))}
           </View>
@@ -161,7 +178,7 @@ export function NetworkScreen() {
                 <NetworkEdge
                   key={`potential-${a}-${b}`}
                   x1={posA.x} y1={posA.y} x2={posB.x} y2={posB.y}
-                  colorA={Colors.starlightFaint} colorB={Colors.starlightFaint}
+                  colorA={colors.starlightFaint} colorB={colors.starlightFaint}
                   strength={0} highlighted={false}
                 />
               );
@@ -190,19 +207,29 @@ export function NetworkScreen() {
           })}
         </View>
 
+        {totalDays === 0 && logs.length === 0 && (
+          <View style={{ alignItems: 'center', paddingVertical: 40 }}>
+            <Text style={{ ...Typography.caption, color: colors.starlightDim, textAlign: 'center', maxWidth: 260, lineHeight: 22 }}>
+              log your first signals to see your constellation
+            </Text>
+          </View>
+        )}
+
         {/* Log Button */}
-        <TouchableOpacity
-          style={[styles.logButton, todayLogged && styles.logButtonDone]}
-          onPress={() => { if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); setShowLog(true); }}
-          activeOpacity={0.8}
-          accessibilityLabel={todayLogged ? 'update today\'s log' : 'log today'}
-          accessibilityRole="button"
-        >
-          <Text style={styles.logButtonText}>
-            {todayLogged ? 'update today' : 'log today'}
-          </Text>
-          {!todayLogged && <Text style={styles.logButtonSubtext}>{activeSignals.length} signals · under 15 seconds</Text>}
-        </TouchableOpacity>
+        <Animated.View style={[{ width: '100%' }, totalDays === 0 && { transform: [{ scale: pulseAnim }] }]}>
+          <TouchableOpacity
+            style={[styles.logButton, { backgroundColor: colors.nebulaPurple }, todayLogged && [styles.logButtonDone, { backgroundColor: colors.surface3 }]]}
+            onPress={() => { if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); setShowLog(true); }}
+            activeOpacity={0.8}
+            accessibilityLabel={todayLogged ? 'update today\'s log' : 'log today'}
+            accessibilityRole="button"
+          >
+            <Text style={[styles.logButtonText, { color: colors.starlight }]}>
+              {todayLogged ? 'update today' : 'log today'}
+            </Text>
+            {!todayLogged && <Text style={styles.logButtonSubtext}>{activeSignals.length} signals · under 15 seconds</Text>}
+          </TouchableOpacity>
+        </Animated.View>
 
         {dailyFocusAction && (
           <Animated.View style={{ opacity: digestOpacity, transform: [{ translateY: digestSlide }] }}>
@@ -214,7 +241,7 @@ export function NetworkScreen() {
 
         {totalDays < 7 && coldStartContent.length > 0 && (
           <View style={styles.coldStartSection}>
-            <Text style={styles.sectionTitle}>
+            <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>
               {totalDays === 0 ? '🔬 what science knows' : '🔬 while your patterns emerge'}
             </Text>
             <MedicalDisclaimer compact />
@@ -236,13 +263,13 @@ export function NetworkScreen() {
       {showUnlockModal && newlyUnlocked.length > 0 && (
         <Modal visible transparent animationType="none" onRequestClose={() => { setShowUnlockModal(false); clearNewlyUnlocked(); }}>
           <Animated.View style={[styles.unlockBackdrop, { opacity: unlockOpacity }]}>
-            <Animated.View style={[styles.unlockCard, { transform: [{ scale: unlockScale }] }]}>
+            <Animated.View style={[styles.unlockCard, { backgroundColor: colors.surface2, transform: [{ scale: unlockScale }] }]}>
               <Text style={styles.unlockEmoji}>🔓</Text>
-              <Text style={styles.unlockTitle}>new signals unlocked</Text>
-              <Text style={styles.unlockText}>
+              <Text style={[styles.unlockTitle, { color: colors.starlight }]}>new signals unlocked</Text>
+              <Text style={[styles.unlockText, { color: colors.starlightDim }]}>
                 {newlyUnlocked.map(s => SigCfg[s]?.label || s).join(' and ')} {newlyUnlocked.length === 1 ? 'is' : 'are'} now available. add {newlyUnlocked.length === 1 ? 'it' : 'them'} in settings.
               </Text>
-              <TouchableOpacity style={styles.unlockButton} onPress={() => { setShowUnlockModal(false); clearNewlyUnlocked(); }}>
+              <TouchableOpacity style={[styles.unlockButton, { backgroundColor: colors.nebulaPurple }]} onPress={() => { setShowUnlockModal(false); clearNewlyUnlocked(); }}>
                 <Text style={styles.unlockButtonText}>got it</Text>
               </TouchableOpacity>
             </Animated.View>

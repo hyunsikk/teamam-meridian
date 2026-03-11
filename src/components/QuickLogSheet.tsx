@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { Colors, Typography, Spacing, SignalConfig, SignalKey } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import { useData } from '../context/DataContext';
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -25,6 +26,7 @@ interface Props {
 }
 
 export function QuickLogSheet({ onClose }: Props) {
+  const { colors } = useTheme();
   const { addLog, logs, settings } = useData();
   const activeSignals = settings.activeSignals;
   const [stepIndex, setStepIndex] = useState(0);
@@ -132,23 +134,24 @@ export function QuickLogSheet({ onClose }: Props) {
     <Modal visible animationType="slide" transparent onRequestClose={onClose}>
       <View style={styles.backdrop}>
         <TouchableOpacity style={styles.dismissArea} onPress={onClose} accessibilityLabel="dismiss" accessibilityRole="button" />
-        <View style={styles.sheet}>
-          <View style={styles.handle} />
+        <View style={[styles.sheet, { backgroundColor: colors.surface2 }]}>
+          <View style={[styles.handle, { backgroundColor: colors.divider }]} />
 
           {/* Progress */}
           <View style={styles.progressRow}>
             {activeSignals.map((_, i) => (
               <View key={i} style={[
                 styles.progressDot,
-                i === stepIndex && styles.progressDotActive,
-                i < stepIndex && styles.progressDotDone,
+                { backgroundColor: colors.surface3 },
+                i === stepIndex && { backgroundColor: colors.nebulaPurple, width: 24 },
+                i < stepIndex && { backgroundColor: colors.auroraTeal },
               ]} />
             ))}
           </View>
 
           <Text style={styles.emoji}>{config.emoji}</Text>
-          <Text style={styles.signalName}>{config.label}</Text>
-          <Text style={styles.prompt}>
+          <Text style={[styles.signalName, { color: colors.starlight }]}>{config.label}</Text>
+          <Text style={[styles.prompt, { color: colors.starlightDim }]}>
             {getTimeOfDayPrompt(config.type, config.label)}
           </Text>
 
@@ -161,12 +164,12 @@ export function QuickLogSheet({ onClose }: Props) {
                   return (
                     <TouchableOpacity
                       key={i} onPress={() => handleValue(val)}
-                      style={[styles.emojiOption, selected && { backgroundColor: config.color + '30', borderColor: config.color }]}
+                      style={[styles.emojiOption, { backgroundColor: colors.surface3 }, selected && { backgroundColor: config.color + '30', borderColor: config.color }]}
                       accessibilityLabel={`${config.label} level ${val}`}
                       accessibilityRole="button"
                     >
                       <Text style={[styles.emojiText, selected && styles.emojiTextSelected]}>{opt}</Text>
-                      <Text style={[styles.emojiVal, selected && { color: config.color }]}>{val}</Text>
+                      <Text style={[styles.emojiVal, { color: colors.starlightFaint }, selected && { color: config.color }]}>{val}</Text>
                     </TouchableOpacity>
                   );
                 })}
@@ -180,7 +183,7 @@ export function QuickLogSheet({ onClose }: Props) {
                   {typeof currentValue === 'number' ? currentValue.toFixed(1) : sliderDisplayValue.toFixed(1)}h
                 </Text>
                 <View style={styles.smoothSliderWrapper} {...panResponder.panHandlers}>
-                  <View style={[styles.smoothSliderTrack, { width: SLIDER_WIDTH }]}>
+                  <View style={[styles.smoothSliderTrack, { width: SLIDER_WIDTH, backgroundColor: colors.surface3 }]}>
                     <RNAnimated.View
                       style={[styles.smoothSliderFill, {
                         width: sliderX,
@@ -191,12 +194,13 @@ export function QuickLogSheet({ onClose }: Props) {
                   <RNAnimated.View
                     style={[styles.smoothSliderThumb, {
                       backgroundColor: config.color,
+                      borderColor: colors.surface2,
                       transform: [{ translateX: RNAnimated.subtract(sliderX, 14) }],
                     }]}
                   />
                   <View style={styles.smoothSliderLabels}>
                     {[0, 3, 6, 9, 12].map(v => (
-                      <Text key={v} style={styles.smoothSliderLabel}>{v}h</Text>
+                      <Text key={v} style={[styles.smoothSliderLabel, { color: colors.starlightFaint }]}>{v}h</Text>
                     ))}
                   </View>
                 </View>
@@ -206,16 +210,16 @@ export function QuickLogSheet({ onClose }: Props) {
             {config.type === 'toggle' && (
               <View style={styles.toggleRow}>
                 <TouchableOpacity
-                  style={[styles.toggleOption, currentValue === false && { backgroundColor: Colors.surface3, borderColor: Colors.auroraTeal }]}
+                  style={[styles.toggleOption, { backgroundColor: colors.surface3 }, currentValue === false && { backgroundColor: colors.surface3, borderColor: colors.auroraTeal }]}
                   onPress={() => handleValue(false)} accessibilityLabel={`no ${config.label}`} accessibilityRole="button"
                 >
-                  <Text style={styles.toggleText}>no</Text>
+                  <Text style={[styles.toggleText, { color: colors.starlight }]}>no</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={[styles.toggleOption, currentValue === true && { backgroundColor: config.color + '30', borderColor: config.color }]}
+                  style={[styles.toggleOption, { backgroundColor: colors.surface3 }, currentValue === true && { backgroundColor: config.color + '30', borderColor: config.color }]}
                   onPress={() => handleValue(true)} accessibilityLabel={`yes ${config.label}`} accessibilityRole="button"
                 >
-                  <Text style={styles.toggleText}>yes</Text>
+                  <Text style={[styles.toggleText, { color: colors.starlight }]}>yes</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -230,18 +234,18 @@ export function QuickLogSheet({ onClose }: Props) {
               accessibilityLabel="back"
               accessibilityRole="button"
             >
-              <Text style={[styles.backText, stepIndex === 0 && styles.backTextDisabled]}>← back</Text>
+              <Text style={[styles.backText, { color: colors.starlightDim }, stepIndex === 0 && { color: colors.starlightFaint }]}>← back</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleSkip} style={styles.skipButton} accessibilityLabel="skip" accessibilityRole="button">
-              <Text style={styles.skipText}>skip</Text>
+              <Text style={[styles.skipText, { color: colors.starlightFaint }]}>skip</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleNext}
-              style={[styles.nextButton, { backgroundColor: currentValue !== undefined ? Colors.nebulaPurple : Colors.surface3 }]}
+              style={[styles.nextButton, { backgroundColor: currentValue !== undefined ? colors.nebulaPurple : colors.surface3 }]}
               accessibilityLabel={isLast ? 'done' : 'next'}
               accessibilityRole="button"
             >
-              <Text style={styles.nextText}>{isLast ? 'done' : 'next'}</Text>
+              <Text style={[styles.nextText, { color: colors.starlight }]}>{isLast ? 'done' : 'next'}</Text>
             </TouchableOpacity>
           </View>
         </View>

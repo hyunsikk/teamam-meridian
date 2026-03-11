@@ -2,12 +2,14 @@ import React, { useRef, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Platform, Animated } from 'react-native';
 import { Colors, Typography, Spacing, SignalConfig } from '../styles/theme';
 import { useData } from '../context/DataContext';
+import { useTheme } from '../context/ThemeContext';
 import { InsightCard } from '../components/InsightCard';
 import { RecommendationCard } from '../components/RecommendationCard';
 import { MedicalDisclaimer } from '../components/MedicalDisclaimer';
 
 export function InsightsScreen() {
   const { insights, recommendations, coldStartContent, totalDays, correlations, emergingCorrelations, weeklyDigest, streak, settings } = useData();
+  const { colors, isDark } = useTheme();
 
   // Improvement #8: sort correlation insights to show focus signal first
   const focusSignal = settings.focusSignal;
@@ -40,17 +42,25 @@ export function InsightsScreen() {
   }, [weeklyDigest]);
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-      <Text style={styles.title}>insights</Text>
+    <ScrollView style={[styles.container, { backgroundColor: colors.deepSpace }]} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <Text style={[styles.title, { color: colors.starlight }]}>insights</Text>
 
       <MedicalDisclaimer compact />
 
       {recommendations.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>💊 recommendations</Text>
+          <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>💊 recommendations</Text>
           {recommendations.slice(0, 5).map(rec => (
             <RecommendationCard key={rec.id} recommendation={rec} />
           ))}
+        </View>
+      )}
+
+      {totalDays === 0 && insights.length === 0 && coldStartContent.length === 0 && (
+        <View style={[styles.emptyState]}>
+          <Text style={[styles.emptyEmoji]}>🔍</Text>
+          <Text style={[styles.emptyTitle, { color: colors.starlight }]}>no insights yet</Text>
+          <Text style={[styles.emptyText, { color: colors.starlightDim }]}>keep logging daily. insights appear after a few days of data.</Text>
         </View>
       )}
 
@@ -58,20 +68,20 @@ export function InsightsScreen() {
       {totalDays < 7 && (
         <>
           <View style={styles.progressSection}>
-            <Text style={styles.progressTitle}>
+            <Text style={[styles.progressTitle, { color: colors.starlight }]}>
               {totalDays === 0 ? 'your personal patterns need data' : `${totalDays}/7 days to your first connections`}
             </Text>
-            <View style={styles.progressBar}>
-              <View style={[styles.progressFill, { width: `${Math.max((totalDays / 7) * 100, 5)}%` }]} />
+            <View style={[styles.progressBar, { backgroundColor: colors.surface3 }]}>
+              <View style={[styles.progressFill, { width: `${Math.max((totalDays / 7) * 100, 5)}%`, backgroundColor: colors.nebulaPurple }]} />
             </View>
-            <Text style={styles.progressLabel}>
+            <Text style={[styles.progressLabel, { color: colors.starlightFaint }]}>
               {totalDays === 0 ? 'log your first day to start' : `${7 - totalDays} more day${7 - totalDays !== 1 ? 's' : ''} until connections`}
             </Text>
           </View>
 
           {scienceCards.length > 0 && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>🔬 what research says about your signals</Text>
+              <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>🔬 what research says about your signals</Text>
               {scienceCards.slice(0, 5).map(ins => (
                 <InsightCard key={ins.id} insight={ins} />
               ))}
@@ -80,7 +90,7 @@ export function InsightsScreen() {
 
           {educationCards.length > 0 && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>📚 why these signals matter</Text>
+              <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>📚 why these signals matter</Text>
               {educationCards.map(ins => (
                 <InsightCard key={ins.id} insight={ins} />
               ))}
@@ -89,7 +99,7 @@ export function InsightsScreen() {
 
           {baselineCards.length > 0 && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>📊 population baselines</Text>
+              <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>📊 population baselines</Text>
               {baselineCards.map(ins => (
                 <InsightCard key={ins.id} insight={ins} />
               ))}
@@ -101,23 +111,23 @@ export function InsightsScreen() {
       {/* Streak */}
       {streak.current > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>🔥 streak</Text>
-          <View style={styles.streakCard}>
+          <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>🔥 streak</Text>
+          <View style={[styles.streakCard, { backgroundColor: colors.surface2 }]}>
             <Text style={styles.streakNumber}>{streak.current}</Text>
-            <Text style={styles.streakLabel}>day streak</Text>
+            <Text style={[styles.streakLabel, { color: colors.starlightDim }]}>day streak</Text>
             {streak.longest > streak.current && (
-              <Text style={styles.streakBest}>best: {streak.longest} days</Text>
+              <Text style={[styles.streakBest, { color: colors.starlightFaint }]}>best: {streak.longest} days</Text>
             )}
             {[7, 14, 30, 60, 90].includes(streak.current) && (
-              <Text style={styles.streakMilestone}>🎉 milestone reached!</Text>
+              <Text style={[styles.streakMilestone, { color: colors.nebulaPurple }]}>🎉 milestone reached!</Text>
             )}
           </View>
         </View>
       )}
       {streak.current === 0 && streak.previousStreak > 0 && (
         <View style={styles.section}>
-          <View style={styles.streakResetCard}>
-            <Text style={styles.streakResetText}>
+          <View style={[styles.streakResetCard, { backgroundColor: colors.surface2 }]}>
+            <Text style={[styles.streakResetText, { color: colors.starlightDim }]}>
               streak reset. you had {streak.previousStreak} days. let's go again.
             </Text>
           </View>
@@ -127,17 +137,17 @@ export function InsightsScreen() {
       {/* Weekly Digest with slide animation */}
       {weeklyDigest && totalDays >= 7 && (
         <Animated.View style={[styles.section, { opacity: digestOpacity, transform: [{ translateY: digestSlide }] }]}>
-          <Text style={styles.sectionTitle}>📋 weekly digest</Text>
-          <View style={styles.digestCard}>
-            <Text style={styles.digestTitle}>{weeklyDigest.weekLabel}</Text>
-            <Text style={styles.digestBody}>{weeklyDigest.summary}</Text>
+          <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>📋 weekly digest</Text>
+          <View style={[styles.digestCard, { backgroundColor: colors.surface2, borderColor: colors.nebulaPurple + '40' }]}>
+            <Text style={[styles.digestTitle, { color: colors.nebulaPurple }]}>{weeklyDigest.weekLabel}</Text>
+            <Text style={[styles.digestBody, { color: colors.starlightDim }]}>{weeklyDigest.summary}</Text>
             {/* Improvement #8: focus signal emphasis in digest */}
             {focusSignal && weeklyDigest.averages.find(a => a.signal === focusSignal) && (
-              <Text style={styles.digestFocus}>
+              <Text style={[styles.digestFocus, { color: colors.nebulaPurple }]}>
                 🎯 {SignalConfig[focusSignal]?.label}: {weeklyDigest.averages.find(a => a.signal === focusSignal)!.avg} {weeklyDigest.averages.find(a => a.signal === focusSignal)!.direction}
               </Text>
             )}
-            <Text style={styles.digestRec}>{weeklyDigest.recommendation}</Text>
+            <Text style={[styles.digestRec, { color: colors.auroraTeal }]}>{weeklyDigest.recommendation}</Text>
           </View>
         </Animated.View>
       )}
@@ -147,14 +157,14 @@ export function InsightsScreen() {
         <>
           {predictions.length > 0 && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>🔮 tomorrow's forecast</Text>
+              <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>🔮 tomorrow's forecast</Text>
               {predictions.map(ins => <InsightCard key={ins.id} insight={ins} />)}
             </View>
           )}
 
           {correlationInsights.length > 0 && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>🔗 connections ({correlationInsights.length})</Text>
+              <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>🔗 connections ({correlationInsights.length})</Text>
               {correlationInsights.map(ins => {
                 const corr = correlations.find(c =>
                   c.signalA === ins.signalA && c.signalB === ins.signalB
@@ -167,13 +177,13 @@ export function InsightsScreen() {
           {/* Improvement #12: Emerging correlations */}
           {emergingCorrelations.length > 0 && correlationInsights.length === 0 && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>🌱 something forming</Text>
+              <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>🌱 something forming</Text>
               {emergingCorrelations.slice(0, 3).map(ec => {
                 const labelA = SignalConfig[ec.signalA]?.label || ec.signalA;
                 const labelB = SignalConfig[ec.signalB]?.label || ec.signalB;
                 return (
-                  <View key={`emerging-${ec.signalA}-${ec.signalB}`} style={styles.emergingCard}>
-                    <Text style={styles.emergingText}>
+                  <View key={`emerging-${ec.signalA}-${ec.signalB}`} style={[styles.emergingCard, { backgroundColor: colors.surface2, borderColor: colors.starlightFaint }]}>
+                    <Text style={[styles.emergingText, { color: colors.starlightDim }]}>
                       something might be forming between {labelA} and {labelB} (r={Math.abs(ec.coefficient).toFixed(2)}). a few more days will tell.
                     </Text>
                   </View>
@@ -184,13 +194,13 @@ export function InsightsScreen() {
           {/* Also show emerging when we have strong correlations */}
           {emergingCorrelations.length > 0 && correlationInsights.length > 0 && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>🌱 emerging patterns</Text>
+              <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>🌱 emerging patterns</Text>
               {emergingCorrelations.slice(0, 3).map(ec => {
                 const labelA = SignalConfig[ec.signalA]?.label || ec.signalA;
                 const labelB = SignalConfig[ec.signalB]?.label || ec.signalB;
                 return (
-                  <View key={`emerging-${ec.signalA}-${ec.signalB}`} style={styles.emergingCard}>
-                    <Text style={styles.emergingText}>
+                  <View key={`emerging-${ec.signalA}-${ec.signalB}`} style={[styles.emergingCard, { backgroundColor: colors.surface2, borderColor: colors.starlightFaint }]}>
+                    <Text style={[styles.emergingText, { color: colors.starlightDim }]}>
                       something might be forming between {labelA} and {labelB} (r={Math.abs(ec.coefficient).toFixed(2)}). a few more days will tell.
                     </Text>
                   </View>
@@ -201,14 +211,14 @@ export function InsightsScreen() {
 
           {generalInsights.length > 0 && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>💡 patterns</Text>
+              <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>💡 patterns</Text>
               {generalInsights.map(ins => <InsightCard key={ins.id} insight={ins} />)}
             </View>
           )}
 
           {milestones.length > 0 && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>✨ milestones</Text>
+              <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>✨ milestones</Text>
               {milestones.slice(-3).map(ins => <InsightCard key={ins.id} insight={ins} />)}
             </View>
           )}
@@ -216,8 +226,8 @@ export function InsightsScreen() {
           {correlationInsights.length === 0 && emergingCorrelations.length === 0 && (
             <View style={styles.emptyState}>
               <Text style={styles.emptyEmoji}>🔍</Text>
-              <Text style={styles.emptyTitle}>no strong connections yet</Text>
-              <Text style={styles.emptyText}>keep logging — more data means more patterns to discover.</Text>
+              <Text style={[styles.emptyTitle, { color: colors.starlight }]}>no strong connections yet</Text>
+              <Text style={[styles.emptyText, { color: colors.starlightDim }]}>keep logging — more data means more patterns to discover.</Text>
             </View>
           )}
         </>

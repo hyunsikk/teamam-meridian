@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Share, Platform, Linking } fr
 import { Ionicons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 import { Colors, Typography, Spacing, SignalConfig } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import { Insight } from '../utils/insightEngine';
 import { Correlation } from '../utils/correlationEngine';
 
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export function InsightCard({ insight, compact, correlation }: Props) {
+  const { colors } = useTheme();
   const [expanded, setExpanded] = useState(false);
   const hasExpandable = !!(insight.detail || insight.recommendation || insight.personalDetail);
 
@@ -29,8 +31,8 @@ export function InsightCard({ insight, compact, correlation }: Props) {
   }[insight.type] || '💡';
 
   const accentColor = insight.signalA
-    ? (SignalConfig[insight.signalA]?.color || Colors.nebulaPurple)
-    : Colors.nebulaPurple;
+    ? (SignalConfig[insight.signalA]?.color || colors.nebulaPurple)
+    : colors.nebulaPurple;
 
   // Improvement #13: share insight
   const handleShare = async () => {
@@ -59,7 +61,7 @@ export function InsightCard({ insight, compact, correlation }: Props) {
 
   return (
     <TouchableOpacity
-      style={[styles.card, compact && styles.cardCompact]}
+      style={[styles.card, compact && styles.cardCompact, { backgroundColor: colors.surface2 }]}
       onPress={() => hasExpandable && setExpanded(!expanded)}
       activeOpacity={hasExpandable ? 0.7 : 1}
       accessibilityLabel={`${insight.title}: ${insight.text}`}
@@ -70,40 +72,40 @@ export function InsightCard({ insight, compact, correlation }: Props) {
       <View style={styles.content}>
         <View style={styles.titleRow}>
           <Text style={styles.typeIcon}>{typeIcon}</Text>
-          <Text style={styles.title} numberOfLines={compact ? 1 : 2}>{insight.title}</Text>
+          <Text style={[styles.title, { color: colors.starlight }]} numberOfLines={compact ? 1 : 2}>{insight.title}</Text>
           {/* Improvement #13: share button for correlation insights */}
           {insight.type === 'correlation' && (
             <TouchableOpacity onPress={handleShare} style={styles.shareButton} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-              <Ionicons name="share-outline" size={16} color={Colors.starlightFaint} />
+              <Ionicons name="share-outline" size={16} color={colors.starlightFaint} />
             </TouchableOpacity>
           )}
         </View>
 
-        <Text style={styles.body} numberOfLines={compact ? 2 : undefined}>{insight.text}</Text>
+        <Text style={[styles.body, { color: colors.starlightDim }]} numberOfLines={compact ? 2 : undefined}>{insight.text}</Text>
 
         {/* Improvement #9: personalized detail */}
         {insight.personalDetail && (expanded || !compact) && (
-          <View style={styles.personalContainer}>
-            <Text style={styles.personalText}>{insight.personalDetail}</Text>
+          <View style={[styles.personalContainer, { backgroundColor: colors.nebulaPurpleLight }]}>
+            <Text style={[styles.personalText, { color: colors.nebulaPurple }]}>{insight.personalDetail}</Text>
           </View>
         )}
 
         {expanded && insight.detail && (
-          <View style={styles.detailContainer}>
-            <Text style={styles.detailLabel}>why this happens</Text>
-            <Text style={styles.detail}>{insight.detail}</Text>
+          <View style={[styles.detailContainer, { backgroundColor: colors.surface3 }]}>
+            <Text style={[styles.detailLabel, { color: colors.nebulaPurple }]}>why this happens</Text>
+            <Text style={[styles.detail, { color: colors.starlightDim }]}>{insight.detail}</Text>
           </View>
         )}
 
         {expanded && insight.recommendation && (
-          <View style={[styles.detailContainer, styles.recContainer]}>
-            <Text style={styles.recLabel}>what to do about it</Text>
-            <Text style={styles.detail}>{insight.recommendation}</Text>
+          <View style={[styles.detailContainer, styles.recContainer, { backgroundColor: colors.surface3, borderLeftColor: colors.auroraTeal }]}>
+            <Text style={[styles.recLabel, { color: colors.auroraTeal }]}>what to do about it</Text>
+            <Text style={[styles.detail, { color: colors.starlightDim }]}>{insight.recommendation}</Text>
           </View>
         )}
 
         {!expanded && hasExpandable && !compact && (
-          <Text style={styles.expandHint}>
+          <Text style={[styles.expandHint, { color: colors.nebulaPurple }]}>
             {insight.recommendation ? 'tap for why + what to do' : 'tap to learn why'}
           </Text>
         )}
@@ -120,12 +122,12 @@ export function InsightCard({ insight, compact, correlation }: Props) {
             accessibilityLabel={`Source: ${insight.source}`}
             accessibilityRole={insight.sourceUrl ? 'link' : 'text'}
           >
-            <Ionicons name="library-outline" size={11} color={Colors.starlightFaint} />
-            <Text style={[styles.source, insight.sourceUrl && styles.sourceLink]}>
+            <Ionicons name="library-outline" size={11} color={colors.starlightFaint} />
+            <Text style={[styles.source, insight.sourceUrl && styles.sourceLink, { color: colors.starlightFaint }, insight.sourceUrl && { color: colors.nebulaPurple }]}>
               {insight.source}
             </Text>
             {insight.sourceUrl && (
-              <Ionicons name="open-outline" size={10} color={Colors.nebulaPurple} style={{ marginLeft: 4 }} />
+              <Ionicons name="open-outline" size={10} color={colors.nebulaPurple} style={{ marginLeft: 4 }} />
             )}
           </TouchableOpacity>
         )}
@@ -133,21 +135,21 @@ export function InsightCard({ insight, compact, correlation }: Props) {
         {insight.coefficient !== undefined && (
           <View style={styles.strengthRow}>
             <View style={[styles.strengthBar, { width: `${Math.abs(insight.coefficient) * 100}%`, backgroundColor: accentColor }]} />
-            <Text style={styles.strengthLabel}>r = {insight.coefficient > 0 ? '+' : ''}{insight.coefficient.toFixed(2)}</Text>
+            <Text style={[styles.strengthLabel, { color: colors.starlightFaint }]}>r = {insight.coefficient > 0 ? '+' : ''}{insight.coefficient.toFixed(2)}</Text>
           </View>
         )}
 
         {correlation?.confidence && (
           <View style={styles.confidenceRow}>
             <Text style={[styles.confidenceLabel, {
-              color: correlation.confidence === 'high' ? Colors.auroraTeal :
-                     correlation.confidence === 'medium' ? Colors.nebulaPurple :
-                     Colors.starlightFaint,
+              color: correlation.confidence === 'high' ? colors.auroraTeal :
+                     correlation.confidence === 'medium' ? colors.nebulaPurple :
+                     colors.starlightFaint,
             }]}>
               confidence: {correlation.confidence}
             </Text>
             {correlation.confidence === 'low' && (
-              <Text style={styles.confidenceNote}>need more data to confirm</Text>
+              <Text style={[styles.confidenceNote, { color: colors.starlightFaint }]}>need more data to confirm</Text>
             )}
           </View>
         )}

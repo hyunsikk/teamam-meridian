@@ -2,36 +2,38 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Typography, Spacing } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 
 interface Props {
   compact?: boolean;
 }
 
 export function MedicalDisclaimer({ compact }: Props) {
+  const { colors } = useTheme();
   const [expanded, setExpanded] = useState(false);
 
   if (compact) {
     return (
       <TouchableOpacity
-        style={styles.compactContainer}
+        style={[styles.compactContainer, { backgroundColor: colors.surface2 }]}
         onPress={() => setExpanded(!expanded)}
         activeOpacity={0.7}
         accessibilityLabel="Medical disclaimer"
         accessibilityRole="button"
       >
         <View style={styles.compactHeader}>
-          <Ionicons name="information-circle-outline" size={14} color={Colors.starlightFaint} />
-          <Text style={styles.compactText}>
+          <Ionicons name="information-circle-outline" size={14} color={colors.starlightFaint} />
+          <Text style={[styles.compactText, { color: colors.starlightFaint }]}>
             for informational purposes only — not medical advice
           </Text>
           <Ionicons
             name={expanded ? 'chevron-up' : 'chevron-down'}
             size={14}
-            color={Colors.starlightFaint}
+            color={colors.starlightFaint}
           />
         </View>
         {expanded && (
-          <Text style={styles.compactDetail}>
+          <Text style={[styles.compactDetail, { color: colors.starlightFaint }]}>
             Meridian provides general wellness information based on published research. It does not diagnose, treat, or cure any medical condition. Always consult a qualified healthcare provider before making changes to your health routine. If you are experiencing a medical emergency, call your local emergency services immediately.
           </Text>
         )}
@@ -40,18 +42,18 @@ export function MedicalDisclaimer({ compact }: Props) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.surface2, borderColor: colors.divider }]}>
       <View style={styles.iconRow}>
-        <Ionicons name="medical-outline" size={18} color={Colors.starlightFaint} />
-        <Text style={styles.title}>health information disclaimer</Text>
+        <Ionicons name="medical-outline" size={18} color={colors.starlightFaint} />
+        <Text style={[styles.title, { color: colors.starlightFaint }]}>health information disclaimer</Text>
       </View>
-      <Text style={styles.body}>
+      <Text style={[styles.body, { color: colors.starlightFaint }]}>
         Meridian provides general wellness information based on published scientific research. This app does not provide medical advice, diagnosis, or treatment. The content is for informational and educational purposes only.
       </Text>
-      <Text style={styles.body}>
+      <Text style={[styles.body, { color: colors.starlightFaint }]}>
         Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay seeking it because of information provided by this app.
       </Text>
-      <Text style={styles.body}>
+      <Text style={[styles.body, { color: colors.starlightFaint }]}>
         If you think you may have a medical emergency, call your doctor or emergency services immediately.
       </Text>
     </View>

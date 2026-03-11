@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { Colors, Typography, SignalKey } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 
 interface Props {
   x: number;
@@ -20,6 +21,7 @@ interface Props {
 const NODE_SIZE = 48;
 
 export function NetworkNode({ x, y, emoji, label, color, value, isSelected, connectionCount, hasData, onPress, isFocus }: Props) {
+  const { colors } = useTheme();
   const breathAnim = useRef(new Animated.Value(1)).current;
   const glowAnim = useRef(new Animated.Value(0.15)).current;
   const selectedScale = useRef(Animated.multiply(breathAnim, new Animated.Value(1.1))).current;
@@ -102,7 +104,7 @@ export function NetworkNode({ x, y, emoji, label, color, value, isSelected, conn
           styles.node,
           {
             backgroundColor: hasData ? color + 'CC' : color + '40',
-            borderColor: isSelected ? Colors.starlight : 'transparent',
+            borderColor: isSelected ? colors.starlight : 'transparent',
             borderWidth: isSelected ? 2 : 0,
             transform: [{ scale: isSelected ? selectedScale : breathAnim }],
           },
@@ -112,21 +114,21 @@ export function NetworkNode({ x, y, emoji, label, color, value, isSelected, conn
       </Animated.View>
 
       {/* Label */}
-      <Text style={[styles.label, { color: hasData ? Colors.starlightDim : Colors.starlightFaint }]}>
+      <Text style={[styles.label, { color: hasData ? colors.starlightDim : colors.starlightFaint }]}>
         {label}
       </Text>
 
       {/* Value badge */}
       {displayValue !== '' && (
         <View style={[styles.valueBadge, { backgroundColor: color + '40' }]}>
-          <Text style={styles.valueText}>{displayValue}</Text>
+          <Text style={[styles.valueText, { color: colors.starlight }]}>{displayValue}</Text>
         </View>
       )}
 
       {/* Connection count */}
       {connectionCount > 0 && (
-        <View style={styles.connBadge}>
-          <Text style={styles.connText}>{connectionCount}</Text>
+        <View style={[styles.connBadge, { backgroundColor: colors.nebulaPurple }]}>
+          <Text style={[styles.connText, { color: colors.starlight }]}>{connectionCount}</Text>
         </View>
       )}
     </TouchableOpacity>

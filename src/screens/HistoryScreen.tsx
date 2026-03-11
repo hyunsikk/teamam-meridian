@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Platform, Modal } from 'react-native';
 import { Colors, Typography, Spacing, SignalConfig, SIGNAL_KEYS, SignalKey } from '../styles/theme';
 import { useData } from '../context/DataContext';
+import { useTheme } from '../context/ThemeContext';
 
 const DAYS = ['m', 't', 'w', 't', 'f', 's', 's'];
 
@@ -16,6 +17,7 @@ function getFirstDayOfMonth(year: number, month: number): number {
 
 export function HistoryScreen() {
   const { logs, totalDays, deleteLog, settings } = useData();
+  const { colors, isDark } = useTheme();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
@@ -90,35 +92,35 @@ export function HistoryScreen() {
 
   return (
     <ScrollView
-      style={styles.container}
+      style={[styles.container, { backgroundColor: colors.deepSpace }]}
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.title}>history</Text>
+      <Text style={[styles.title, { color: colors.starlight }]}>history</Text>
 
       {totalDays === 0 ? (
         <View style={styles.emptyState}>
           <Text style={styles.emptyEmoji}>📅</Text>
-          <Text style={styles.emptyTitle}>no logs yet</Text>
-          <Text style={styles.emptyText}>start logging to see your history here.</Text>
+          <Text style={[styles.emptyTitle, { color: colors.starlight }]}>no logs yet</Text>
+          <Text style={[styles.emptyText, { color: colors.starlightDim }]}>no entries yet. tap + to log your first signals.</Text>
         </View>
       ) : (
         <>
           {/* Month Navigation */}
           <View style={styles.monthNav}>
             <TouchableOpacity onPress={() => navigateMonth(-1)} style={styles.navButton} accessibilityLabel="previous month">
-              <Text style={styles.navArrow}>←</Text>
+              <Text style={[styles.navArrow, { color: colors.nebulaPurple }]}>←</Text>
             </TouchableOpacity>
-            <Text style={styles.monthLabel}>{monthName}</Text>
+            <Text style={[styles.monthLabel, { color: colors.starlight }]}>{monthName}</Text>
             <TouchableOpacity onPress={() => navigateMonth(1)} style={styles.navButton} accessibilityLabel="next month">
-              <Text style={styles.navArrow}>→</Text>
+              <Text style={[styles.navArrow, { color: colors.nebulaPurple }]}>→</Text>
             </TouchableOpacity>
           </View>
 
           {/* Calendar Grid */}
           <View style={styles.calendarGrid}>
             {DAYS.map((d, i) => (
-              <Text key={`header-${i}`} style={styles.dayHeader}>{d}</Text>
+              <Text key={`header-${i}`} style={[styles.dayHeader, { color: colors.starlightFaint }]}>{d}</Text>
             ))}
             {Array.from({ length: firstDay }, (_, i) => (
               <View key={`empty-${i}`} style={styles.calendarCell} />
@@ -131,7 +133,7 @@ export function HistoryScreen() {
               const isSelected = selectedDay === dateStr;
               const isToday = dateStr === new Date().toISOString().split('T')[0];
 
-              let bgColor = Colors.surface2;
+              let bgColor = colors.surface2;
               if (signalCount > 0) {
                 const alpha = Math.min(signalCount / 8, 1) * 0.7 + 0.15;
                 bgColor = `rgba(123, 104, 238, ${alpha})`;
@@ -143,15 +145,16 @@ export function HistoryScreen() {
                   style={[
                     styles.calendarCell,
                     { backgroundColor: bgColor },
-                    isSelected && styles.calendarCellSelected,
-                    isToday && styles.calendarCellToday,
+                    isSelected && [styles.calendarCellSelected, { borderColor: colors.nebulaPurple }],
+                    isToday && [styles.calendarCellToday, { borderColor: colors.auroraTeal }],
                   ]}
                   onPress={() => setSelectedDay(isSelected ? null : dateStr)}
                   accessibilityLabel={`${dateStr}: ${signalCount} signals logged`}
                 >
                   <Text style={[
                     styles.dayNumber,
-                    signalCount > 0 && styles.dayNumberActive,
+                    { color: colors.starlightFaint },
+                    signalCount > 0 && [styles.dayNumberActive, { color: colors.starlight }],
                   ]}>{day}</Text>
                 </TouchableOpacity>
               );
@@ -160,19 +163,19 @@ export function HistoryScreen() {
 
           {/* Improvement #3: Calendar heatmap legend */}
           <View style={styles.legendRow}>
-            <Text style={styles.legendLabel}>fewer signals</Text>
+            <Text style={[styles.legendLabel, { color: colors.starlightFaint }]}>fewer signals</Text>
             <View style={styles.legendGradient}>
               {[0.15, 0.3, 0.45, 0.6, 0.75, 0.85].map((alpha, i) => (
                 <View key={i} style={[styles.legendBlock, { backgroundColor: `rgba(123, 104, 238, ${alpha})` }]} />
               ))}
             </View>
-            <Text style={styles.legendLabel}>more signals</Text>
+            <Text style={[styles.legendLabel, { color: colors.starlightFaint }]}>more signals</Text>
           </View>
 
           {/* Selected Day Detail */}
           {selectedLog && (
-            <View style={styles.dayDetail}>
-              <Text style={styles.dayDetailDate}>{selectedDay}</Text>
+            <View style={[styles.dayDetail, { backgroundColor: colors.surface2 }]}>
+              <Text style={[styles.dayDetailDate, { color: colors.nebulaPurple }]}>{selectedDay}</Text>
               {Object.entries(selectedLog.signals).map(([key, val]) => {
                 const config = SignalConfig[key as SignalKey];
                 if (!config) return null;
@@ -180,7 +183,7 @@ export function HistoryScreen() {
                 return (
                   <View key={key} style={styles.signalRow}>
                     <Text style={styles.signalEmoji}>{config.emoji}</Text>
-                    <Text style={styles.signalLabel}>{config.label}</Text>
+                    <Text style={[styles.signalLabel, { color: colors.starlight }]}>{config.label}</Text>
                     <Text style={[styles.signalValue, { color: config.color }]}>{displayVal}</Text>
                   </View>
                 );
@@ -189,7 +192,7 @@ export function HistoryScreen() {
                 style={styles.deleteButton}
                 onPress={() => setConfirmDelete(selectedDay)}
               >
-                <Text style={styles.deleteButtonText}>delete this log</Text>
+                <Text style={[styles.deleteButtonText, { color: colors.ember }]}>delete this log</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -198,23 +201,23 @@ export function HistoryScreen() {
           {confirmDelete && (
             <Modal visible transparent animationType="fade" onRequestClose={() => setConfirmDelete(null)}>
               <View style={styles.modalBackdrop}>
-                <View style={styles.modalCard}>
-                  <Text style={styles.modalTitle}>delete {(() => {
+                <View style={[styles.modalCard, { backgroundColor: colors.surface2 }]}>
+                  <Text style={[styles.modalTitle, { color: colors.starlight }]}>delete {(() => {
                     const d = new Date(confirmDelete + 'T12:00:00');
                     const months = ['january','february','march','april','may','june','july','august','september','october','november','december'];
                     return `${months[d.getMonth()]} ${d.getDate()} log`;
                   })()}?</Text>
-                  <Text style={styles.modalText}>this can't be undone.</Text>
+                  <Text style={[styles.modalText, { color: colors.starlightDim }]}>this can't be undone.</Text>
                   <View style={styles.modalActions}>
-                    <TouchableOpacity style={styles.modalCancel} onPress={() => setConfirmDelete(null)}>
-                      <Text style={styles.modalCancelText}>cancel</Text>
+                    <TouchableOpacity style={[styles.modalCancel, { backgroundColor: colors.surface3 }]} onPress={() => setConfirmDelete(null)}>
+                      <Text style={[styles.modalCancelText, { color: colors.starlightDim }]}>cancel</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.modalDelete} onPress={async () => {
                       await deleteLog(confirmDelete);
                       setConfirmDelete(null);
                       setSelectedDay(null);
                     }}>
-                      <Text style={styles.modalDeleteText}>delete</Text>
+                      <Text style={[styles.modalDeleteText, { color: colors.ember }]}>delete</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -225,7 +228,7 @@ export function HistoryScreen() {
           {/* Sparklines */}
           {sparklines.length > 0 && (
             <View style={styles.sparklinesSection}>
-              <Text style={styles.sectionTitle}>60-day trends</Text>
+              <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>60-day trends</Text>
               {sparklines.map(({ signal, values, avg }) => {
                 const config = SignalConfig[signal];
                 const max = Math.max(...values);
@@ -236,7 +239,7 @@ export function HistoryScreen() {
                   <View key={signal} style={styles.sparklineRow}>
                     <View style={styles.sparklineLabel}>
                       <Text style={styles.sparklineEmoji}>{config.emoji}</Text>
-                      <Text style={styles.sparklineName}>{config.label}</Text>
+                      <Text style={[styles.sparklineName, { color: colors.starlightDim }]}>{config.label}</Text>
                     </View>
                     <View style={styles.sparklineChart}>
                       {values.map((v, i) => (
@@ -265,17 +268,17 @@ export function HistoryScreen() {
           {/* Improvement #10: Interactive Trend Timeline */}
           {trendData.length > 3 && (
             <View style={styles.trendSection}>
-              <Text style={styles.sectionTitle}>interactive trends</Text>
+              <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>interactive trends</Text>
 
               {/* Range toggle */}
               <View style={styles.trendRangeRow}>
                 {([30, 60, 90] as const).map(r => (
                   <TouchableOpacity
                     key={r}
-                    style={[styles.trendRangeButton, trendRange === r && styles.trendRangeButtonActive]}
+                    style={[styles.trendRangeButton, { backgroundColor: colors.surface2 }, trendRange === r && [styles.trendRangeButtonActive, { backgroundColor: colors.nebulaPurple + '30' }]]}
                     onPress={() => { setTrendRange(r); setSelectedTrendDay(null); }}
                   >
-                    <Text style={[styles.trendRangeText, trendRange === r && styles.trendRangeTextActive]}>{r}d</Text>
+                    <Text style={[styles.trendRangeText, { color: colors.starlightFaint }, trendRange === r && [styles.trendRangeTextActive, { color: colors.nebulaPurple }]]}>{r}d</Text>
                   </TouchableOpacity>
                 ))}
               </View>
@@ -288,11 +291,11 @@ export function HistoryScreen() {
                   return (
                     <TouchableOpacity
                       key={sig}
-                      style={[styles.trendSignalPill, active && { backgroundColor: cfg.color + '30', borderColor: cfg.color }]}
+                      style={[styles.trendSignalPill, { backgroundColor: colors.surface2 }, active && { backgroundColor: cfg.color + '30', borderColor: cfg.color }]}
                       onPress={() => toggleTrendSignal(sig)}
                     >
                       <Text style={styles.trendSignalEmoji}>{cfg.emoji}</Text>
-                      <Text style={[styles.trendSignalName, active && { color: cfg.color }]}>{cfg.label}</Text>
+                      <Text style={[styles.trendSignalName, { color: colors.starlightFaint }, active && { color: cfg.color }]}>{cfg.label}</Text>
                     </TouchableOpacity>
                   );
                 })}
@@ -330,8 +333,8 @@ export function HistoryScreen() {
 
               {/* Selected day tooltip */}
               {selectedTrendDay !== null && trendData[selectedTrendDay] && (
-                <View style={styles.trendTooltip}>
-                  <Text style={styles.trendTooltipDate}>{trendData[selectedTrendDay].date}</Text>
+                <View style={[styles.trendTooltip, { backgroundColor: colors.surface2 }]}>
+                  <Text style={[styles.trendTooltipDate, { color: colors.nebulaPurple }]}>{trendData[selectedTrendDay].date}</Text>
                   {Array.from(visibleTrendSignals).map(sig => {
                     const val = trendData[selectedTrendDay].values[sig];
                     if (val === undefined) return null;

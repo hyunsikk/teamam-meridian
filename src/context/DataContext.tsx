@@ -47,6 +47,7 @@ interface DataContextType {
   updateSettings: (s: Partial<AppSettings>) => Promise<void>;
   refreshAnalysis: () => void;
   clearNewlyUnlocked: () => void;
+  resetAllData: () => Promise<void>;
 }
 
 const defaultSettings: AppSettings = {
@@ -66,7 +67,7 @@ const DataContext = createContext<DataContextType>({
   settings: defaultSettings, dailyFocusAction: null,
   streak: defaultStreak, newlyUnlocked: [],
   addLog: async () => {}, deleteLog: async () => {}, updateSettings: async () => {},
-  refreshAnalysis: () => {}, clearNewlyUnlocked: () => {},
+  refreshAnalysis: () => {}, clearNewlyUnlocked: () => {}, resetAllData: async () => {},
 });
 
 export const useData = () => useContext(DataContext);
@@ -256,6 +257,26 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
 
   const clearNewlyUnlocked = () => setNewlyUnlocked([]);
 
+  const resetAllData = async () => {
+    try {
+      setLogs([]);
+      setSettings(defaultSettings);
+      setCorrelations([]);
+      setEmergingCorrelations([]);
+      setInsights([]);
+      setRecommendations([]);
+      setColdStartContent([]);
+      setWeeklyDigest(null);
+      setProactiveInsights([]);
+      setStreak(defaultStreak);
+      setDailyFocusAction(null);
+      setNewlyUnlocked([]);
+      await AsyncStorage.multiRemove([LOGS_KEY, SETTINGS_KEY]);
+    } catch (e) {
+      console.warn('Failed to reset data', e);
+    }
+  };
+
   const today = new Date().toISOString().split('T')[0];
   const todayLogged = logs.some(l => l.date === today);
 
@@ -265,7 +286,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       weeklyDigest, proactiveInsights, todayLogged, totalDays: logs.length, settings, dailyFocusAction,
       streak, newlyUnlocked,
       addLog, deleteLog, updateSettings, refreshAnalysis: () => runAnalysis(logs),
-      clearNewlyUnlocked,
+      clearNewlyUnlocked, resetAllData,
     }}>
       {children}
     </DataContext.Provider>

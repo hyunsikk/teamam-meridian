@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Typography, Spacing, SignalConfig } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import { Recommendation } from '../utils/insightEngine';
 
 interface Props {
@@ -10,30 +11,31 @@ interface Props {
 }
 
 export function RecommendationCard({ recommendation, isFocusAction }: Props) {
+  const { colors } = useTheme();
   const signalConfig = SignalConfig[recommendation.targetSignal];
-  const accentColor = signalConfig?.color || Colors.auroraTeal;
+  const accentColor = signalConfig?.color || colors.auroraTeal;
 
   return (
-    <View style={[styles.card, isFocusAction && styles.focusCard]}>
+    <View style={[styles.card, { backgroundColor: colors.surface2, borderLeftColor: colors.auroraTeal }, isFocusAction && { borderLeftColor: colors.nebulaPurple, backgroundColor: colors.nebulaPurpleLight }]}>
       {isFocusAction && (
-        <View style={styles.focusBadge}>
-          <Text style={styles.focusBadgeText}>🎯 today's focus</Text>
+        <View style={[styles.focusBadge, { backgroundColor: colors.nebulaPurple + '30' }]}>
+          <Text style={[styles.focusBadgeText, { color: colors.nebulaPurple }]}>🎯 today's focus</Text>
         </View>
       )}
 
       <View style={styles.header}>
         <View style={[styles.priorityDot, {
-          backgroundColor: recommendation.priority === 'high' ? Colors.ember :
-                          recommendation.priority === 'medium' ? Colors.nebulaPurple : Colors.surface3
+          backgroundColor: recommendation.priority === 'high' ? colors.ember :
+                          recommendation.priority === 'medium' ? colors.nebulaPurple : colors.surface3
         }]} />
-        <Text style={styles.title}>{recommendation.title}</Text>
+        <Text style={[styles.title, { color: colors.starlight }]}>{recommendation.title}</Text>
       </View>
 
-      <Text style={styles.action}>{recommendation.action}</Text>
+      <Text style={[styles.action, { color: colors.starlight }]}>{recommendation.action}</Text>
 
-      <View style={styles.rationaleContainer}>
-        <Text style={styles.rationaleLabel}>why</Text>
-        <Text style={styles.rationale}>{recommendation.rationale}</Text>
+      <View style={[styles.rationaleContainer, { backgroundColor: colors.surface3 }]}>
+        <Text style={[styles.rationaleLabel, { color: colors.auroraTeal }]}>why</Text>
+        <Text style={[styles.rationale, { color: colors.starlightDim }]}>{recommendation.rationale}</Text>
       </View>
 
       {recommendation.source && (
@@ -48,12 +50,12 @@ export function RecommendationCard({ recommendation, isFocusAction }: Props) {
           accessibilityLabel={`Source: ${recommendation.source}`}
           accessibilityRole={recommendation.sourceUrl ? 'link' : 'text'}
         >
-          <Ionicons name="library-outline" size={11} color={Colors.starlightFaint} />
-          <Text style={[styles.source, recommendation.sourceUrl && styles.sourceLink]}>
+          <Ionicons name="library-outline" size={11} color={colors.starlightFaint} />
+          <Text style={[styles.source, { color: colors.starlightFaint }, recommendation.sourceUrl && { color: colors.nebulaPurple, textDecorationLine: 'underline' }]}>
             {recommendation.source}
           </Text>
           {recommendation.sourceUrl && (
-            <Ionicons name="open-outline" size={10} color={Colors.nebulaPurple} style={{ marginLeft: 4 }} />
+            <Ionicons name="open-outline" size={10} color={colors.nebulaPurple} style={{ marginLeft: 4 }} />
           )}
         </TouchableOpacity>
       )}
