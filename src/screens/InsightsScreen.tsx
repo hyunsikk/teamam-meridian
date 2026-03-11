@@ -49,7 +49,7 @@ export function InsightsScreen() {
 
       {recommendations.length > 0 && (
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>💊 recommendations</Text>
+          <Text style={[styles.sectionTitle, { color: colors.starlightDim }]}>💡 recommendations</Text>
           {recommendations.slice(0, 5).map(rec => (
             <RecommendationCard key={rec.id} recommendation={rec} />
           ))}

@@ -131,10 +131,14 @@ export function HistoryScreen() {
               const log = logMap.get(dateStr);
               const signalCount = log ? Object.keys(log.signals).length : 0;
               const isSelected = selectedDay === dateStr;
-              const isToday = dateStr === new Date().toISOString().split('T')[0];
+              const todayStr = new Date().toISOString().split('T')[0];
+              const isToday = dateStr === todayStr;
+              const isFuture = dateStr > todayStr;
 
               let bgColor = colors.surface2;
-              if (signalCount > 0) {
+              if (isFuture) {
+                bgColor = 'transparent';
+              } else if (signalCount > 0) {
                 const alpha = Math.min(signalCount / 8, 1) * 0.7 + 0.15;
                 bgColor = `rgba(123, 104, 238, ${alpha})`;
               }
@@ -145,31 +149,34 @@ export function HistoryScreen() {
                   style={[
                     styles.calendarCell,
                     { backgroundColor: bgColor },
+                    isFuture && { opacity: 0.3 },
                     isSelected && [styles.calendarCellSelected, { borderColor: colors.nebulaPurple }],
                     isToday && [styles.calendarCellToday, { borderColor: colors.auroraTeal }],
                   ]}
-                  onPress={() => setSelectedDay(isSelected ? null : dateStr)}
-                  accessibilityLabel={`${dateStr}: ${signalCount} signals logged`}
+                  onPress={() => isFuture ? null : setSelectedDay(isSelected ? null : dateStr)}
+                  activeOpacity={isFuture ? 1 : 0.7}
+                  accessibilityLabel={isFuture ? `${dateStr}: future` : `${dateStr}: ${signalCount} signals logged`}
                 >
                   <Text style={[
                     styles.dayNumber,
                     { color: colors.starlightFaint },
                     signalCount > 0 && [styles.dayNumberActive, { color: colors.starlight }],
+                    isFuture && { color: colors.starlightFaint },
                   ]}>{day}</Text>
                 </TouchableOpacity>
               );
             })}
           </View>
 
-          {/* Improvement #3: Calendar heatmap legend */}
+          {/* Calendar heatmap legend */}
           <View style={styles.legendRow}>
-            <Text style={[styles.legendLabel, { color: colors.starlightFaint }]}>fewer signals</Text>
+            <Text style={[styles.legendLabel, { color: colors.starlightFaint }]}>1</Text>
             <View style={styles.legendGradient}>
               {[0.15, 0.3, 0.45, 0.6, 0.75, 0.85].map((alpha, i) => (
                 <View key={i} style={[styles.legendBlock, { backgroundColor: `rgba(123, 104, 238, ${alpha})` }]} />
               ))}
             </View>
-            <Text style={[styles.legendLabel, { color: colors.starlightFaint }]}>more signals</Text>
+            <Text style={[styles.legendLabel, { color: colors.starlightFaint }]}>8 signals</Text>
           </View>
 
           {/* Selected Day Detail */}
@@ -257,7 +264,7 @@ export function HistoryScreen() {
                       ))}
                     </View>
                     <Text style={[styles.sparklineAvg, { color: config.color }]}>
-                      {avg}
+                      {config.type === 'toggle' ? `${Math.round(avg * 100)}%` : config.type === 'slider' ? `${avg}h` : `${avg}/5`}
                     </Text>
                   </View>
                 );

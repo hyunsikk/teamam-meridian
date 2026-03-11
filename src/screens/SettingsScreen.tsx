@@ -116,7 +116,7 @@ export function SettingsScreen() {
       <Text style={[styles.title, { color: colors.starlight }]}>settings</Text>
 
       {/* APPEARANCE */}
-      <Text style={[styles.sectionHeader, { color: colors.starlightFaint }]}>appearance</Text>
+      <Text style={[styles.sectionHeader, { color: colors.starlightDim }]}>appearance</Text>
       <View style={[styles.card, { backgroundColor: colors.surface2 }]}>
         <View style={styles.row}>
           <Text style={[styles.rowLabel, { color: colors.starlight }]}>dark mode</Text>
@@ -130,7 +130,7 @@ export function SettingsScreen() {
       </View>
 
       {/* NOTIFICATIONS */}
-      <Text style={[styles.sectionHeader, { color: colors.starlightFaint }]}>notifications</Text>
+      <Text style={[styles.sectionHeader, { color: colors.starlightDim }]}>notifications</Text>
       <View style={[styles.card, { backgroundColor: colors.surface2 }]}>
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
@@ -166,7 +166,7 @@ export function SettingsScreen() {
       </View>
 
       {/* DATA */}
-      <Text style={[styles.sectionHeader, { color: colors.starlightFaint }]}>data</Text>
+      <Text style={[styles.sectionHeader, { color: colors.starlightDim }]}>data</Text>
       <View style={[styles.card, { backgroundColor: colors.surface2 }]}>
         <TouchableOpacity style={styles.row} onPress={handleExportData} disabled={exporting}>
           <Text style={[styles.rowLabel, { color: colors.starlight }]}>export data (JSON)</Text>
@@ -190,7 +190,7 @@ export function SettingsScreen() {
       </View>
 
       {/* ABOUT */}
-      <Text style={[styles.sectionHeader, { color: colors.starlightFaint }]}>about</Text>
+      <Text style={[styles.sectionHeader, { color: colors.starlightDim }]}>about</Text>
       <View style={[styles.card, { backgroundColor: colors.surface2 }]}>
         <View style={styles.row}>
           <Text style={[styles.rowLabel, { color: colors.starlight }]}>app version</Text>
@@ -214,10 +214,12 @@ const styles = StyleSheet.create({
   content: { paddingHorizontal: Spacing.screenPadding, paddingTop: Platform.OS === 'ios' ? 60 : 48 },
   title: { ...Typography.display, marginBottom: 24 },
   sectionHeader: {
-    ...Typography.small,
+    ...Typography.caption,
+    fontFamily: 'Nunito_700Bold',
     textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: 8,
+    letterSpacing: 1.5,
+    fontSize: 12,
+    marginBottom: 10,
     marginTop: 24,
     fontFamily: 'Nunito_600SemiBold',
   },

@@ -46,7 +46,40 @@ export function SignalsScreen() {
       <Text style={[styles.title, { color: colors.starlight }]}>signals</Text>
       <Text style={[styles.subtitle, { color: colors.starlightDim }]}>choose which signals to track daily. core signals are always active.</Text>
 
-      {SIGNAL_KEYS.map(sig => {
+      <Text style={[styles.sectionHeader, { color: colors.starlightFaint }]}>core signals</Text>
+      {SIGNAL_KEYS.filter(sig => CORE_SIGNALS.includes(sig)).map(sig => {
+        const config = SignalConfig[sig];
+        const isActive = settings.activeSignals.includes(sig);
+        const unlocked = isUnlocked(sig);
+        const daysLeft = daysUntilUnlock(sig);
+
+        return (
+          <TouchableOpacity
+            key={sig}
+            style={[
+              styles.signalRow,
+              { backgroundColor: colors.surface2, borderColor: 'transparent' },
+              isActive && { borderColor: colors.nebulaPurple + '40' },
+              !unlocked && styles.signalRowLocked,
+            ]}
+            onPress={() => unlocked ? toggleSignal(sig) : null}
+            activeOpacity={unlocked ? 0.7 : 1}
+            accessibilityLabel={`${config.label}: ${isActive ? 'active' : 'inactive'}`}
+          >
+            <Text style={styles.signalEmoji}>{config.emoji}</Text>
+            <View style={styles.signalInfo}>
+              <Text style={[styles.signalName, { color: colors.starlight }]}>{config.label}</Text>
+              <Text style={[styles.signalDesc, { color: colors.starlightDim }]}>{config.description}</Text>
+            </View>
+            <View style={[styles.coreBadge, { backgroundColor: colors.auroraTeal + '40', borderWidth: 1, borderColor: colors.auroraTeal + '60' }]}>
+              <Text style={[styles.coreBadgeText, { color: colors.auroraTeal }]}>core</Text>
+            </View>
+          </TouchableOpacity>
+        );
+      })}
+
+      <Text style={[styles.sectionHeader, { color: colors.starlightFaint }]}>optional signals</Text>
+      {SIGNAL_KEYS.filter(sig => !CORE_SIGNALS.includes(sig)).map(sig => {
         const config = SignalConfig[sig];
         const isCore = CORE_SIGNALS.includes(sig);
         const isActive = settings.activeSignals.includes(sig);
@@ -71,9 +104,7 @@ export function SignalsScreen() {
               <Text style={[styles.signalName, { color: colors.starlight }]}>{config.label}</Text>
               <Text style={[styles.signalDesc, { color: colors.starlightDim }]}>{config.description}</Text>
             </View>
-            {isCore ? (
-              <View style={[styles.coreBadge, { backgroundColor: colors.auroraTeal + '20' }]}><Text style={[styles.coreBadgeText, { color: colors.auroraTeal }]}>core</Text></View>
-            ) : unlocked ? (
+            {unlocked ? (
               <Switch
                 value={isActive}
                 onValueChange={() => toggleSignal(sig)}
@@ -142,8 +173,9 @@ const styles = StyleSheet.create({
   signalInfo: { flex: 1 },
   signalName: { ...Typography.bodyBold, marginBottom: 2 },
   signalDesc: { ...Typography.small },
-  coreBadge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8 },
-  coreBadgeText: { ...Typography.small },
+  sectionHeader: { ...Typography.caption, textTransform: 'uppercase' as const, letterSpacing: 1, marginBottom: 12, marginTop: 8 },
+  coreBadge: { paddingHorizontal: 12, paddingVertical: 5, borderRadius: 8 },
+  coreBadgeText: { ...Typography.small, fontFamily: 'Nunito_700Bold', fontSize: 11 },
 
 
   lockBadge: { paddingHorizontal: 10, paddingVertical: 4 },
