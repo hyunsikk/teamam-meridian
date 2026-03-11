@@ -7,7 +7,7 @@ import { useTheme } from '../context/ThemeContext';
 import * as Notifications from 'expo-notifications';
 
 export function SettingsScreen() {
-  const { settings, updateSettings, logs, resetAllData } = useData();
+  const { settings, updateSettings, logs, resetAllData, loadSampleData } = useData();
   const { colors, isDark, setThemeMode } = useTheme();
   const [exporting, setExporting] = useState(false);
   const [importing, setImporting] = useState(false);
@@ -171,6 +171,16 @@ export function SettingsScreen() {
         <TouchableOpacity style={styles.row} onPress={handleExportData} disabled={exporting}>
           <Text style={[styles.rowLabel, { color: colors.starlight }]}>export data (JSON)</Text>
           <Text style={[styles.rowAction, { color: colors.nebulaPurple }]}>{exporting ? 'exporting...' : '→'}</Text>
+        </TouchableOpacity>
+        <View style={[styles.divider, { backgroundColor: colors.divider }]} />
+        <TouchableOpacity style={styles.row} onPress={() => {
+          Alert.alert('load sample data', '30 days of realistic health data will be loaded. existing data will be replaced.', [
+            { text: 'cancel', style: 'cancel' },
+            { text: 'load', onPress: () => loadSampleData() },
+          ]);
+        }}>
+          <Text style={[styles.rowLabel, { color: colors.nebulaPurple }]}>load sample data</Text>
+          <Text style={[styles.rowAction, { color: colors.nebulaPurple }]}>→</Text>
         </TouchableOpacity>
         <View style={[styles.divider, { backgroundColor: colors.divider }]} />
         <TouchableOpacity style={styles.row} onPress={handleResetData}>

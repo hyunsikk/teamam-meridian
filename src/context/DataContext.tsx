@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SignalKey, DEFAULT_ACTIVE, CHOOSABLE_SIGNALS } from '../styles/theme';
 import { computeCorrelations, computeEmergingCorrelations, type Correlation } from '../utils/correlationEngine';
 import { generateInsights, generateRecommendations, generateColdStartContent, generateWeeklyDigest, generateProactiveInsights, type Insight, type Recommendation, type WeeklyDigest } from '../utils/insightEngine';
+import { generateSampleData, SAMPLE_SETTINGS, SAMPLE_STREAK } from '../utils/sampleData';
 
 export interface DayLog {
   date: string;
@@ -48,6 +49,7 @@ interface DataContextType {
   refreshAnalysis: () => void;
   clearNewlyUnlocked: () => void;
   resetAllData: () => Promise<void>;
+  loadSampleData: () => Promise<void>;
 }
 
 const defaultSettings: AppSettings = {
@@ -67,7 +69,7 @@ const DataContext = createContext<DataContextType>({
   settings: defaultSettings, dailyFocusAction: null,
   streak: defaultStreak, newlyUnlocked: [],
   addLog: async () => {}, deleteLog: async () => {}, updateSettings: async () => {},
-  refreshAnalysis: () => {}, clearNewlyUnlocked: () => {}, resetAllData: async () => {},
+  refreshAnalysis: () => {}, clearNewlyUnlocked: () => {}, resetAllData: async () => {}, loadSampleData: async () => {},
 });
 
 export const useData = () => useContext(DataContext);
@@ -277,6 +279,21 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const loadSampleData = async () => {
+    try {
+      const sampleLogs = generateSampleData();
+      setLogs(sampleLogs);
+      setSettings(SAMPLE_SETTINGS);
+      setStreak(SAMPLE_STREAK);
+      await AsyncStorage.setItem(LOGS_KEY, JSON.stringify(sampleLogs));
+      await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify(SAMPLE_SETTINGS));
+      await AsyncStorage.setItem(STREAK_KEY, JSON.stringify(SAMPLE_STREAK));
+      runAnalysis(sampleLogs);
+    } catch (e) {
+      console.warn('Failed to load sample data', e);
+    }
+  };
+
   const today = new Date().toISOString().split('T')[0];
   const todayLogged = logs.some(l => l.date === today);
 
@@ -286,7 +303,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       weeklyDigest, proactiveInsights, todayLogged, totalDays: logs.length, settings, dailyFocusAction,
       streak, newlyUnlocked,
       addLog, deleteLog, updateSettings, refreshAnalysis: () => runAnalysis(logs),
-      clearNewlyUnlocked, resetAllData,
+      clearNewlyUnlocked, resetAllData, loadSampleData,
     }}>
       {children}
     </DataContext.Provider>

@@ -68,7 +68,7 @@ const sampleStyles = StyleSheet.create({
 });
 
 export function OnboardingScreen() {
-  const { updateSettings } = useData();
+  const { updateSettings, loadSampleData } = useData();
   const { colors, isDark } = useTheme();
   const [step, setStep] = useState(0);
   const [chosenSignal, setChosenSignal] = useState<SignalKey | null>(null);
@@ -108,6 +108,17 @@ export function OnboardingScreen() {
             accessibilityRole="button"
           >
             <Text style={[styles.primaryButtonText, { color: '#fff' }]}>get started</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.sampleDataButton}
+            onPress={async () => {
+              if (Platform.OS !== 'web') Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              await loadSampleData();
+            }}
+            accessibilityLabel="load sample data"
+            accessibilityRole="button"
+          >
+            <Text style={[styles.sampleDataText, { color: colors.starlightDim }]}>or explore with sample data</Text>
           </TouchableOpacity>
           <View style={styles.stepDots}>
             {[0, 1, 2].map(i => (
@@ -228,6 +239,8 @@ const styles = StyleSheet.create({
   tagline: { ...Typography.heading, textAlign: 'center', marginBottom: 24, lineHeight: 32 },
   description: { ...Typography.body, color: Colors.starlightDim, textAlign: 'center', lineHeight: 24, maxWidth: 300, marginBottom: 48 },
   primaryButton: { backgroundColor: Colors.nebulaPurple, paddingVertical: 16, paddingHorizontal: 48, borderRadius: Spacing.borderRadius, minHeight: 48, marginTop: 24 },
+  sampleDataButton: { marginTop: 16, paddingVertical: 12, paddingHorizontal: 24 },
+  sampleDataText: { ...Typography.caption, textDecorationLine: 'underline' as const },
   primaryButtonDisabled: { opacity: 0.5 },
   primaryButtonText: { ...Typography.bodyBold, color: Colors.starlight },
   stepTitle: { ...Typography.heading, textAlign: 'center', marginBottom: 20 },
